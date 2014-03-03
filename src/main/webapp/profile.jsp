@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="author" content="Shekhar Gulati">
 
-    <title>MilesToGo</title>
+    <title>Update Profile</title>
 
     <link href="css/bootstrap.css" rel="stylesheet">
     <link href="css/main.css" rel="stylesheet">
@@ -39,11 +39,6 @@
                 <li><a href="#about">About</a></li>
             </ul>
 
-            <ul class="nav navbar-collapse pull-right">
-                <li>
-                    ${sessionScope.user.fullName}
-                </li>
-            </ul>
         </div>
         <!--/.nav-collapse -->
     </div>
@@ -51,44 +46,16 @@
 
 <div id="main" class="container-fluid">
 
-    <div id="activity" class="row">
-        <h2>Latest MilesToGo Activity</h2>
-        <h6>See what's happening in MilesToGo around the world</h6>
-        <br><br>
-
-        <div class="col-xs-4">
-            <div class="activity-developers">
-                500 Developers
-            </div>
-
-        </div>
-        <div class="col-xs-4">
-            <div class="activity-countries">
-                50 Countries
-            </div>
-
-        </div>
-        <div class="col-xs-4">
-            <div class="activity-meters">
-                500,000 Meters Run
-            </div>
-        </div>
-    </div>
-    <br><br>
-
-    <div id="join" class="row">
-        <div class="col-xs-4">
-            <h2>Join the community</h2>
-        </div>
-        <div class="col-xs-4">
-            <a href="signin/twitter" class="btn btn-lg btn-info"><i class="fa fa-twitter"></i> Sign in with Twitter</a>
-        </div>
-        <div class="col-xs-4">
-            <a href="signin/facebook" class="btn btn-lg btn-info"><i class="fa fa-facebook"></i> Sign in with
-                Facebook</a>
-        </div>
-
-    </div>
+    <form class="form-profile" role="form" action="" method="POST">
+        <h2 class="form-profile-heading">Update your Profile</h2>
+        <input type="text" name="fullName" class="form-control" placeholder="Full Name" value="${requestScope.fullName}" required autofocus>
+        <input type="email" name="email" class="form-control" placeholder="Email address" value="${requestScope.email}" required>
+        <input type="text" name="city" class="form-control" placeholder="City" value="${requestScope.city}" required>
+        <input type="text" name="country" class="form-control" placeholder="Country" value="${requestScope.country}" required>
+        <input type="text" name="bio" class="form-control" placeholder="Bio" value="${requestScope.bio}" required>
+        <input type="hidden" name="socialNetworkId" id="socialNetworkId" value="${requestScope.socialNetworkId}">
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Update Profile</button>
+    </form>
 
 </div>
 
