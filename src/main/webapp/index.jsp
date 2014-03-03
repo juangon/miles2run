@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -39,12 +40,19 @@
                 <li><a href="#about">About</a></li>
             </ul>
 
-            <ul class="nav navbar-collapse pull-right">
-                <li>
-                    ${sessionScope.user.fullName}
-                </li>
-            </ul>
+            <c:if test="${not empty sessionScope.user}">
+                <ul class="nav navbar-collapse pull-right">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">${sessionScope.user.fullName} <b
+                                class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="<c:url value="/logout"></c:url>">Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </c:if>
         </div>
+
         <!--/.nav-collapse -->
     </div>
 </div>
