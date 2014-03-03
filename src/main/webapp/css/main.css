@@ -1,0 +1,16 @@
+body {
+    padding-top: 50px;
+}
+#main {
+    padding: 40px 15px;
+    text-align: center;
+}
+
+div[class*='activity-']{
+    border: ridge;
+}
+
+img{
+    width:auto;
+    height: auto;
+}
