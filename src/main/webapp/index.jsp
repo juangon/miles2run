@@ -37,6 +37,12 @@
                 <li class="active"><a href="#">Home</a></li>
                 <li><a href="#about">About</a></li>
             </ul>
+
+            <ul class="nav navbar-collapse pull-right">
+                <li>
+                    <%= request.getSession().getAttribute("username")%>
+                </li>
+            </ul>
         </div>
         <!--/.nav-collapse -->
     </div>
