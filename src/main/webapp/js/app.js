@@ -30,7 +30,7 @@ function StatusCreateController($scope, $routeParams, $location, $http, Status) 
     $scope.save = function () {
         console.log($scope.status);
         $scope.status.$save(function (status, headers) {
-            toastr.success("Created New Status");
+            toastr.success("Posted New Status");
             $location.path('/');
         });
     };
