@@ -50,6 +50,7 @@
         <h2 class="form-profile-heading">Update your Profile</h2>
         <input type="text" name="fullName" class="form-control" placeholder="Full Name" value="${requestScope.fullName}" required autofocus>
         <input type="email" name="email" class="form-control" placeholder="Email address" value="${requestScope.email}" required>
+        <input type="text" name="username" class="form-control" placeholder="Username" value="${requestScope.username}" required>
         <input type="text" name="city" class="form-control" placeholder="City" value="${requestScope.city}" required>
         <input type="text" name="country" class="form-control" placeholder="Country" value="${requestScope.country}" required>
         <input type="text" name="bio" class="form-control" placeholder="Bio" value="${requestScope.bio}" required>

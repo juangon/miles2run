@@ -56,6 +56,7 @@ public class UserProfileServlet extends HttpServlet {
         request.setAttribute("location", location);
         request.setAttribute("fullName", fullName);
         request.setAttribute("bio", bio);
+        request.setAttribute("username",user.getScreenName());
         request.getRequestDispatcher("/profile.jsp").forward(request, response);
     }
 
@@ -67,10 +68,11 @@ public class UserProfileServlet extends HttpServlet {
         String bio = request.getParameter("bio");
         String fullName = request.getParameter("fullName");
         long distance = Long.valueOf(request.getParameter("distance"));
+        String username = request.getParameter("username");
         logger.info(String.format("email %s, city %s, country %s, bio %s, fullName %s,distance %d", email, city, country, bio, fullName, distance));
         String socialNetworkId = request.getParameter("socialNetworkId");
         UserConnection userConnection = userConnectionService.findBySocialNetworkId(socialNetworkId);
-        Profile profile = new Profile(email, bio, city, country, fullName, distance);
+        Profile profile = new Profile(email, username, bio, city, country, fullName, distance);
         profile.getUserConnections().add(userConnection);
         userService.save(profile);
         request.getSession().setAttribute("profile", profile);

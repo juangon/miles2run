@@ -21,6 +21,9 @@ public class Profile implements Serializable{
     @Column(unique = true)
     private String email;
 
+    @NotNull
+    private String username;
+
     private String bio;
 
     @NotNull
@@ -41,8 +44,9 @@ public class Profile implements Serializable{
     public Profile() {
     }
 
-    public Profile(String email, String bio, String city, String country, String fullName,long distance) {
+    public Profile(String email, String username, String bio, String city, String country, String fullName,long distance) {
         this.email = email;
+        this.username = username;
         this.bio = bio;
         this.city = city;
         this.country = country;
@@ -108,5 +112,13 @@ public class Profile implements Serializable{
 
     public void setDistance(long distance) {
         this.distance = distance;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }
