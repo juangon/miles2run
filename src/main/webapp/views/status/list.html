@@ -1,0 +1,13 @@
+<h2>
+	Status <a class="btn btn-primary pull-right"
+		href="#/status/new"><i class="icon-plus-sign icon-white"></i>
+		Post Status</a>
+</h2>
+
+<table class="table table-striped">
+	<tr ng-repeat="status in statuses">
+		<td>{{status.status}}</td>
+        <td>{{status.distance}}</td>
+		<td><a href="#/status/edit/{{status.id}}"><i class="fa fa-pencil-square-o"></i> Edit</a></td></td>
+	</tr>
+</table>

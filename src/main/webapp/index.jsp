@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="milestogo">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -11,6 +11,7 @@
     <title>MilesToGo</title>
 
     <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/toastr.css" rel="stylesheet">
     <link href="css/main.css" rel="stylesheet">
     <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 
@@ -40,10 +41,10 @@
                 <li><a href="#about">About</a></li>
             </ul>
 
-            <c:if test="${not empty sessionScope.user}">
+            <c:if test="${not empty sessionScope.profile}">
                 <ul class="nav navbar-collapse pull-right">
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">${sessionScope.user.fullName} <b
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">${sessionScope.profile.fullName} <b
                                 class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <li><a href="<c:url value="/logout"></c:url>">Logout</a></li>
@@ -58,50 +59,59 @@
 </div>
 
 <div id="main" class="container-fluid">
+    <c:if test="${empty sessionScope.profile}">
+        <div id="activity" class="row">
+            <h2>Latest MilesToGo Activity</h2>
+            <h6>See what's happening in MilesToGo around the world</h6>
+            <br><br>
 
-    <div id="activity" class="row">
-        <h2>Latest MilesToGo Activity</h2>
-        <h6>See what's happening in MilesToGo around the world</h6>
+            <div class="col-xs-4">
+                <div class="activity-developers">
+                    <h1>500 Developers</h1>
+                </div>
+
+            </div>
+            <div class="col-xs-4">
+                <div class="activity-countries">
+                    <h1>50 Countries</h1>
+                </div>
+
+            </div>
+            <div class="col-xs-4">
+                <div class="activity-meters">
+                    <h1>500,000 Meters Run</h1>
+                </div>
+            </div>
+        </div>
         <br><br>
 
-        <div class="col-xs-4">
-            <div class="activity-developers">
-                500 Developers
+        <div id="join" class="row">
+            <div class="col-xs-4">
+                <h2>Join the community</h2>
+            </div>
+            <div class="col-xs-4">
+                <a href="signin/twitter" class="btn btn-lg btn-info"><i class="fa fa-twitter"></i> Sign in with Twitter</a>
+            </div>
+            <div class="col-xs-4">
+                <a href="signin/facebook" class="btn btn-lg btn-info"><i class="fa fa-facebook"></i> Sign in with
+                    Facebook</a>
             </div>
 
         </div>
-        <div class="col-xs-4">
-            <div class="activity-countries">
-                50 Countries
-            </div>
-
+    </c:if>
+    <c:if test="${not empty sessionScope.profile}">
+        <div class="container" ng-view>
         </div>
-        <div class="col-xs-4">
-            <div class="activity-meters">
-                500,000 Meters Run
-            </div>
-        </div>
-    </div>
-    <br><br>
-
-    <div id="join" class="row">
-        <div class="col-xs-4">
-            <h2>Join the community</h2>
-        </div>
-        <div class="col-xs-4">
-            <a href="signin/twitter" class="btn btn-lg btn-info"><i class="fa fa-twitter"></i> Sign in with Twitter</a>
-        </div>
-        <div class="col-xs-4">
-            <a href="signin/facebook" class="btn btn-lg btn-info"><i class="fa fa-facebook"></i> Sign in with
-                Facebook</a>
-        </div>
-
-    </div>
+    </c:if>
 
 </div>
 
 
 <script src="js/jquery.js"></script>
 <script src="js/bootstrap.js"></script>
+<script src="js/angular.js"></script>
+<script src="js/angular-resource.js"></script>
+<script src="js/toastr.js"></script>
+<script src="js/app.js"></script>
 </body>
 </html>

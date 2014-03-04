@@ -1,6 +1,6 @@
 package org.milestogo.registration;
 
-import org.milestogo.domain.User;
+import org.milestogo.domain.Profile;
 import org.milestogo.domain.UserConnection;
 import org.milestogo.services.UserConnectionService;
 import org.milestogo.services.UserService;
@@ -43,7 +43,7 @@ public class UserProfileServlet extends HttpServlet {
         try {
             Twitter twitter = twitterFactory.getInstance();
             Long userId = Long.valueOf(request.getParameter("userId"));
-            twitter.setOAuthAccessToken(new AccessToken(userConnection.getAccessToken(),userConnection.getAccessSecret()));
+            twitter.setOAuthAccessToken(new AccessToken(userConnection.getAccessToken(), userConnection.getAccessSecret()));
             user = twitter.showUser(userId);
         } catch (TwitterException e) {
             throw new RuntimeException(e);
@@ -66,13 +66,14 @@ public class UserProfileServlet extends HttpServlet {
         String country = request.getParameter("country");
         String bio = request.getParameter("bio");
         String fullName = request.getParameter("fullName");
-        logger.info(String.format("email %s, city %s, country %s, bio %s, fullName %s", email, city, country, bio, fullName));
+        long distance = Long.valueOf(request.getParameter("distance"));
+        logger.info(String.format("email %s, city %s, country %s, bio %s, fullName %s,distance %d", email, city, country, bio, fullName, distance));
         String socialNetworkId = request.getParameter("socialNetworkId");
         UserConnection userConnection = userConnectionService.findBySocialNetworkId(socialNetworkId);
-        User user = new User(email, bio, city, country, fullName);
-        user.getUserConnections().add(userConnection);
-        userService.save(user);
-        request.getSession().setAttribute("user", user);
+        Profile profile = new Profile(email, bio, city, country, fullName, distance);
+        profile.getUserConnections().add(userConnection);
+        userService.save(profile);
+        request.getSession().setAttribute("profile", profile);
         response.sendRedirect(request.getContextPath() + "/");
     }
 }

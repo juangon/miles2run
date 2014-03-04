@@ -2,6 +2,7 @@ package org.milestogo.domain;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +10,7 @@ import java.util.List;
  * Created by shekhargulati on 04/03/14.
  */
 @Entity
-public class User {
+public class Profile implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -28,20 +29,25 @@ public class User {
     @NotNull
     private String country;
 
+    @NotNull
     private String fullName;
+
+    @NotNull
+    private long distance;
 
     @OneToMany(fetch = FetchType.EAGER)
     private List<UserConnection> userConnections = new ArrayList<>();
 
-    public User() {
+    public Profile() {
     }
 
-    public User(String email, String bio, String city, String country, String fullName) {
+    public Profile(String email, String bio, String city, String country, String fullName,long distance) {
         this.email = email;
         this.bio = bio;
         this.city = city;
         this.country = country;
         this.fullName = fullName;
+        this.distance = distance;
     }
 
     public Long getId() {
@@ -94,5 +100,13 @@ public class User {
 
     public List<UserConnection> getUserConnections() {
         return userConnections;
+    }
+
+    public long getDistance() {
+        return distance;
+    }
+
+    public void setDistance(long distance) {
+        this.distance = distance;
     }
 }

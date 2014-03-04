@@ -1,0 +1,7 @@
+<form class="form-horizontal" role="form" id="statusForm" ng-submit="save()">
+    <h2 class="form-status-heading">Post Status</h2>
+    <input type="number" name="distance" id="distance" class="form-control" placeholder="Distance covered(in metres)" ng-model="status.distance" min="1000"
+           step="1000" required>
+    <textarea class="form-control" name="status" id="status" rows="5" placeholder="How you are feeling?" ng-model="status.status" required></textarea>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Post Status</button>
+</form>

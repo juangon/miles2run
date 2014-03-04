@@ -1,6 +1,6 @@
 package org.milestogo.services;
 
-import org.milestogo.domain.User;
+import org.milestogo.domain.Profile;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -17,8 +17,8 @@ public class UserService {
     @Inject
     private EntityManager entityManager;
 
-    public void save(User user){
-        entityManager.persist(user);
+    public void save(Profile profile){
+        entityManager.persist(profile);
     }
 
 }
