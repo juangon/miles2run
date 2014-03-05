@@ -1,16 +1,21 @@
 package org.milestogo.domain;
 
+import org.hibernate.validator.constraints.Email;
+import org.milestogo.bean_validation.ImageUrl;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
  * Created by shekhargulati on 04/03/14.
  */
 @Entity
-public class Profile implements Serializable{
+public class Profile implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -19,11 +24,20 @@ public class Profile implements Serializable{
 
     @NotNull
     @Column(unique = true)
+    @Email
     private String email;
 
     @NotNull
+    @Column(unique = true, updatable = false)
+    @Size(max = 20)
     private String username;
 
+    @NotNull
+    @Size(max = 50)
+    private String fullName;
+
+    @NotNull
+    @Size(max = 140)
     private String bio;
 
     @NotNull
@@ -33,41 +47,53 @@ public class Profile implements Serializable{
     private String country;
 
     @NotNull
-    private String fullName;
+    private long goal;
 
+    @OneToMany(fetch = FetchType.LAZY)
+    private final List<SocialConnection> socialConnections = new ArrayList<>();
+
+    @OneToMany(mappedBy = "postedBy", fetch = FetchType.LAZY)
+    private final List<GoalStatus> statuses = new ArrayList<>();
+
+    @Temporal(TemporalType.DATE)
     @NotNull
-    private long distance;
+    private final Date registeredOn = new Date();
 
-    @OneToMany(fetch = FetchType.EAGER)
-    private List<UserConnection> userConnections = new ArrayList<>();
+    @ImageUrl
+    private String profilePic;
 
     public Profile() {
     }
 
-    public Profile(String email, String username, String bio, String city, String country, String fullName,long distance) {
+    public Profile(String email, String username, String bio, String city, String country, String fullName, long goal) {
         this.email = email;
         this.username = username;
         this.bio = bio;
         this.city = city;
         this.country = country;
         this.fullName = fullName;
-        this.distance = distance;
+        this.goal = goal;
     }
+
 
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public String getUsername() {
+        return username;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public String getBio() {
@@ -94,31 +120,31 @@ public class Profile implements Serializable{
         this.country = country;
     }
 
-    public String getFullName() {
-        return fullName;
+    public long getGoal() {
+        return goal;
     }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
+    public void setGoal(long goal) {
+        this.goal = goal;
     }
 
-    public List<UserConnection> getUserConnections() {
-        return userConnections;
+    public List<SocialConnection> getSocialConnections() {
+        return socialConnections;
     }
 
-    public long getDistance() {
-        return distance;
+    public List<GoalStatus> getStatuses() {
+        return statuses;
     }
 
-    public void setDistance(long distance) {
-        this.distance = distance;
+    public Date getRegisteredOn() {
+        return registeredOn;
     }
 
-    public String getUsername() {
-        return username;
+    public String getProfilePic() {
+        return profilePic;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setProfilePic(String profilePic) {
+        this.profilePic = profilePic;
     }
 }

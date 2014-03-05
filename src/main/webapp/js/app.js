@@ -30,7 +30,7 @@ function StatusCreateController($scope, $routeParams, $location, $http, Status) 
     $scope.save = function () {
         console.log($scope.status);
         $scope.status.$save(function (status, headers) {
-            toastr.success("Posted New Status");
+            toastr.success("Posted new status");
             $location.path('/');
         });
     };
@@ -45,7 +45,7 @@ function StatusDetailController($scope, $routeParams, $location, Status) {
     $scope.save = function () {
         console.log($scope.status);
         $scope.status.$save(function (status, headers) {
-            toastr.success("Updated New status");
+            toastr.success("Updated new status");
             $location.path('/');
         });
     };

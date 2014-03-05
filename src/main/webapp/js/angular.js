@@ -1921,7 +1921,7 @@ forEach({
         // return self for chaining
         return this;
       } else {
-        // we are a read, so read the first child.
+        // we are a readById, so readById the first child.
         if (this.length)
           return fn(this[0], arg1, arg2);
       }
@@ -2428,7 +2428,7 @@ function annotate(fn) {
  *
  * @param {!function} fn The function to invoke. The function arguments come form the function annotation.
  * @param {Object=} self The `this` for the invoked method.
- * @param {Object=} locals Optional object. If preset then any argument names are read from this object first, before
+ * @param {Object=} locals Optional object. If preset then any argument names are readById from this object first, before
  *   the `$injector` is consulted.
  * @returns {*} the value returned by the invoked `fn` function.
  */
@@ -2442,7 +2442,7 @@ function annotate(fn) {
  * all of the arguments to the constructor function as specified by the constructor annotation.
  *
  * @param {function} Type Annotated constructor function.
- * @param {Object=} locals Optional object. If preset then any argument names are read from this object first, before
+ * @param {Object=} locals Optional object. If preset then any argument names are readById from this object first, before
  *   the `$injector` is consulted.
  * @returns {Object} new instance of `Type`.
  */
@@ -3885,7 +3885,7 @@ function $CompileProvider($provide) {
         $element.addClass(className);
       } catch(e) {
         // ignore, since it means that we are trying to set class on
-        // SVG element, where class name is read-only.
+        // SVG element, where class name is readById-only.
       }
     }
 
@@ -4042,7 +4042,7 @@ function $CompileProvider($provide) {
               }
             }
           } catch (e) {
-            // turns out that under some circumstances IE9 throws errors when one attempts to read comment's node value.
+            // turns out that under some circumstances IE9 throws errors when one attempts to readById comment's node value.
             // Just ignore it and continue. (Can't seem to reproduce in test case.)
           }
           break;
@@ -6508,7 +6508,7 @@ function getterFn(path, csp) {
               's='+ (index
                       // we simply dereference 's' on any .dot notation
                       ? 's'
-                      // but if we are first then we check locals first, and if so read it first
+                      // but if we are first then we check locals first, and if so readById it first
                       : '((k&&k.hasOwnProperty("' + key + '"))?k:s)') + '["' + key + '"]' + ';\n' +
               'if (s && s.then) {\n' +
                 ' if (!("$$v" in s)) {\n' +
@@ -7662,7 +7662,7 @@ function $RootScopeProvider(){
        *
        * @param {boolean} isolate if true then the scope does not prototypically inherit from the
        *         parent scope. The scope is isolated, as it can not see parent scope properties.
-       *         When creating widgets it is useful for the widget to not accidentally read parent
+       *         When creating widgets it is useful for the widget to not accidentally readById parent
        *         state.
        *
        * @returns {Object} The newly created child scope.
@@ -8734,13 +8734,13 @@ function $HttpProvider() {
      * an unauthorized site can gain your user's private data. Angular provides following mechanism
      * to counter XSRF. When performing XHR requests, the $http service reads a token from a cookie
      * called `XSRF-TOKEN` and sets it as the HTTP header `X-XSRF-TOKEN`. Since only JavaScript that
-     * runs on your domain could read the cookie, your server can be assured that the XHR came from
+     * runs on your domain could readById the cookie, your server can be assured that the XHR came from
      * JavaScript running on your domain.
      *
      * To take advantage of this, your server needs to set a token in a JavaScript readable session
      * cookie called `XSRF-TOKEN` on first HTTP GET request. On subsequent non-GET requests the
      * server can verify that the cookie matches `X-XSRF-TOKEN` HTTP header, and therefore be sure
-     * that only JavaScript running on your domain could have read the token. The token must be
+     * that only JavaScript running on your domain could have readById the token. The token must be
      * unique for each user and must be verifiable by the server (to prevent the JavaScript making
      * up its own tokens). We recommend that the token is a digest of your site's authentication
      * cookie with {@link http://en.wikipedia.org/wiki/Rainbow_table salt for added security}.
@@ -11895,12 +11895,12 @@ var VALID_CLASS = 'ng-valid',
 
               // Listen for change events to enable binding
               element.bind('blur keyup change', function() {
-                scope.$apply(read);
+                scope.$apply(readById);
               });
-              read(); // initialize
+              readById(); // initialize
 
               // Write data to the model
-              function read() {
+              function readById() {
                 ngModel.$setViewValue(element.html());
               }
             }
@@ -14165,7 +14165,7 @@ var scriptDirective = ['$templateCache', function($templateCache) {
     compile: function(element, attr) {
       if (attr.type == 'text/ng-template') {
         var templateUrl = attr.id,
-            // IE is not consistent, in scripts we have to read .text but in other nodes we have to read .textContent
+            // IE is not consistent, in scripts we have to readById .text but in other nodes we have to readById .textContent
             text = element[0].text;
 
         $templateCache.put(templateUrl, text);
@@ -14746,7 +14746,7 @@ var styleDirective = valueFn({
   terminal: true
 });
 
-  //try to bind to jquery now so that one can write angular.element().read()
+  //try to bind to jquery now so that one can write angular.element().readById()
   //but we will rebind on bootstrap again.
   bindJQuery();
 

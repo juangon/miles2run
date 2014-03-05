@@ -82,7 +82,7 @@
  *   destination and parameters. When the data is returned from the server then the object is an
  *   instance of the resource class. The actions `save`, `remove` and `delete` are available on it
  *   as  methods with the `$` prefix. This allows you to easily perform CRUD operations (create,
- *   read, update, delete) on server-side data like this:
+ *   readById, update, delete) on server-side data like this:
  *   <pre>
         var User = $resource('/user/:userId', {userId:'@id'});
         var user = User.get({userId:123}, function() {
@@ -152,7 +152,7 @@
  * Calling these methods invoke `$http` on the `url` template with the given `method` and `params`.
  * When the data is returned from the server then the object is an instance of the resource type and
  * all of the non-GET methods are available with `$` prefix. This allows you to easily support CRUD
- * operations (create, read, update, delete) on server-side data.
+ * operations (create, readById, update, delete) on server-side data.
 
    <pre>
      var User = $resource('/user/:userId', {userId:'@id'});

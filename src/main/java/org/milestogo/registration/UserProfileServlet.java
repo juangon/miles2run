@@ -1,8 +1,8 @@
 package org.milestogo.registration;
 
 import org.milestogo.domain.Profile;
-import org.milestogo.domain.UserConnection;
-import org.milestogo.services.UserConnectionService;
+import org.milestogo.domain.SocialConnection;
+import org.milestogo.services.SocialConnectionService;
 import org.milestogo.services.UserService;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -28,7 +28,7 @@ public class UserProfileServlet extends HttpServlet {
     private UserService userService;
 
     @Inject
-    private UserConnectionService userConnectionService;
+    private SocialConnectionService socialConnectionService;
 
     @Inject
     private Logger logger;
@@ -38,26 +38,26 @@ public class UserProfileServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        UserConnection userConnection = userConnectionService.findBySocialNetworkId(request.getParameter("userId"));
+        SocialConnection socialConnection = socialConnectionService.findByConnectionId(request.getParameter("connectionId"));
         twitter4j.User user = null;
         try {
             Twitter twitter = twitterFactory.getInstance();
-            Long userId = Long.valueOf(request.getParameter("userId"));
-            twitter.setOAuthAccessToken(new AccessToken(userConnection.getAccessToken(), userConnection.getAccessSecret()));
-            user = twitter.showUser(userId);
+            Long connectionId = Long.valueOf(request.getParameter("connectionId"));
+            twitter.setOAuthAccessToken(new AccessToken(socialConnection.getAccessToken(), socialConnection.getAccessSecret()));
+            user = twitter.showUser(connectionId);
+            String fullName = user.getName();
+            String bio = user.getDescription();
+            long userId = user.getId();
+            request.setAttribute("connectionId", userId);
+            request.setAttribute("fullName", fullName);
+            request.setAttribute("bio", bio);
+            request.setAttribute("username", user.getScreenName());
+            request.setAttribute("profilePic", user.getOriginalProfileImageURL());
+            request.getRequestDispatcher("/profile.jsp").forward(request, response);
         } catch (TwitterException e) {
             throw new RuntimeException(e);
         }
-        String location = user.getLocation();
-        String fullName = user.getName();
-        String bio = user.getDescription();
-        long userId = user.getId();
-        request.setAttribute("socialNetworkId", userId);
-        request.setAttribute("location", location);
-        request.setAttribute("fullName", fullName);
-        request.setAttribute("bio", bio);
-        request.setAttribute("username",user.getScreenName());
-        request.getRequestDispatcher("/profile.jsp").forward(request, response);
+
     }
 
     @Override
@@ -67,13 +67,15 @@ public class UserProfileServlet extends HttpServlet {
         String country = request.getParameter("country");
         String bio = request.getParameter("bio");
         String fullName = request.getParameter("fullName");
-        long distance = Long.valueOf(request.getParameter("distance"));
+        long goal = Long.valueOf(request.getParameter("goal"));
         String username = request.getParameter("username");
-        logger.info(String.format("email %s, city %s, country %s, bio %s, fullName %s,distance %d", email, city, country, bio, fullName, distance));
-        String socialNetworkId = request.getParameter("socialNetworkId");
-        UserConnection userConnection = userConnectionService.findBySocialNetworkId(socialNetworkId);
-        Profile profile = new Profile(email, username, bio, city, country, fullName, distance);
-        profile.getUserConnections().add(userConnection);
+        String profilePic = request.getParameter("profilePic");
+        logger.info(String.format("email %s, city %s, country %s, bio %s, fullName %s,goal %d, profilePic %s", email, city, country, bio, fullName, goal, profilePic));
+        String connectionId = request.getParameter("connectionId");
+        Profile profile = new Profile(email, username, bio, city, country, fullName, goal);
+        profile.setProfilePic(profilePic);
+        SocialConnection socialConnection = socialConnectionService.findByConnectionId(connectionId);
+        profile.getSocialConnections().add(socialConnection);
         userService.save(profile);
         request.getSession().setAttribute("profile", profile);
         response.sendRedirect(request.getContextPath() + "/");

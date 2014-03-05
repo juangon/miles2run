@@ -54,8 +54,9 @@
         <input type="text" name="city" class="form-control" placeholder="City" value="${requestScope.city}" required>
         <input type="text" name="country" class="form-control" placeholder="Country" value="${requestScope.country}" required>
         <input type="text" name="bio" class="form-control" placeholder="Bio" value="${requestScope.bio}" required>
-        <input type="number" name="distance" class="form-control" placeholder="Distance you want to run(in metre)" min="1000" step="1000" value="${requestScope.distance}" required>
-        <input type="hidden" name="socialNetworkId" id="socialNetworkId" value="${requestScope.socialNetworkId}">
+        <input type="number" name="goal" class="form-control" placeholder="Distance you want to run(in metre)" min="1000" step="1000" value="${requestScope.goal}" required>
+        <input type="hidden" name="connectionId" id="connectionId" value="${requestScope.connectionId}">
+        <input type="hidden" name="profilePic" id="profilePic" value="${requestScope.profilePic}">
         <button class="btn btn-lg btn-primary btn-block" type="submit">Update Profile</button>
     </form>
 

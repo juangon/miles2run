@@ -3575,7 +3575,7 @@ Data.prototype = {
 		//   1. No key was specified
 		//   2. A string key was specified, but no value provided
 		//
-		// Take the "read" path and allow the get method to determine
+		// Take the "readById" path and allow the get method to determine
 		// which value to return, respectively either:
 		//
 		//   1. The entire cache object
@@ -3767,7 +3767,7 @@ jQuery.fn.extend({
 			// (and therefore has an element appears at this[ 0 ]) and the
 			// `value` parameter was not undefined. An empty jQuery object
 			// will result in `undefined` for elem = this[ 0 ] which will
-			// throw an exception if an attempt to read a data cache is made.
+			// throw an exception if an attempt to readById a data cache is made.
 			if ( elem && value === undefined ) {
 				// Attempt to get data from the cache
 				// with the key as-is
@@ -4340,7 +4340,7 @@ jQuery.event = {
 			handlers = ( data_priv.get( this, "events" ) || {} )[ event.type ] || [],
 			special = jQuery.event.special[ event.type ] || {};
 
-		// Use the fix-ed jQuery.Event rather than the (read-only) native event
+		// Use the fix-ed jQuery.Event rather than the (readById-only) native event
 		args[0] = event;
 		event.delegateTarget = this;
 
@@ -5439,7 +5439,7 @@ function defaultDisplay( nodeName ) {
 	if ( !display ) {
 		display = actualDisplay( nodeName, doc );
 
-		// If the simple way fails, read from inside an iframe
+		// If the simple way fails, readById from inside an iframe
 		if ( display === "none" || !display ) {
 
 			// Use the already-created iframe if possible
@@ -7857,7 +7857,7 @@ jQuery.extend({
 			// Deferreds
 			deferred = jQuery.Deferred(),
 			completeDeferred = jQuery.Callbacks("once memory"),
-			// Status-dependent callbacks
+			// GoalStatus-dependent callbacks
 			statusCode = s.statusCode || {},
 			// Headers (they are sent all at once)
 			requestHeaders = {},
@@ -7908,7 +7908,7 @@ jQuery.extend({
 					return this;
 				},
 
-				// Status-dependent callbacks
+				// GoalStatus-dependent callbacks
 				statusCode: function( map ) {
 					var code;
 					if ( map ) {
@@ -8185,7 +8185,7 @@ jQuery.extend({
 				deferred.rejectWith( callbackContext, [ jqXHR, statusText, error ] );
 			}
 
-			// Status-dependent callbacks
+			// GoalStatus-dependent callbacks
 			jqXHR.statusCode( statusCode );
 			statusCode = undefined;
 

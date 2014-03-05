@@ -1,11 +1,11 @@
 package org.milestogo.signin;
 
-import org.milestogo.domain.UserConnection;
-import org.milestogo.services.UserConnectionService;
+import org.milestogo.domain.SocialConnection;
+import org.milestogo.domain.SocialProvider;
+import org.milestogo.services.SocialConnectionService;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
-import twitter4j.User;
 import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
 
@@ -27,7 +27,7 @@ public class TwitterCallbackServlet extends HttpServlet {
     @Inject
     private TwitterFactory twitterFactory;
     @Inject
-    private UserConnectionService userConnectionService;
+    private SocialConnectionService socialConnectionService;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -35,17 +35,16 @@ public class TwitterCallbackServlet extends HttpServlet {
         HttpSession session = request.getSession();
         RequestToken requestToken = (RequestToken) session.getAttribute("requestToken");
         String oauthVerifier = request.getParameter("oauth_verifier");
-        String userId = null;
+        String connectionId = null;
         try {
             AccessToken oAuthAccessToken = twitter.getOAuthAccessToken(requestToken, oauthVerifier);
-            userId = String.valueOf(twitter.getId());
-            UserConnection userConnection = new UserConnection(oAuthAccessToken.getToken(), oAuthAccessToken.getTokenSecret(), "twitter", oAuthAccessToken.getScreenName(), userId);
-            userConnectionService.save(userConnection);
+            connectionId = String.valueOf(twitter.getId());
+            SocialConnection socialConnection = new SocialConnection(oAuthAccessToken.getToken(), oAuthAccessToken.getTokenSecret(), SocialProvider.TWITTER, oAuthAccessToken.getScreenName(), connectionId);
+            socialConnectionService.save(socialConnection);
             session.removeAttribute("requestToken");
         } catch (TwitterException e) {
-            e.printStackTrace();
-            return;
+            throw new RuntimeException("Not able to make handshake with Twitter. Reason is: ", e);
         }
-        response.sendRedirect(request.getContextPath() + "/profile?userId=" + userId);
+        response.sendRedirect(request.getContextPath() + "/profile?connectionId=" + connectionId);
     }
 }
