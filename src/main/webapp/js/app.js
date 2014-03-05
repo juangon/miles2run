@@ -1,6 +1,6 @@
 angular.module("milestogo.services", ["ngResource"]).
     factory('Status', function ($resource) {
-        var Status = $resource('resources/status/:statusId', {statusId: '@id'});
+        var Status = $resource('app/api/status/:statusId', {statusId: '@id'});
         Status.prototype.isNew = function(){
             return (typeof(this.id) === 'undefined');
         };

@@ -1,4 +1,4 @@
-package org.milestogo.resources;
+package org.milestogo.resources.api;
 
 import org.milestogo.domain.GoalStatus;
 import org.milestogo.domain.Profile;
@@ -25,7 +25,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 
-@Path("/status")
+@Path("/api/status")
 public class GoalStatusResource {
 
     @Inject

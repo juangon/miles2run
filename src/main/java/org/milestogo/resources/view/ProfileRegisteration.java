@@ -1,4 +1,4 @@
-package org.milestogo.registration;
+package org.milestogo.resources.view;
 
 import org.milestogo.domain.Profile;
 import org.milestogo.domain.SocialConnection;
@@ -22,7 +22,7 @@ import java.util.logging.Logger;
  * Created by shekhargulati on 04/03/14.
  */
 @WebServlet("/profile")
-public class UserProfileServlet extends HttpServlet {
+public class ProfileRegisteration extends HttpServlet {
 
     @Inject
     private ProfileService profileService;
@@ -34,31 +34,6 @@ public class UserProfileServlet extends HttpServlet {
     private Logger logger;
     @Inject
     private TwitterFactory twitterFactory;
-
-
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        SocialConnection socialConnection = socialConnectionService.findByConnectionId(request.getParameter("connectionId"));
-        twitter4j.User user = null;
-        try {
-            Twitter twitter = twitterFactory.getInstance();
-            Long connectionId = Long.valueOf(request.getParameter("connectionId"));
-            twitter.setOAuthAccessToken(new AccessToken(socialConnection.getAccessToken(), socialConnection.getAccessSecret()));
-            user = twitter.showUser(connectionId);
-            String fullName = user.getName();
-            String bio = user.getDescription();
-            long userId = user.getId();
-            request.setAttribute("connectionId", userId);
-            request.setAttribute("fullName", fullName);
-            request.setAttribute("bio", bio);
-            request.setAttribute("username", user.getScreenName());
-            request.setAttribute("profilePic", user.getMiniProfileImageURL());
-            request.getRequestDispatcher("/profile.jsp").forward(request, response);
-        } catch (TwitterException e) {
-            throw new RuntimeException(e);
-        }
-
-    }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -74,7 +49,8 @@ public class UserProfileServlet extends HttpServlet {
         String connectionId = request.getParameter("connectionId");
         Profile profile = new Profile(email, username, bio, city, country, fullName, goal);
         profile.setProfilePic(profilePic);
-        profileService.save(profile);        socialConnectionService.update(profile, connectionId);
+        profileService.save(profile);
+        socialConnectionService.update(profile, connectionId);
         request.getSession().setAttribute("profile", profile);
         response.sendRedirect(request.getContextPath() + "/");
     }
