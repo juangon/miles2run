@@ -1,10 +1,12 @@
 package org.milestogo.services;
 
+import org.milestogo.domain.Profile;
 import org.milestogo.domain.SocialConnection;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 
@@ -24,7 +26,19 @@ public class SocialConnectionService {
 
     public SocialConnection findByConnectionId(String connectionId) {
         TypedQuery<SocialConnection> query = entityManager.createQuery("select u from SocialConnection u where u.connectionId =:connectionId", SocialConnection.class);
-        query.setParameter("connectionId",connectionId);
-        return query.getSingleResult();
+        query.setParameter("connectionId", connectionId);
+        try {
+            SocialConnection socialConnection = query.getSingleResult();
+            return socialConnection;
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+
+
+    public void update(Profile profile, String connectionId) {
+        SocialConnection socialConnection = this.findByConnectionId(connectionId);
+        socialConnection.setProfile(profile);
+        entityManager.persist(socialConnection);
     }
 }

@@ -2,8 +2,8 @@ package org.milestogo.registration;
 
 import org.milestogo.domain.Profile;
 import org.milestogo.domain.SocialConnection;
+import org.milestogo.services.ProfileService;
 import org.milestogo.services.SocialConnectionService;
-import org.milestogo.services.UserService;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
@@ -25,7 +25,7 @@ import java.util.logging.Logger;
 public class UserProfileServlet extends HttpServlet {
 
     @Inject
-    private UserService userService;
+    private ProfileService profileService;
 
     @Inject
     private SocialConnectionService socialConnectionService;
@@ -52,7 +52,7 @@ public class UserProfileServlet extends HttpServlet {
             request.setAttribute("fullName", fullName);
             request.setAttribute("bio", bio);
             request.setAttribute("username", user.getScreenName());
-            request.setAttribute("profilePic", user.getOriginalProfileImageURL());
+            request.setAttribute("profilePic", user.getMiniProfileImageURL());
             request.getRequestDispatcher("/profile.jsp").forward(request, response);
         } catch (TwitterException e) {
             throw new RuntimeException(e);
@@ -74,9 +74,7 @@ public class UserProfileServlet extends HttpServlet {
         String connectionId = request.getParameter("connectionId");
         Profile profile = new Profile(email, username, bio, city, country, fullName, goal);
         profile.setProfilePic(profilePic);
-        SocialConnection socialConnection = socialConnectionService.findByConnectionId(connectionId);
-        profile.getSocialConnections().add(socialConnection);
-        userService.save(profile);
+        profileService.save(profile);        socialConnectionService.update(profile, connectionId);
         request.getSession().setAttribute("profile", profile);
         response.sendRedirect(request.getContextPath() + "/");
     }

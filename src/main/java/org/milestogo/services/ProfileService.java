@@ -12,7 +12,7 @@ import javax.transaction.Transactional;
  */
 @ApplicationScoped
 @Transactional
-public class UserService {
+public class ProfileService {
 
     @Inject
     private EntityManager entityManager;

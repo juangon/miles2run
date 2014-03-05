@@ -35,6 +35,9 @@ public class SocialConnection implements Serializable{
     @Column(updatable = false)
     private final Date connectedOn = new Date();
 
+    @ManyToOne
+    private Profile profile;
+
     public SocialConnection() {
     }
 
@@ -92,5 +95,13 @@ public class SocialConnection implements Serializable{
 
     public Date getConnectedOn() {
         return connectedOn;
+    }
+
+    public Profile getProfile() {
+        return profile;
+    }
+
+    public void setProfile(Profile profile) {
+        this.profile = profile;
     }
 }

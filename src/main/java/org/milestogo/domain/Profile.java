@@ -49,7 +49,7 @@ public class Profile implements Serializable {
     @NotNull
     private long goal;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "profile")
     private final List<SocialConnection> socialConnections = new ArrayList<>();
 
     @OneToMany(mappedBy = "postedBy", fetch = FetchType.LAZY)
