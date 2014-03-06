@@ -44,7 +44,7 @@
             <c:if test="${not empty sessionScope.profile}">
                 <ul class="nav navbar-collapse pull-right">
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="${sessionScope.profile.profilePic}">${sessionScope.profile.fullName} <b class="caret"></b></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="${sessionScope.profile.profilePic}"> ${sessionScope.profile.fullName} <b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <li><a href="<c:url value="/logout"></c:url>">Logout</a></li>
                         </ul>
