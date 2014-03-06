@@ -75,6 +75,15 @@ public class Profile implements Serializable {
         this.goal = goal;
     }
 
+    public Profile(String username, String bio, String city, String country, String fullName, long goal,String profilePic) {
+        this.username = username;
+        this.bio = bio;
+        this.city = city;
+        this.country = country;
+        this.fullName = fullName;
+        this.goal = goal;
+        this.profilePic = profilePic;
+    }
 
     public Long getId() {
         return id;
@@ -82,6 +91,10 @@ public class Profile implements Serializable {
 
     public String getEmail() {
         return email;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getUsername() {
@@ -146,5 +159,21 @@ public class Profile implements Serializable {
 
     public void setProfilePic(String profilePic) {
         this.profilePic = profilePic;
+    }
+
+    @Override
+    public String toString() {
+        return "Profile{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", username='" + username + '\'' +
+                ", fullName='" + fullName + '\'' +
+                ", bio='" + bio + '\'' +
+                ", city='" + city + '\'' +
+                ", goal=" + goal +
+                ", country='" + country + '\'' +
+                ", profilePic='" + profilePic + '\'' +
+                ", registeredOn=" + registeredOn +
+                '}';
     }
 }

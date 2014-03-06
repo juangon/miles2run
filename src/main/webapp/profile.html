@@ -1,6 +1,18 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${fullname}"></title>
+</head>
+
 <body>
-<p th:text="${message}">Test paragraph</p>
+
+<div id="main" class="container-fluid">
+
+    <p th:text="${fullname}">Welcome</p>
+
+</div>
+
+<script src="/js/jquery.js" th:href="@{/js/jquery.js}"></script>
+<script src="/js/bootstrap.js" th:href="@{/js/bootstrap.js}"></script>
 </body>
 </html>

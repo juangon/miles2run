@@ -82,9 +82,11 @@ public class ProfileView {
         templateEngine.setTemplateResolver(templateResolver);
 
         WebContext context = new WebContext(request, response, request.getServletContext());
-
-        context.setVariable("message", "This is a string that will be mapped to the variable 'test'");
-
+        Profile profile = profileService.findProfileByUsername(username);
+        System.out.println("Profile is " + profile);
+        logger.info(String.format("Profile with %s : %s", username, profile.toString()));
+        context.setVariable("fullname", profile.getFullName());
+        context.setVariable("username",profile.getUsername());
         return templateEngine.process("/profile.html", context);
     }
 }
