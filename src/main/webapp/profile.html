@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title th:text="${fullname}"></title>
+    <title th:text="${profile.fullname +' ('+ profile.username +')'} + ' on MilesToGo'"></title>
 </head>
 
 <body>
 
 <div id="main" class="container-fluid">
 
-    <p th:text="${fullname}">Welcome</p>
+    <p th:text="'Welcome, ' + ${profile.fullname}">Welcome</p>
 
 </div>
 

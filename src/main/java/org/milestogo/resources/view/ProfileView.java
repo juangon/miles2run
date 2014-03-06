@@ -85,8 +85,7 @@ public class ProfileView {
         Profile profile = profileService.findProfileByUsername(username);
         System.out.println("Profile is " + profile);
         logger.info(String.format("Profile with %s : %s", username, profile.toString()));
-        context.setVariable("fullname", profile.getFullName());
-        context.setVariable("username",profile.getUsername());
+        context.setVariable("profile", profile);
         return templateEngine.process("/profile.html", context);
     }
 }

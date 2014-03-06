@@ -34,7 +34,7 @@ public class Profile implements Serializable {
 
     @NotNull
     @Size(max = 50)
-    private String fullName;
+    private String fullname;
 
     @NotNull
     @Size(max = 140)
@@ -65,22 +65,22 @@ public class Profile implements Serializable {
     public Profile() {
     }
 
-    public Profile(String email, String username, String bio, String city, String country, String fullName, long goal) {
+    public Profile(String email, String username, String bio, String city, String country, String fullname, long goal) {
         this.email = email;
         this.username = username;
         this.bio = bio;
         this.city = city;
         this.country = country;
-        this.fullName = fullName;
+        this.fullname = fullname;
         this.goal = goal;
     }
 
-    public Profile(String username, String bio, String city, String country, String fullName, long goal,String profilePic) {
+    public Profile(String username, String bio, String city, String country, String fullname, long goal,String profilePic) {
         this.username = username;
         this.bio = bio;
         this.city = city;
         this.country = country;
-        this.fullName = fullName;
+        this.fullname = fullname;
         this.goal = goal;
         this.profilePic = profilePic;
     }
@@ -101,12 +101,12 @@ public class Profile implements Serializable {
         return username;
     }
 
-    public String getFullName() {
-        return fullName;
+    public String getFullname() {
+        return fullname;
     }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
+    public void setFullname(String fullName) {
+        this.fullname = fullName;
     }
 
     public String getBio() {
@@ -167,7 +167,7 @@ public class Profile implements Serializable {
                 "id=" + id +
                 ", email='" + email + '\'' +
                 ", username='" + username + '\'' +
-                ", fullName='" + fullName + '\'' +
+                ", fullName='" + fullname + '\'' +
                 ", bio='" + bio + '\'' +
                 ", city='" + city + '\'' +
                 ", goal=" + goal +
