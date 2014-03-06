@@ -41,7 +41,7 @@ public class ProfileRegisteration extends HttpServlet {
         String city = request.getParameter("city");
         String country = request.getParameter("country");
         String bio = request.getParameter("bio");
-        String fullName = request.getParameter("fullName");
+        String fullName = request.getParameter("fullname");
         long goal = Long.valueOf(request.getParameter("goal"));
         String username = request.getParameter("username");
         String profilePic = request.getParameter("profilePic");
