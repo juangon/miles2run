@@ -38,7 +38,7 @@ public class GoalStatusResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public GoalStatus createNewStatus(@Context HttpServletRequest request, @Valid final GoalStatus goalStatus) {
+    public Response createNewStatus(@Context HttpServletRequest request, @Valid final GoalStatus goalStatus) {
         HttpSession session = request.getSession(false);
         if(session == null || session.getAttribute("profile") == null){
             return null;
@@ -46,7 +46,7 @@ public class GoalStatusResource {
         Profile loggedInUser = (Profile)session.getAttribute("profile");
         goalStatus.setPostedBy(loggedInUser);
         GoalStatus persitedGoalStatus = goalStatusService.save(goalStatus);
-        return persitedGoalStatus;
+        return Response.status(Response.Status.CREATED).build();
     }
 
     @GET
