@@ -38,11 +38,12 @@ public class GoalStatusService {
     }
 
 
-    public List<GoalStatus> findAll(int start, int max) {
+    public List<GoalStatus> findAll(Profile postedBy, int start, int max) {
         TypedQuery<GoalStatus> query = entityManager.createQuery(
-                "SELECT new GoalStatus(c.id,c.status,c.distanceCovered) from GoalStatus c ORDER BY c.postedAt DESC", GoalStatus.class);
+                "SELECT new GoalStatus(g.id,g.status,g.distanceCovered) from GoalStatus g WHERE g.postedBy =:postedBy ORDER BY g.postedAt DESC", GoalStatus.class);
         query.setFirstResult(start);
         query.setMaxResults(max);
+        query.setParameter("postedBy", postedBy);
         return query.getResultList();
     }
 
@@ -67,7 +68,7 @@ public class GoalStatusService {
 
     public long findTotalDistanceCovered(Profile profile) {
         TypedQuery<Long> query = entityManager.createQuery("SELECT SUM(g.distanceCovered) from GoalStatus g WHERE g.postedBy =:postedBy", Long.class);
-        query.setParameter("postedBy",profile);
+        query.setParameter("postedBy", profile);
         return query.getSingleResult();
     }
 }

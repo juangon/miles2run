@@ -40,10 +40,10 @@ public class GoalStatusResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response createNewStatus(@Context HttpServletRequest request, @Valid final GoalStatus goalStatus) {
         HttpSession session = request.getSession(false);
-        if(session == null || session.getAttribute("profile") == null){
+        if (session == null || session.getAttribute("profile") == null) {
             return null;
         }
-        Profile loggedInUser = (Profile)session.getAttribute("profile");
+        Profile loggedInUser = (Profile) session.getAttribute("profile");
         goalStatus.setPostedBy(loggedInUser);
         GoalStatus persitedGoalStatus = goalStatusService.save(goalStatus);
         return Response.status(Response.Status.CREATED).build();
@@ -58,9 +58,14 @@ public class GoalStatusResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<GoalStatus> list(@QueryParam("start") int start, @QueryParam("max") int max) {
+    public List<GoalStatus> list(@Context HttpServletRequest request, @QueryParam("start") int start, @QueryParam("max") int max) {
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("profile") == null) {
+            return null;
+        }
+        Profile loggedInUser = (Profile) session.getAttribute("profile");
         max = max == 0 || max > 10 ? 10 : max;
-        return goalStatusService.findAll(start, max);
+        return goalStatusService.findAll(loggedInUser, start, max);
     }
 
     @POST
@@ -83,14 +88,14 @@ public class GoalStatusResource {
 
     @GET
     @Path("/progress")
-    public Progress progress(@Context HttpServletRequest request){
+    public Progress progress(@Context HttpServletRequest request) {
         HttpSession session = request.getSession(false);
-        if(session == null || session.getAttribute("profile") == null){
+        if (session == null || session.getAttribute("profile") == null) {
             return null;
         }
-        Profile loggedInUser = (Profile)session.getAttribute("profile");
+        Profile loggedInUser = (Profile) session.getAttribute("profile");
         long totalDistanceCovered = goalStatusService.findTotalDistanceCovered(loggedInUser);
-        Progress progress = new Progress(loggedInUser.getGoal(),totalDistanceCovered);
+        Progress progress = new Progress(loggedInUser.getGoal(), totalDistanceCovered);
         return progress;
     }
 }
