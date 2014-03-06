@@ -1,13 +1,15 @@
-<h2>
-	Status <a class="btn btn-primary pull-right"
-		href="#/status/new"><i class="icon-plus-sign icon-white"></i>
-		Post Status</a>
-</h2>
+<div class="panel panel-default">
+    <!-- Default panel contents -->
+    <div class="panel-heading">Timeline</div>
 
-<table class="table table-striped">
-	<tr ng-repeat="status in statuses">
-		<td>{{status.status}}</td>
-        <td>{{status.distanceCovered}}</td>
-		<td><a href="#/status/edit/{{status.id}}"><i class="fa fa-pencil-square-o"></i> Edit</a></td></td>
-	</tr>
-</table>
+    <div class="list-group">
+        <a href="#/status/edit/{{status.id}}" class="list-group-item" ng-repeat="status in statuses">
+            <h4 class="list-group-item-heading">You ran {{status.distanceCovered}} meters</h4>
+
+            <p class="list-group-item-text">
+                {{status.status}}
+            </p>
+        </a>
+    </div>
+</div>
+

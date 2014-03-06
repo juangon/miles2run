@@ -99,7 +99,17 @@
         </div>
     </c:if>
     <c:if test="${not empty sessionScope.profile}">
-        <div class="container" ng-view>
+        <div class="row">
+            <div class="col-xs-2">
+                <ul class="nav nav-pills nav-stacked">
+                    <li><a href="#">Timeline</a></li>
+                    <li><a href="#status/new"><i class="icon-plus-sign icon-white"></i> Post Status</a></li>
+                    <li><a href="#status/progress">Progress</a></li>
+                </ul>
+            </div>
+            <div class="col-xs-offset-2 col-xs-8" ng-view>
+
+            </div>
         </div>
     </c:if>
 

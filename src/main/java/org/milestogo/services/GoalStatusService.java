@@ -1,6 +1,7 @@
 package org.milestogo.services;
 
 import org.milestogo.domain.GoalStatus;
+import org.milestogo.domain.Profile;
 import org.milestogo.exceptions.StatusNotFoundException;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -64,4 +65,9 @@ public class GoalStatusService {
         entityManager.remove(goalStatus);
     }
 
+    public long findTotalDistanceCovered(Profile profile) {
+        TypedQuery<Long> query = entityManager.createQuery("SELECT SUM(g.distanceCovered) from GoalStatus g WHERE g.postedBy =:postedBy", Long.class);
+        query.setParameter("postedBy",profile);
+        return query.getSingleResult();
+    }
 }

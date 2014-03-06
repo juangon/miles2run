@@ -1,7 +1,7 @@
 angular.module("milestogo.services", ["ngResource"]).
     factory('Status', function ($resource) {
         var Status = $resource('app/api/status/:statusId', {statusId: '@id'});
-        Status.prototype.isNew = function(){
+        Status.prototype.isNew = function () {
             return (typeof(this.id) === 'undefined');
         };
         return Status;
@@ -12,10 +12,11 @@ angular.module("milestogo", ["milestogo.services"]).
         $routeProvider
             .when('/', {templateUrl: 'views/status/list.html', controller: StatusListController})
             .when('/status/new', {templateUrl: 'views/status/create.html', controller: StatusCreateController})
+            .when('/status/progress', {templateUrl: 'views/status/progress.html', controller: StatusProgressController})
             .when('/status/:statusId', {templateUrl: 'views/status/detail.html', controller: StatusDetailController})
             .when('/status/edit/:statusId', {templateUrl: 'views/status/create.html', controller: StatusDetailController})
             .otherwise({
-                redirectTo:'/'
+                redirectTo: '/'
             });
     });
 
@@ -49,4 +50,18 @@ function StatusDetailController($scope, $routeParams, $location, Status) {
             $location.path('/');
         });
     };
+}
+
+
+function StatusProgressController($scope, $http) {
+    $http({method: 'GET', url: 'app/api/progress'}).success(function (data, status) {
+        $scope.status = status;
+        $scope.data = data;
+        $scope.style = "width:" + data.percentage + "%";
+    }).
+        error(function (data, status) {
+            console.log(data);
+            console.log(status);
+        })
+
 }

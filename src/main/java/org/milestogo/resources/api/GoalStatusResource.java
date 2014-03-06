@@ -2,6 +2,7 @@ package org.milestogo.resources.api;
 
 import org.milestogo.domain.GoalStatus;
 import org.milestogo.domain.Profile;
+import org.milestogo.resources.vo.Progress;
 import org.milestogo.services.GoalStatusService;
 
 import java.util.List;
@@ -77,5 +78,19 @@ public class GoalStatusResource {
         goalStatusService.delete(id);
         return Response.noContent().build();
 
+    }
+
+
+    @GET
+    @Path("/progress")
+    public Progress progress(@Context HttpServletRequest request){
+        HttpSession session = request.getSession(false);
+        if(session == null || session.getAttribute("profile") == null){
+            return null;
+        }
+        Profile loggedInUser = (Profile)session.getAttribute("profile");
+        long totalDistanceCovered = goalStatusService.findTotalDistanceCovered(loggedInUser);
+        Progress progress = new Progress(loggedInUser.getGoal(),totalDistanceCovered);
+        return progress;
     }
 }
