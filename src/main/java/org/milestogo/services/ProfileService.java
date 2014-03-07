@@ -25,7 +25,7 @@ public class ProfileService {
 
     public Profile findProfileByUsername(String username) {
         System.out.println("Username " + username);
-        TypedQuery<Profile> query = entityManager.createQuery("select new Profile(p.username,p.bio,p.city,p.country,p.fullname,p.goal,p.profilePic) from Profile p where p.username =:username", Profile.class);
+        TypedQuery<Profile> query = entityManager.createQuery("select new Profile(p.username,p.bio,p.city,p.country,p.fullname,p.profilePic) from Profile p where p.username =:username", Profile.class);
         query.setParameter("username", username);
         try {
             return query.getSingleResult();
