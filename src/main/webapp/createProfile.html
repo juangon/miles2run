@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <meta name="author" content="Shekhar Gulati"/>
 
-    <title>Create Profile</title>
+    <title>Set up your profile</title>
 
     <link href="/css/bootstrap.css" th:href="@{/css/bootstrap.css}" rel="stylesheet"/>
     <link href="/css/main.css" th:href="@{/css/main.css}" rel="stylesheet"/>
@@ -45,24 +45,159 @@
 
 <div id="main" class="container-fluid">
 
-    <form class="form-profile" role="form" action="" th:action="@{/profile}" method="POST">
-        <h2 class="form-profile-heading">Update your Profile</h2>
-        <input type="text" name="fullname" class="form-control" placeholder="Full Name" th:value="${profile.fullname}" required autofocus>
-        <input type="email" name="email" class="form-control" placeholder="Email address" required>
-        <input type="text" name="username" class="form-control" placeholder="Username" th:value="${profile.username}" required>
-        <input type="text" name="city" class="form-control" placeholder="City" required>
-        <input type="text" name="country" class="form-control" placeholder="Country" required>
-        <input type="text" name="bio" class="form-control" placeholder="Bio" th:value="${profile.bio}" required>
-        <input type="number" name="goal" class="form-control" placeholder="Distance you want to run(in metre)" min="1000" step="1000" required>
-        <input type="hidden" name="connectionId" id="connectionId" th:value="${profile.connectionId}">
-        <input type="hidden" name="profilePic" id="profilePic" th:value="${profile.profilePic}">
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Create Profile</button>
+    <form class="form-horizontal" role="form" action="" th:action="@{/profile}" method="POST">
+        <fieldset>
+
+            <!-- Form Name -->
+            <legend>Set up new profile</legend>
+
+            <!-- File Button -->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="picUpload">Profile Picture</label>
+
+                <div class="col-md-4">
+                    <input id="picUpload" name="picUpload" class="input-file" type="file">
+                </div>
+            </div>
+
+            <!-- Text input-->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="fullname">Full Name</label>
+
+                <div class="col-md-6">
+                    <input id="fullname" name="fullname" type="text" placeholder="Your full name"
+                           class="form-control input-md" th:value="${profile.fullname}" required="">
+
+                </div>
+            </div>
+
+            <!-- Text input-->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="email">Email</label>
+
+                <div class="col-md-6">
+                    <input id="email" name="email" type="email" placeholder="Your valid email address"
+                           class="form-control input-md" required="">
+
+                </div>
+            </div>
+
+            <!-- Text input-->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="username">Username</label>
+
+                <div class="col-md-6">
+                    <input id="username" name="username" type="text"
+                           placeholder="Your unique username(only alphanumeric)" class="form-control input-md"
+                           th:value="${profile.username}" required="">
+
+                </div>
+            </div>
+
+            <!-- Text input-->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="city">City</label>
+
+                <div class="col-md-6">
+                    <input id="city" name="city" type="text" placeholder="City you live" class="form-control input-md">
+
+                </div>
+            </div>
+
+            <!-- Text input-->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="country">Country</label>
+
+                <div class="col-md-6">
+                    <input id="country" name="country" type="text" placeholder="Country you live"
+                           class="form-control input-md" required="">
+
+                </div>
+            </div>
+
+            <!-- Multiple Radios (inline) -->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="gender" id="gender">Gender</label>
+
+                <div class="col-md-4">
+                    <label class="radio-inline pull-left" for="male">
+                        <input type="radio"  name="gender" id="male" value="Male" checked="checked">
+                        Male
+                    </label>
+                    <label class="radio-inline pull-left" for="female">
+                        <input type="radio" name="gender" id="female" value="Female">
+                        Female
+                    </label>
+                </div>
+            </div>
+
+            <!-- Textarea -->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="bio">Bio</label>
+
+                <div class="col-md-4">
+                    <textarea class="form-control" id="bio" name="bio" th:text="${profile.bio}" required>Tell us about
+                        yourself</textarea>
+                </div>
+            </div>
+
+            <!-- Text input-->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="goal">Goal</label>
+
+                <div class="col-md-6">
+                    <input id="goal" name="goal" type="number" placeholder="Distance you want to run"
+                           class="form-control input-md" required="" min="1" step="1">
+
+                </div>
+            </div>
+
+            <input type="hidden" name="connectionId" id="connectionId" th:value="${profile.connectionId}">
+            <input type="hidden" name="profilePic" id="profilePic" th:value="${profile.profilePic}">
+            <!-- Button -->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="profileSaveButton"></label>
+
+                <div class="col-md-4">
+                    <button id="profileSaveButton" name="profileSaveButton" class="btn btn-lg btn-success">Done</button>
+                </div>
+            </div>
+
+        </fieldset>
     </form>
+
 
 </div>
 
 
 <script src="/js/jquery.js" th:src="@{/js/jquery.js}"></script>
 <script src="/js/bootstrap.js" th:src="@{/js/bootstrap.js}"></script>
+<script>
+    $(document).ready(function () {
+        var intputElements = document.getElementsByTagName("INPUT");
+        for (var i = 0; i < intputElements.length; i++) {
+            intputElements[i].oninvalid = function (e) {
+                e.target.setCustomValidity("");
+                if (!e.target.validity.valid) {
+                    if (e.target.name == "fullname") {
+                        e.target.setCustomValidity("Full Name cannot be left blank");
+                    } else if (e.target.name == "email") {
+                        e.target.setCustomValidity("Email is invalid or left blank");
+                    } else if (e.target.name == "username") {
+                        e.target.setCustomValidity("Username cannot be left blank");
+                    } else if (e.target.name == "country") {
+                        e.target.setCustomValidity("Country cannot be left blank");
+                    } else if (e.target.name == "bio") {
+                        e.target.setCustomValidity("Bio cannot be left blank");
+                    } else if (e.target.name == "goal") {
+                        e.target.setCustomValidity("Goal is invalid or left blank");
+                    }else{
+
+                    }
+                }
+            };
+        }
+    })
+</script>
 </body>
 </html>

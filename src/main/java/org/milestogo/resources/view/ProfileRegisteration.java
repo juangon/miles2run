@@ -37,6 +37,15 @@ public class ProfileRegisteration extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Profile profile = parseRequest(request);
+        profileService.save(profile);
+        String connectionId = request.getParameter("connectionId");
+        socialConnectionService.update(profile, connectionId);
+        request.getSession().setAttribute("profile", profile);
+        response.sendRedirect(request.getContextPath() + "/");
+    }
+
+    private Profile parseRequest(HttpServletRequest request) {
         String email = request.getParameter("email");
         String city = request.getParameter("city");
         String country = request.getParameter("country");
@@ -46,12 +55,8 @@ public class ProfileRegisteration extends HttpServlet {
         String username = request.getParameter("username");
         String profilePic = request.getParameter("profilePic");
         logger.info(String.format("email %s, city %s, country %s, bio %s, fullname %s,goal %d, profilePic %s", email, city, country, bio, fullname, goal, profilePic));
-        String connectionId = request.getParameter("connectionId");
         Profile profile = new Profile(email, username, bio, city, country, fullname, goal);
         profile.setProfilePic(profilePic);
-        profileService.save(profile);
-        socialConnectionService.update(profile, connectionId);
-        request.getSession().setAttribute("profile", profile);
-        response.sendRedirect(request.getContextPath() + "/");
+        return profile;
     }
 }

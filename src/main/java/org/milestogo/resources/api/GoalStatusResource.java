@@ -82,9 +82,7 @@ public class GoalStatusResource {
     public Response deleteStatus(@PathParam("id") Long id) {
         goalStatusService.delete(id);
         return Response.noContent().build();
-
     }
-
 
     @GET
     @Path("/progress")
