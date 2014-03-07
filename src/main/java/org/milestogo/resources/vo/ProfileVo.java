@@ -38,4 +38,5 @@ public class ProfileVo {
     public String getProfilePic() {
         return profilePic;
     }
+
 }

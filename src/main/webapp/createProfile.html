@@ -53,14 +53,14 @@
 
             <!-- File Button -->
             <div class="form-group">
-                <label class="col-md-4 control-label" for="picUpload">Profile Picture</label>
+                <label class="col-md-4 control-label" for="picUpload" id="picUpload">Profile Picture</label>
 
                 <div class="col-md-1">
-                    <img class="pull-left img-responsive img-thumbnail" th:src="${profile.profilePic}" alt="${profile.fullname}"/>
+                    <img class="pull-left img-responsive img-rounded" th:src="${profile.profilePic}" alt="${profile.fullname}"/>
                 </div>
-                <div class="col-md-3">
+                <!--<div class="col-md-3">
                     <input id="picUpload" name="picUpload" class="input-file pull-left" type="file">
-                </div>
+                </div>-->
             </div>
 
             <!-- Text input-->

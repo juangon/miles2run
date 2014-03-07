@@ -62,6 +62,12 @@ public class Profile implements Serializable {
     @ImageUrl
     private String profilePic;
 
+    @Transient
+    private String miniProfilePic;
+
+    @Transient
+    private String biggerProfilePic;
+
     public Profile() {
     }
 
@@ -75,7 +81,7 @@ public class Profile implements Serializable {
         this.goal = goal;
     }
 
-    public Profile(String username, String bio, String city, String country, String fullname, long goal,String profilePic) {
+    public Profile(String username, String bio, String city, String country, String fullname, long goal, String profilePic) {
         this.username = username;
         this.bio = bio;
         this.city = city;
@@ -159,6 +165,24 @@ public class Profile implements Serializable {
 
     public void setProfilePic(String profilePic) {
         this.profilePic = profilePic;
+    }
+
+    public String getMiniProfilePic() {
+        return getImageWithSize("mini");
+    }
+
+    public String getBiggerProfilePic() {
+        return getImageWithSize("bigger");
+    }
+
+    private String getImageWithSize(String size) {
+        if (this.profilePic != null) {
+            int index = this.profilePic.lastIndexOf(".");
+            String imgPrefix = this.profilePic.substring(0, index);
+            String picExtension = this.profilePic.substring(index);
+            return new StringBuilder(imgPrefix).append("_").append(size).append(picExtension).toString();
+        }
+        return this.profilePic;
     }
 
     @Override

@@ -62,7 +62,7 @@ public class ProfileView {
             templateResolver.setTemplateMode("LEGACYHTML5");
             TemplateEngine templateEngine = new TemplateEngine();
             templateEngine.setTemplateResolver(templateResolver);
-            ProfileVo profile = new ProfileVo(user.getScreenName(), user.getName(), user.getDescription(), connectionId, user.getMiniProfileImageURL());
+            ProfileVo profile = new ProfileVo(user.getScreenName(), user.getName(), user.getDescription(), connectionId, user.getOriginalProfileImageURL());
             WebContext context = new WebContext(request, response, request.getServletContext());
             context.setVariable("profile", profile);
             return templateEngine.process("/createProfile.html", context);
