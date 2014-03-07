@@ -1,5 +1,7 @@
 package org.milestogo.resources.view;
 
+import org.milestogo.domain.Gender;
+import org.milestogo.domain.GoalUnit;
 import org.milestogo.domain.Profile;
 import org.milestogo.domain.SocialConnection;
 import org.milestogo.services.ProfileService;
@@ -54,8 +56,11 @@ public class ProfileRegisteration extends HttpServlet {
         long goal = Long.valueOf(request.getParameter("goal"));
         String username = request.getParameter("username");
         String profilePic = request.getParameter("profilePic");
-        logger.info(String.format("email %s, city %s, country %s, bio %s, fullname %s,goal %d, profilePic %s", email, city, country, bio, fullname, goal, profilePic));
-        Profile profile = new Profile(email, username, bio, city, country, fullname, goal);
+        String gender = request.getParameter("gender");
+        String goalUnit = request.getParameter("goalUnit");
+        logger.info(String.format("email %s, gender %s, goalUnit %s", email, gender, goalUnit));
+        Profile profile = new Profile(email, username, bio, city, country, fullname, goal, Gender.fromStringToGender(gender), GoalUnit.fromStringToGoalUnit(goalUnit));
+        logger.info("GoalUnit: " + GoalUnit.fromStringToGoalUnit(goalUnit));
         profile.setProfilePic(profilePic);
         return profile;
     }

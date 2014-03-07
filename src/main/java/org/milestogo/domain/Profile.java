@@ -46,8 +46,13 @@ public class Profile implements Serializable {
     @NotNull
     private String country;
 
+    private Gender gender;
+
     @NotNull
     private long goal;
+
+    @NotNull
+    private GoalUnit goalUnit;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "profile")
     private final List<SocialConnection> socialConnections = new ArrayList<>();
@@ -71,14 +76,16 @@ public class Profile implements Serializable {
     public Profile() {
     }
 
-    public Profile(String email, String username, String bio, String city, String country, String fullname, long goal) {
+    public Profile(String email, String username, String bio, String city, String country, String fullname, long goal, Gender gender, GoalUnit goalUnit) {
         this.email = email;
         this.username = username;
         this.bio = bio;
         this.city = city;
         this.country = country;
         this.fullname = fullname;
-        this.goal = goal;
+        this.goal = goal * goalUnit.getConversion();
+        this.gender = gender;
+        this.goalUnit = goalUnit;
     }
 
     public Profile(String username, String bio, String city, String country, String fullname, long goal, String profilePic) {
@@ -87,7 +94,7 @@ public class Profile implements Serializable {
         this.city = city;
         this.country = country;
         this.fullname = fullname;
-        this.goal = goal;
+        this.goal = goal * goalUnit.getConversion();
         this.profilePic = profilePic;
     }
 
@@ -173,6 +180,22 @@ public class Profile implements Serializable {
 
     public String getBiggerProfilePic() {
         return getImageWithSize("bigger");
+    }
+
+    public Gender getGender() {
+        return gender;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
+    }
+
+    public GoalUnit getGoalUnit() {
+        return goalUnit;
+    }
+
+    public void setGoalUnit(GoalUnit goalUnit) {
+        this.goalUnit = goalUnit;
     }
 
     private String getImageWithSize(String size) {
