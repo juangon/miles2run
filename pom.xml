@@ -75,6 +75,9 @@
                 <groupId>org.eluder.coveralls</groupId>
                 <artifactId>coveralls-maven-plugin</artifactId>
                 <version>2.2.0</version>
+                <configuration>
+                    <repoToken>2vLjLfc5EClFYc43QYvebI6ZSOUG9o70Y</repoToken>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
