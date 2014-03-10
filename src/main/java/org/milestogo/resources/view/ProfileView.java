@@ -77,8 +77,8 @@ public class ProfileView {
         Profile profile = new Profile(profileForm);
         profileService.save(profile);
         socialConnectionService.update(profile, connectionId);
-        request.getSession().setAttribute("profile", profile);
-        return new View("/home.html", profile, "profile", true);
+        request.getSession().setAttribute("username", profile.getUsername());
+        return new View("/home", true);
     }
 
 

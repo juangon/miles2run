@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="milestogo">
+<html lang="en" ng-app="milestogo" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -38,6 +38,15 @@
                 <li class="active"><a href="#">Home</a></li>
                 <li><a href="#about">About</a></li>
             </ul>
+            <ul class="nav navbar-collapse pull-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" th:inline="text"><img th:src="${profile.miniProfilePic}"/> [[${profile.fullname}]] <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#" th:href="@{'/profiles/' + ${profile.username}}" th:text="${profile.fullname}"></a></li>
+                        <li><a href="#" th:href="@{/logout}">Logout</a></li>
+                    </ul>
+                </li>
+            </ul>
 
         </div>
 
@@ -46,45 +55,18 @@
 </div>
 
 <div id="main" class="container-fluid">
-        <div id="activity" class="row">
-            <h2>Latest MilesToGo Activity</h2>
-            <h6>See what's happening in MilesToGo around the world</h6>
-            <br><br>
-
-            <div class="col-xs-4">
-                <div class="activity-developers">
-                    <h1>500 Developers</h1>
-                </div>
-
-            </div>
-            <div class="col-xs-4">
-                <div class="activity-countries">
-                    <h1>50 Countries</h1>
-                </div>
-
-            </div>
-            <div class="col-xs-4">
-                <div class="activity-meters">
-                    <h1>500,000 Meters Run</h1>
-                </div>
-            </div>
+    <div class="row">
+        <div class="col-xs-2">
+            <ul class="nav nav-pills nav-stacked">
+                <li><a href="#">Timeline</a></li>
+                <li><a href="#status/new"><i class="icon-plus-sign icon-white"></i> Post Status</a></li>
+                <li><a href="#status/progress">Progress</a></li>
+            </ul>
         </div>
-        <br><br>
-
-        <div id="join" class="row">
-            <div class="col-xs-4">
-                <h2>Join the community</h2>
-            </div>
-            <div class="col-xs-4">
-                <a href="signin/twitter" class="btn btn-lg btn-info"><i class="fa fa-twitter"></i> Sign in with Twitter</a>
-            </div>
-            <div class="col-xs-4">
-                <a href="signin/facebook" class="btn btn-lg btn-info"><i class="fa fa-facebook"></i> Sign in with
-                    Facebook</a>
-            </div>
+        <div class="col-xs-offset-2 col-xs-8" ng-view>
 
         </div>
-
+    </div>
 </div>
 
 

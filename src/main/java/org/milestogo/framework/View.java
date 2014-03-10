@@ -48,10 +48,8 @@ public class View implements Viewable {
     }
 
     /** */
-    public View(String path, Object model, String modelName, boolean redirect) {
+    public View(String path, boolean redirect) {
         this.path = path;
-        this.model = model;
-        this.modelName = modelName;
         this.redirect = redirect;
     }
 
