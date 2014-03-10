@@ -59,7 +59,6 @@
 </div>
 
 <div id="main" class="container-fluid">
-    <c:if test="${empty sessionScope.profile}">
         <div id="activity" class="row">
             <h2>Latest MilesToGo Activity</h2>
             <h6>See what's happening in MilesToGo around the world</h6>
@@ -98,30 +97,11 @@
             </div>
 
         </div>
-    </c:if>
-    <c:if test="${not empty sessionScope.profile}">
-        <div class="row">
-            <div class="col-xs-2">
-                <ul class="nav nav-pills nav-stacked">
-                    <li><a href="#">Timeline</a></li>
-                    <li><a href="#status/new"><i class="icon-plus-sign icon-white"></i> Post Status</a></li>
-                    <li><a href="#status/progress">Progress</a></li>
-                </ul>
-            </div>
-            <div class="col-xs-offset-2 col-xs-8" ng-view>
-
-            </div>
-        </div>
-    </c:if>
 
 </div>
 
 
 <script src="js/jquery.js"></script>
 <script src="js/bootstrap.js"></script>
-<script src="js/angular.js"></script>
-<script src="js/angular-resource.js"></script>
-<script src="js/toastr.js"></script>
-<script src="js/app.js"></script>
 </body>
 </html>
