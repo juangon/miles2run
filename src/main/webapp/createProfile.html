@@ -45,7 +45,7 @@
 
 <div id="main" class="container">
 
-    <form id="profileForm" class="form-horizontal" role="form" action="" th:action="@{/profile}" method="POST" novalidate="false">
+    <form id="profileForm" class="form-horizontal" role="form" action="" th:action="@{/profiles} + '?connectionId='+${profile.connectionId}" method="POST" novalidate="false">
         <fieldset>
 
             <!-- Form Name -->

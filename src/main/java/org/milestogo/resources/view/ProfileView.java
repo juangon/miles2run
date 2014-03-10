@@ -1,7 +1,10 @@
 package org.milestogo.resources.view;
 
+import org.jboss.resteasy.annotations.Form;
 import org.milestogo.domain.Profile;
 import org.milestogo.domain.SocialConnection;
+import org.milestogo.forms.ProfileForm;
+import org.milestogo.framework.View;
 import org.milestogo.resources.vo.ProfileVo;
 import org.milestogo.services.ProfileService;
 import org.milestogo.services.SocialConnectionService;
@@ -53,7 +56,7 @@ public class ProfileView {
     @GET
     @Produces("text/html")
     @Path("/new")
-    public String profileForm(@QueryParam("connectionId") String connectionId) {
+    public View profileForm(@QueryParam("connectionId") String connectionId) {
         SocialConnection socialConnection = socialConnectionService.findByConnectionId(connectionId);
         try {
             Twitter twitter = twitterFactory.getInstance();
@@ -63,16 +66,19 @@ public class ProfileView {
             String twitterProfilePic = user.getOriginalProfileImageURL();
             twitterProfilePic = UrlUtils.removeProtocol(twitterProfilePic);
             ProfileVo profile = new ProfileVo(user.getScreenName(), user.getName(), user.getDescription(), connectionId, twitterProfilePic);
-            ServletContextTemplateResolver templateResolver = new ServletContextTemplateResolver();
-            templateResolver.setTemplateMode("LEGACYHTML5");
-            TemplateEngine templateEngine = new TemplateEngine();
-            templateEngine.setTemplateResolver(templateResolver);
-            WebContext context = new WebContext(request, response, request.getServletContext());
-            context.setVariable("profile", profile);
-            return templateEngine.process("/createProfile.html", context);
+            return new View("/createProfile.html", profile, "profile");
         } catch (TwitterException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @POST
+    public View createProfile(@Form ProfileForm profileForm, @QueryParam("connectionId") String connectionId) {
+        Profile profile = new Profile(profileForm);
+        profileService.save(profile);
+        socialConnectionService.update(profile, connectionId);
+        request.getSession().setAttribute("profile", profile);
+        return new View("/home.html", profile, "profile", true);
     }
 
 

@@ -8,11 +8,11 @@ import javax.ws.rs.Path;
 /**
  * Created by shekhargulati on 10/03/14.
  */
-@Path("/test")
-public class TestView {
+@Path("/home")
+public class HomeView {
 
     @GET
-    public View test(){
-        return new View("/test.html",null);
+    public View home(){
+        return new View("/home.html",null);
     }
 }

@@ -55,7 +55,7 @@ public class ProfileRegisteration extends HttpServlet {
         if (!errors.isEmpty()) {
             request.setAttribute("error", errors);
             request.getRequestDispatcher("/app/profiles/new?connectionId=" + connectionId).forward(request, response);
-        }else{
+        } else {
             profileService.save(profile);
             socialConnectionService.update(profile, connectionId);
             request.getSession().setAttribute("profile", profile);

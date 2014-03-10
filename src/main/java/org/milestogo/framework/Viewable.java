@@ -15,4 +15,8 @@ public interface Viewable
 	 */
 	public String render(HttpServletRequest request, HttpServletResponse response)
 		throws IOException, ServletException, WebApplicationException;
+
+    public boolean isRedirect();
+
+    public String getPath();
 }

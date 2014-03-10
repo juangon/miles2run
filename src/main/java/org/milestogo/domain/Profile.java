@@ -2,6 +2,7 @@ package org.milestogo.domain;
 
 import org.hibernate.validator.constraints.Email;
 import org.milestogo.bean_validation.ImageUrl;
+import org.milestogo.forms.ProfileForm;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -101,6 +102,19 @@ public class Profile implements Serializable {
         this.country = country;
         this.fullname = fullname;
         this.profilePic = profilePic;
+    }
+
+    public Profile(ProfileForm profileForm) {
+        this.email = profileForm.getEmail();
+        this.username = profileForm.getUsername();
+        this.bio = profileForm.getBio();
+        this.city = profileForm.getCity();
+        this.country = profileForm.getCountry();
+        this.fullname = profileForm.getFullname();
+        this.gender = Gender.fromStringToGender(profileForm.getGender());
+        this.goalUnit = GoalUnit.fromStringToGoalUnit(profileForm.getGoalUnit());
+        this.goal = profileForm.getGoal() * this.goalUnit.getConversion();
+        this.profilePic = profileForm.getProfilePic();
     }
 
     public Long getId() {

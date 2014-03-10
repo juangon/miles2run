@@ -18,56 +18,52 @@ import java.lang.reflect.Type;
 import java.util.logging.Logger;
 
 @Provider
-public class ViewWriter implements MessageBodyWriter<Object>
-{
+public class ViewWriter implements MessageBodyWriter<Object> {
 
-	private ViewResolver viewResolver = new ViewResolver();
-	
-	@Override
-	public long getSize(Object obj, Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType)
-	{
-		return -1;
-	}
-	
-	@Override
-	public boolean isWriteable(Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType)
-	{
-		return viewResolver.isResolvable(type, genericType, annotations);
-	}
+    private ViewResolver viewResolver = new ViewResolver();
 
-	@Override
-	public void writeTo(Object obj, Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType, MultivaluedMap<String, Object> httpHeaders,
-			OutputStream entityStream) throws IOException, WebApplicationException
-	{
-		Viewable viewingPleasure = viewResolver.getView(obj, type, genericType, annotations);
-		
-		if (viewingPleasure == null)
-			throw new InternalServerErrorException("No View annotation found for object of type " + type.getName());
+    @Override
+    public long getSize(Object obj, Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType) {
+        return -1;
+    }
 
-		HttpServletRequest request = ResteasyProviderFactory.getContextData(HttpServletRequest.class);
-		HttpServletResponse response = ResteasyProviderFactory.getContextData(HttpServletResponse.class);
-		
-		try
-		{
-            String processedTemplate = viewingPleasure.render(request, response);
-            String charset = mediaType.getParameters().get("charset");
-            if (charset == null) entityStream.write(processedTemplate.getBytes());
-            else entityStream.write(processedTemplate.getBytes(charset));
+    @Override
+    public boolean isWriteable(Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType) {
+        return viewResolver.isResolvable(type, genericType, annotations);
+    }
+
+    @Override
+    public void writeTo(Object obj, Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType, MultivaluedMap<String, Object> httpHeaders,
+                        OutputStream entityStream) throws IOException, WebApplicationException {
+        Viewable viewingPleasure = viewResolver.getView(obj, type, genericType, annotations);
+
+        if (viewingPleasure == null)
+            throw new InternalServerErrorException("No View annotation found for object of type " + type.getName());
+
+        HttpServletRequest request = ResteasyProviderFactory.getContextData(HttpServletRequest.class);
+        HttpServletResponse response = ResteasyProviderFactory.getContextData(HttpServletResponse.class);
+
+        try {
+            if(viewingPleasure.isRedirect()){
+                String contextPath = request.getContextPath();
+                response.sendRedirect(contextPath + viewingPleasure.getPath());
+            }   else{
+                String processedTemplate = viewingPleasure.render(request, response);
+                String charset = mediaType.getParameters().get("charset");
+                if (charset == null) entityStream.write(processedTemplate.getBytes());
+                else entityStream.write(processedTemplate.getBytes(charset));
+            }
+        } catch (ServletException ex) {
+            throw new WebApplicationException(ex);
         }
-		catch (ServletException ex)
-		{
-			throw new WebApplicationException(ex);
-		}
-	}
-	
-	public ViewResolver getViewResolver()
-	{
-		return viewResolver;
-	}
-	
-	public void setViewResolver(ViewResolver viewResolver)
-	{
-		this.viewResolver = viewResolver;
-	}
-	
+    }
+
+    public ViewResolver getViewResolver() {
+        return viewResolver;
+    }
+
+    public void setViewResolver(ViewResolver viewResolver) {
+        this.viewResolver = viewResolver;
+    }
+
 }
