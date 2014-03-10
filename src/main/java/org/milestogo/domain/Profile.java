@@ -2,7 +2,7 @@ package org.milestogo.domain;
 
 import org.hibernate.validator.constraints.Email;
 import org.milestogo.bean_validation.ImageUrl;
-import org.milestogo.forms.ProfileForm;
+import org.milestogo.resources.views.forms.ProfileForm;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;

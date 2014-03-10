@@ -1,4 +1,4 @@
-package org.milestogo.forms;
+package org.milestogo.resources.views.forms;
 
 import javax.ws.rs.FormParam;
 

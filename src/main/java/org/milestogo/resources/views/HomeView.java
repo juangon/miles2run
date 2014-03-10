@@ -1,4 +1,4 @@
-package org.milestogo.resources.view;
+package org.milestogo.resources.views;
 
 import org.milestogo.domain.Profile;
 import org.milestogo.framework.View;

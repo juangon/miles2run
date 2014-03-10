@@ -1,8 +1,8 @@
 package org.milestogo.resources.config;
 
 import org.milestogo.framework.ViewWriter;
-import org.milestogo.resources.view.HomeView;
-import org.milestogo.resources.view.ProfileView;
+import org.milestogo.resources.views.HomeView;
+import org.milestogo.resources.views.ProfileView;
 
 import javax.ws.rs.core.Application;
 import java.util.HashSet;

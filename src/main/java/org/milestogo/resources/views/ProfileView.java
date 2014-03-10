@@ -1,9 +1,9 @@
-package org.milestogo.resources.view;
+package org.milestogo.resources.views;
 
 import org.jboss.resteasy.annotations.Form;
 import org.milestogo.domain.Profile;
 import org.milestogo.domain.SocialConnection;
-import org.milestogo.forms.ProfileForm;
+import org.milestogo.resources.views.forms.ProfileForm;
 import org.milestogo.framework.View;
 import org.milestogo.resources.vo.ProfileVo;
 import org.milestogo.services.ProfileService;
@@ -19,14 +19,10 @@ import twitter4j.User;
 import twitter4j.auth.AccessToken;
 
 import javax.inject.Inject;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.MultivaluedMap;
-import java.util.List;
 import java.util.logging.Logger;
 
 /**
