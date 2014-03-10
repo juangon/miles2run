@@ -46,7 +46,7 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="${sessionScope.profile.miniProfilePic}"> ${sessionScope.profile.fullname} <b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li><a href="<c:url value="/app/profiles/${sessionScope.profile.username}"></c:url>">${sessionScope.profile.fullname}</a></li>
+                            <li><a href="<c:url value="/profiles/${sessionScope.profile.username}"></c:url>">${sessionScope.profile.fullname}</a></li>
                             <li><a href="<c:url value="/logout"></c:url>">Logout</a></li>
                         </ul>
                     </li>
