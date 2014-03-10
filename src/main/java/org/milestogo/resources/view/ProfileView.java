@@ -5,6 +5,7 @@ import org.milestogo.domain.SocialConnection;
 import org.milestogo.resources.vo.ProfileVo;
 import org.milestogo.services.ProfileService;
 import org.milestogo.services.SocialConnectionService;
+import org.milestogo.utils.UrlUtils;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
@@ -62,7 +63,9 @@ public class ProfileView {
             templateResolver.setTemplateMode("LEGACYHTML5");
             TemplateEngine templateEngine = new TemplateEngine();
             templateEngine.setTemplateResolver(templateResolver);
-            ProfileVo profile = new ProfileVo(user.getScreenName(), user.getName(), user.getDescription(), connectionId, user.getOriginalProfileImageURL());
+            String twitterProfilePic = user.getOriginalProfileImageURL();
+            twitterProfilePic = UrlUtils.removeProtocol(twitterProfilePic);
+            ProfileVo profile = new ProfileVo(user.getScreenName(), user.getName(), user.getDescription(), connectionId, twitterProfilePic);
             WebContext context = new WebContext(request, response, request.getServletContext());
             context.setVariable("profile", profile);
             return templateEngine.process("/createProfile.html", context);
@@ -80,10 +83,8 @@ public class ProfileView {
         templateResolver.setTemplateMode("HTML5");
         TemplateEngine templateEngine = new TemplateEngine();
         templateEngine.setTemplateResolver(templateResolver);
-
         WebContext context = new WebContext(request, response, request.getServletContext());
         Profile profile = profileService.findProfileByUsername(username);
-        System.out.println("Profile is " + profile);
         logger.info(String.format("Profile with %s : %s", username, profile.toString()));
         context.setVariable("profile", profile);
         return templateEngine.process("/profile.html", context);
