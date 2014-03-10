@@ -37,6 +37,9 @@ public class ProfileForm {
     @FormParam("profilePic")
     private String profilePic;
 
+    @FormParam("connectionId")
+    private String connectionId;
+
     public String getEmail() {
         return email;
     }
@@ -115,5 +118,30 @@ public class ProfileForm {
 
     public void setProfilePic(String profilePic) {
         this.profilePic = profilePic;
+    }
+
+    public String getConnectionId() {
+        return connectionId;
+    }
+
+    public void setConnectionId(String connectionId) {
+        this.connectionId = connectionId;
+    }
+
+    @Override
+    public String toString() {
+        return "ProfileForm{" +
+                "email='" + email + '\'' +
+                ", username='" + username + '\'' +
+                ", fullname='" + fullname + '\'' +
+                ", bio='" + bio + '\'' +
+                ", city='" + city + '\'' +
+                ", country='" + country + '\'' +
+                ", gender='" + gender + '\'' +
+                ", goal=" + goal +
+                ", goalUnit='" + goalUnit + '\'' +
+                ", profilePic='" + profilePic + '\'' +
+                ", connectionId='" + connectionId + '\'' +
+                '}';
     }
 }

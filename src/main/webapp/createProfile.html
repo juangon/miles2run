@@ -45,7 +45,18 @@
 
 <div id="main" class="container">
 
-    <form id="profileForm" class="form-horizontal" role="form" action="" th:action="@{/profiles} + '?connectionId='+${profile.connectionId}" method="POST" novalidate="false">
+    <div id="error" th:unless="${#lists.isEmpty(errors)}">
+        <ul class="list-unstyled">
+            <li th:each="error : ${errors}">
+                <div class="alert alert-danger alert-dismissable">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <p th:text="${error}"></p>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+    <form id="profileForm" class="form-horizontal" role="form" action="" th:action="@{/profiles}" method="POST" novalidate="false">
         <fieldset>
 
             <!-- Form Name -->
@@ -58,9 +69,6 @@
                 <div class="col-md-1">
                     <img class="pull-left img-responsive img-rounded" th:src="${profile.profilePic}" alt="${profile.fullname}"/>
                 </div>
-                <!--<div class="col-md-3">
-                    <input id="picUpload" name="picUpload" class="input-file pull-left" type="file">
-                </div>-->
             </div>
 
             <!-- Text input-->

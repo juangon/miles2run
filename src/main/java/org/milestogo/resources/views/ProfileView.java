@@ -23,6 +23,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 /**
@@ -58,7 +60,6 @@ public class ProfileView {
             Twitter twitter = twitterFactory.getInstance();
             twitter.setOAuthAccessToken(new AccessToken(socialConnection.getAccessToken(), socialConnection.getAccessSecret()));
             User user = twitter.showUser(Long.valueOf(connectionId));
-
             String twitterProfilePic = user.getOriginalProfileImageURL();
             twitterProfilePic = UrlUtils.removeProtocol(twitterProfilePic);
             ProfileVo profile = new ProfileVo(user.getScreenName(), user.getName(), user.getDescription(), connectionId, twitterProfilePic);
@@ -69,10 +70,21 @@ public class ProfileView {
     }
 
     @POST
-    public View createProfile(@Form ProfileForm profileForm, @QueryParam("connectionId") String connectionId) {
+    public View createProfile(@Form ProfileForm profileForm) {
+        logger.info(profileForm.toString());
+        List<String> errors = new ArrayList<>();
+        if (profileService.findProfileByEmail(profileForm.getEmail()) != null) {
+            errors.add(String.format("User already exist with email %s", profileForm.getEmail()));
+        }
+        if (profileService.findProfileByUsername(profileForm.getUsername()) != null) {
+            errors.add(String.format("User already exist with username %s", profileForm.getUsername()));
+        }
+        if (!errors.isEmpty()) {
+            return new View("/createProfile.html", profileForm, "profile", errors);
+        }
         Profile profile = new Profile(profileForm);
         profileService.save(profile);
-        socialConnectionService.update(profile, connectionId);
+        socialConnectionService.update(profile, profileForm.getConnectionId());
         request.getSession().setAttribute("username", profile.getUsername());
         return new View("/home", true);
     }

@@ -1,6 +1,7 @@
 package org.milestogo.framework;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +18,7 @@ public class View implements Viewable {
      * If left unspecified, the default name of the model in the request attributes
      */
     public static final String DEFAULT_MODEL_NAME = "model";
+    private List<String> errors;
 
     /** */
     private String path;
@@ -45,6 +47,13 @@ public class View implements Viewable {
         this.path = path;
         this.model = model;
         this.modelName = modelName;
+    }
+
+    public View(String path, Object model, String modelName, List<String> errors) {
+        this.path = path;
+        this.model = model;
+        this.modelName = modelName;
+        this.errors = errors;
     }
 
     /** */
@@ -76,6 +85,9 @@ public class View implements Viewable {
         templateEngine.setTemplateResolver(templateResolver);
         WebContext context = new WebContext(request, response, request.getServletContext());
         context.setVariable(this.modelName, this.model);
+        if (errors != null && !errors.isEmpty()) {
+            context.setVariable("errors", errors);
+        }
         return templateEngine.process(this.path, context);
     }
 
