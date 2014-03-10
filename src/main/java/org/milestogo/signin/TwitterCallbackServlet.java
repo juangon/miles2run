@@ -45,8 +45,12 @@ public class TwitterCallbackServlet extends HttpServlet {
             connectionId = String.valueOf(twitter.getId());
             SocialConnection existingSocialConnection = socialConnectionService.findByConnectionId(connectionId);
             if (existingSocialConnection != null) {
-                request.getSession().setAttribute("profile", existingSocialConnection.getProfile());
-                response.sendRedirect(request.getContextPath() + "/");
+                if(existingSocialConnection.getProfile() == null){
+                    response.sendRedirect(request.getContextPath() + "/profiles/new?connectionId=" + connectionId);
+                }else{
+                    request.getSession().setAttribute("profile", existingSocialConnection.getProfile());
+                    response.sendRedirect(request.getContextPath() + "/");
+                }
             } else {
                 SocialConnection socialConnection = new SocialConnection(oAuthAccessToken.getToken(), oAuthAccessToken.getTokenSecret(), SocialProvider.TWITTER, oAuthAccessToken.getScreenName(), connectionId);
                 socialConnectionService.save(socialConnection);
