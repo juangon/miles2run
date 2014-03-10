@@ -59,13 +59,14 @@ public class ProfileView {
             Twitter twitter = twitterFactory.getInstance();
             twitter.setOAuthAccessToken(new AccessToken(socialConnection.getAccessToken(), socialConnection.getAccessSecret()));
             User user = twitter.showUser(Long.valueOf(connectionId));
+
+            String twitterProfilePic = user.getOriginalProfileImageURL();
+            twitterProfilePic = UrlUtils.removeProtocol(twitterProfilePic);
+            ProfileVo profile = new ProfileVo(user.getScreenName(), user.getName(), user.getDescription(), connectionId, twitterProfilePic);
             ServletContextTemplateResolver templateResolver = new ServletContextTemplateResolver();
             templateResolver.setTemplateMode("LEGACYHTML5");
             TemplateEngine templateEngine = new TemplateEngine();
             templateEngine.setTemplateResolver(templateResolver);
-            String twitterProfilePic = user.getOriginalProfileImageURL();
-            twitterProfilePic = UrlUtils.removeProtocol(twitterProfilePic);
-            ProfileVo profile = new ProfileVo(user.getScreenName(), user.getName(), user.getDescription(), connectionId, twitterProfilePic);
             WebContext context = new WebContext(request, response, request.getServletContext());
             context.setVariable("profile", profile);
             return templateEngine.process("/createProfile.html", context);

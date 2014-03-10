@@ -18,6 +18,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 /**
@@ -40,11 +42,26 @@ public class ProfileRegisteration extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Profile profile = parseRequest(request);
-        profileService.save(profile);
+        List<String> errors = new ArrayList<>();
+        Profile profileByEmail = profileService.findProfileByEmail(profile.getEmail());
         String connectionId = request.getParameter("connectionId");
-        socialConnectionService.update(profile, connectionId);
-        request.getSession().setAttribute("profile", profile);
-        response.sendRedirect(request.getContextPath() + "/");
+        if (profileByEmail != null) {
+            errors.add(String.format("Profile already exists with email %s", profile.getEmail()));
+        }
+        Profile profileByUsername = profileService.findProfileByUsername(profile.getUsername());
+        if (profileByUsername != null) {
+            errors.add(String.format("Profile already exists with username %s", profile.getUsername()));
+        }
+        if (!errors.isEmpty()) {
+            request.setAttribute("error", errors);
+            request.getRequestDispatcher("/app/profiles/new?connectionId=" + connectionId).forward(request, response);
+        }else{
+            profileService.save(profile);
+            socialConnectionService.update(profile, connectionId);
+            request.getSession().setAttribute("profile", profile);
+            response.sendRedirect(request.getContextPath() + "/");
+        }
+
     }
 
     private Profile parseRequest(HttpServletRequest request) {

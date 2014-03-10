@@ -35,7 +35,6 @@ public class TwitterSigninServlet extends HttpServlet {
         } catch (TwitterException e) {
             throw new RuntimeException("Unable to get Twitter Authentication Url. Exception is: "+e);
         }
-
     }
 
 }
