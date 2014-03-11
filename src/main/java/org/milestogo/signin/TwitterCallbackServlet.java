@@ -48,8 +48,8 @@ public class TwitterCallbackServlet extends HttpServlet {
                 if(existingSocialConnection.getProfile() == null){
                     response.sendRedirect(request.getContextPath() + "/profiles/new?connectionId=" + connectionId);
                 }else{
-                    request.getSession().setAttribute("profile", existingSocialConnection.getProfile());
-                    response.sendRedirect(request.getContextPath() + "/");
+                    request.getSession().setAttribute("username", existingSocialConnection.getProfile().getUsername());
+                    response.sendRedirect(request.getContextPath() + "/home");
                 }
             } else {
                 SocialConnection socialConnection = new SocialConnection(oAuthAccessToken.getToken(), oAuthAccessToken.getTokenSecret(), SocialProvider.TWITTER, oAuthAccessToken.getScreenName(), connectionId);
