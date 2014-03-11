@@ -113,8 +113,8 @@ public class Profile implements Serializable {
         this.city = profileForm.getCity();
         this.country = profileForm.getCountry();
         this.fullname = profileForm.getFullname();
-        this.gender = Gender.fromStringToGender(profileForm.getGender());
-        this.goalUnit = GoalUnit.fromStringToGoalUnit(profileForm.getGoalUnit());
+        this.gender = profileForm.getGender();
+        this.goalUnit = profileForm.getGoalUnit();
         this.goal = profileForm.getGoal() * this.goalUnit.getConversion();
         this.profilePic = profileForm.getProfilePic();
     }

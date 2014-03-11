@@ -1,6 +1,7 @@
 package org.milestogo.resources.api;
 
 import org.milestogo.domain.Activity;
+import org.milestogo.domain.ActivityDetails;
 import org.milestogo.domain.Profile;
 import org.milestogo.resources.vo.Progress;
 import org.milestogo.services.ActivityService;
@@ -37,11 +38,13 @@ public class ActivityResource {
     private Logger logger;
     @Inject
     private ProfileService profileService;
+    @Context
+    private HttpServletRequest request;
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response createNewStatus(@Context HttpServletRequest request, @Valid final Activity activity) {
+    public Response createNewStatus(@Valid final Activity activity) {
         HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("username") == null) {
             return Response.status(Response.Status.UNAUTHORIZED).build();
@@ -61,14 +64,14 @@ public class ActivityResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Activity> list(@Context HttpServletRequest request, @QueryParam("start") int start, @QueryParam("max") int max) {
+    public List<ActivityDetails> list(@QueryParam("start") int start, @QueryParam("max") int max) {
         HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("username") == null) {
             return null;
         }
         String username = (String) session.getAttribute("username");
         Profile loggedInUser = profileService.findProfile(username);
-        max = max == 0 || max > 10 ? 10 : max;
+        max = max == 0 || max > 100 ? 100 : max;
         return activityService.findAll(loggedInUser, start, max);
     }
 

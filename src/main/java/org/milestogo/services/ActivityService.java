@@ -1,6 +1,7 @@
 package org.milestogo.services;
 
 import org.milestogo.domain.Activity;
+import org.milestogo.domain.ActivityDetails;
 import org.milestogo.domain.Profile;
 import org.milestogo.exceptions.ActivityNotFoundException;
 
@@ -43,9 +44,8 @@ public class ActivityService {
     }
 
 
-    public List<Activity> findAll(Profile postedBy, int start, int max) {
-        TypedQuery<Activity> query = entityManager.createQuery(
-                "SELECT new Activity(g.id,g.status,g.distanceCovered) from Activity g WHERE g.postedBy =:postedBy ORDER BY g.postedAt DESC", Activity.class);
+    public List<ActivityDetails> findAll(Profile postedBy, int start, int max) {
+        TypedQuery<ActivityDetails> query = entityManager.createNamedQuery("Activity.findAll", ActivityDetails.class);
         query.setFirstResult(start);
         query.setMaxResults(max);
         query.setParameter("postedBy", postedBy);

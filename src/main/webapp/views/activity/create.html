@@ -1,6 +1,55 @@
-<form class="form-horizontal" role="form" id="activityForm" ng-submit="save()">
-    <input type="number" name="distanceCovered" id="distanceCovered" class="form-control" placeholder="Distance covered" ng-model="activity.distanceCovered" min="0"
-           step="1" required>
-    <textarea class="form-control" name="status" id="status" rows="5" placeholder="How you are feeling?" ng-model="activity.status" required></textarea>
-    <button class="btn btn-lg btn-primary btn-block" type="submit">Post Activity</button>
+<form id="activityForm" class="form-horizontal" role="form" ng-submit="save()">
+    <fieldset>
+        <legend>Post New Activity</legend>
+        <div class="form-group">
+            <label class="col-md-2 control-label" for="activityDate">Activity Date</label>
+
+            <div class="col-md-6">
+                <input id="activityDate" name="activityDate" type="date" placeholder="Date on which activity was performed"
+                       class="form-control input-md" ng-model="activity.activityDate" value="{{todayDate | date:'MM/dd/yyyy'}}" max="{{todayDate | date:'MM/dd/yyyy'}}" required>
+            </div>
+
+        </div>
+        <div class="form-group">
+            <label class="col-md-2 control-label" for="distanceCovered">Distance</label>
+
+            <div class="col-md-3">
+                <input id="distanceCovered" name="distanceCovered" type="number" placeholder="Distance covered"
+                       class="form-control input-md" ng-model="activity.distanceCovered" min="0" step="1" required>
+            </div>
+            <div class="col-md-3">
+                <label class="radio-inline pull-left" for="kms">
+                    <input type="radio"  name="goalUnit" id="kms" value="KMS" ng-model="activity.goalUnit" checked="checked">
+                    km
+                </label>
+                <label class="radio-inline pull-left" for="miles">
+                    <input type="radio" name="goalUnit" id="miles" value="MILES" ng-model="activity.goalUnit">
+                    miles
+                </label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-2 control-label" for="status">How did it go?</label>
+
+            <div class="col-md-6">
+                <textarea class="form-control" name="status" id="status" rows="5" placeholder="How you are feeling?" class="form-control input-md"  ng-model="activity.status" required></textarea>
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-6">
+                    <label class="checkbox-inline pull-left" for="share">
+                        <input type="checkbox" id="share" name="share" ng-model="activity.share">Share on social networks
+                    </label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-4 pull-left">
+                <button class="btn btn-primary btn-block" type="submit">Post Activity</button>
+            </div>
+        </div>
+
+    </fieldset>
 </form>

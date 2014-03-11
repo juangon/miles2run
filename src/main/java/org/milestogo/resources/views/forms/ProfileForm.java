@@ -1,5 +1,8 @@
 package org.milestogo.resources.views.forms;
 
+import org.milestogo.domain.Gender;
+import org.milestogo.domain.GoalUnit;
+
 import javax.ws.rs.FormParam;
 
 /**
@@ -26,13 +29,13 @@ public class ProfileForm {
     private String country;
 
     @FormParam("gender")
-    private String gender;
+    private Gender gender;
 
     @FormParam("goal")
     private long goal;
 
     @FormParam("goalUnit")
-    private String goalUnit;
+    private GoalUnit goalUnit;
 
     @FormParam("profilePic")
     private String profilePic;
@@ -88,11 +91,11 @@ public class ProfileForm {
         this.country = country;
     }
 
-    public String getGender() {
+    public Gender getGender() {
         return gender;
     }
 
-    public void setGender(String gender) {
+    public void setGender(Gender gender) {
         this.gender = gender;
     }
 
@@ -104,11 +107,11 @@ public class ProfileForm {
         this.goal = goal;
     }
 
-    public String getGoalUnit() {
+    public GoalUnit getGoalUnit() {
         return goalUnit;
     }
 
-    public void setGoalUnit(String goalUnit) {
+    public void setGoalUnit(GoalUnit goalUnit) {
         this.goalUnit = goalUnit;
     }
 

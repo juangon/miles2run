@@ -4,7 +4,7 @@ package org.milestogo.domain;
  * Created by shekhargulati on 07/03/14.
  */
 public enum Gender {
-    MALE("male"), FEMALE("female");
+    MALE("MALE"), FEMALE("FEMALE");
 
     private final String gender;
 

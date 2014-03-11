@@ -9,16 +9,16 @@ import org.junit.Test;
 public class GoalUnitTest {
     @Test
     public void testFromStringToGoalUnitForMiles() throws Exception {
-        Assert.assertEquals(GoalUnit.MILES, GoalUnit.fromStringToGoalUnit("miles"));
+        Assert.assertEquals(GoalUnit.MILES, GoalUnit.fromStringToGoalUnit("MILES"));
     }
 
     @Test
     public void testFromStringToGoalUnitsForKms() throws Exception {
-        Assert.assertEquals(GoalUnit.KMS, GoalUnit.fromStringToGoalUnit("kms"));
+        Assert.assertEquals(GoalUnit.KMS, GoalUnit.fromStringToGoalUnit("KMS"));
     }
 
     @Test
     public void testCheckForInvalidValue() throws Exception {
-        Assert.assertEquals(null, GoalUnit.fromStringToGoalUnit("kmsz"));
+        Assert.assertEquals(null, GoalUnit.fromStringToGoalUnit("KMZ"));
     }
 }

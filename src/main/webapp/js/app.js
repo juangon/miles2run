@@ -28,6 +28,8 @@ function ActivityListController($scope, Activity) {
 function ActivityCreateController($scope, $routeParams, $location, $http, Activity) {
 
     $scope.activity = new Activity();
+    $scope.todayDate = new Date();
+    $scope.activity.goalUnit = "KMS";
 
     $scope.save = function () {
         console.log($scope.activity);

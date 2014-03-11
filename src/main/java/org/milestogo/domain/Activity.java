@@ -9,6 +9,9 @@ import java.util.Date;
  * Created by shekhargulati on 04/03/14.
  */
 @Entity
+@NamedQueries({
+        @NamedQuery(name = "Activity.findAll",query = "SELECT NEW org.milestogo.domain.ActivityDetails(a.id,a.status,a.distanceCovered,a.goalUnit,a.activityDate,a.share,a.postedBy.fullname) FROM Activity a WHERE a.postedBy =:postedBy ORDER BY a.postedAt DESC")
+})
 public class Activity {
 
     @Id
@@ -22,16 +25,26 @@ public class Activity {
     @NotNull
     private long distanceCovered;
 
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private GoalUnit goalUnit;
+
     @Column(updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date postedAt = new Date();
 
+    @Temporal(TemporalType.DATE)
+    private Date activityDate;
+
     @ManyToOne
     private Profile postedBy;
+
+    private boolean share;
 
 
     public Activity() {
     }
+
 
     public Activity(String status, long distanceCovered, Profile postedBy) {
         this.status = status;
@@ -56,6 +69,10 @@ public class Activity {
         return id;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String getStatus() {
         return status;
     }
@@ -72,8 +89,28 @@ public class Activity {
         this.distanceCovered = distanceCovered;
     }
 
+    public GoalUnit getGoalUnit() {
+        return goalUnit;
+    }
+
+    public void setGoalUnit(GoalUnit goalUnit) {
+        this.goalUnit = goalUnit;
+    }
+
     public Date getPostedAt() {
         return postedAt;
+    }
+
+    public void setPostedAt(Date postedAt) {
+        this.postedAt = postedAt;
+    }
+
+    public Date getActivityDate() {
+        return activityDate;
+    }
+
+    public void setActivityDate(Date activityDate) {
+        this.activityDate = activityDate;
     }
 
     public Profile getPostedBy() {
@@ -83,4 +120,13 @@ public class Activity {
     public void setPostedBy(Profile postedBy) {
         this.postedBy = postedBy;
     }
+
+    public boolean isShare() {
+        return share;
+    }
+
+    public void setShare(boolean share) {
+        this.share = share;
+    }
+
 }

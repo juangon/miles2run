@@ -4,7 +4,7 @@ package org.milestogo.domain;
  * Created by shekhargulati on 07/03/14.
  */
 public enum GoalUnit {
-    KMS("kms", 1000), MILES("miles", 1609);
+    KMS("KMS", 1000), MILES("MILES", 1609);
 
     private final String unit;
     private final long conversion;
