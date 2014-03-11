@@ -1,6 +1,6 @@
 .timeline {
     list-style: none;
-    padding: 20px 0 20px;
+    padding: 10px 0 10px;
     position: relative;
     text-align: left;
 }
@@ -11,11 +11,11 @@
     content: " ";
     width: 3px;
     background-color: #eeeeee;
-    right: 25px;
+    right: 10px;
     margin-left: -1.5px;
 }
 .timeline > li {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     position: relative;
 }
 .timeline > li:before,
@@ -39,7 +39,7 @@
     float: left;
     border: 1px solid #d4d4d4;
     border-radius: 2px;
-    padding: 20px;
+    padding: 10px;
     position: relative;
     -webkit-box-shadow: 0 1px 6px rgba(0, 0, 0, 0.175);
     box-shadow: 0 1px 6px rgba(0, 0, 0, 0.175);
@@ -124,4 +124,9 @@
 }
 .timeline-body > p + p {
     margin-top: 5px;
+}
+
+.timeline-footer{
+    padding:5px;
+    /*background-color:#D3D3D3;*/
 }

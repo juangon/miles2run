@@ -6,6 +6,10 @@ body {
     text-align: center;
 }
 
+.appnav{
+    text-align: left;
+}
+
 div[class*='activity-']{
     border: ridge;
 }
