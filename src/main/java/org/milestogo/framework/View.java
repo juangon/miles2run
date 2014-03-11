@@ -84,7 +84,9 @@ public class View implements Viewable {
         TemplateEngine templateEngine = new TemplateEngine();
         templateEngine.setTemplateResolver(templateResolver);
         WebContext context = new WebContext(request, response, request.getServletContext());
-        context.setVariable(this.modelName, this.model);
+        if(this.model != null){
+            context.setVariable(this.modelName, this.model);
+        }
         if (errors != null && !errors.isEmpty()) {
             context.setVariable("errors", errors);
         }

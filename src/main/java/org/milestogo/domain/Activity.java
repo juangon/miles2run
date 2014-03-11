@@ -10,7 +10,7 @@ import java.util.Date;
  */
 @Entity
 @NamedQueries({
-        @NamedQuery(name = "Activity.findAll",query = "SELECT NEW org.milestogo.domain.ActivityDetails(a.id,a.status,a.distanceCovered,a.goalUnit,a.activityDate,a.share,a.postedBy.fullname) FROM Activity a WHERE a.postedBy =:postedBy ORDER BY a.postedAt DESC")
+        @NamedQuery(name = "Activity.findAll", query = "SELECT NEW org.milestogo.domain.ActivityDetails(a.id,a.status,a.distanceCovered,a.goalUnit,a.activityDate,a.share,a.postedBy.fullname) FROM Activity a WHERE a.postedBy =:postedBy ORDER BY a.postedAt DESC")
 })
 public class Activity {
 
@@ -23,11 +23,11 @@ public class Activity {
     private String status;
 
     @NotNull
-    private long distanceCovered;
-
-    @NotNull
     @Enumerated(EnumType.STRING)
     private GoalUnit goalUnit;
+
+    @NotNull
+    private long distanceCovered;
 
     @Column(updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
@@ -40,7 +40,6 @@ public class Activity {
     private Profile postedBy;
 
     private boolean share;
-
 
     public Activity() {
     }

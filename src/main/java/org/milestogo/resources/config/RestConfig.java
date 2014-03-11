@@ -3,6 +3,7 @@ package org.milestogo.resources.config;
 import org.milestogo.framework.ViewWriter;
 import org.milestogo.resources.api.ActivityResource;
 import org.milestogo.resources.api.ProgressResource;
+import org.milestogo.resources.views.AboutView;
 import org.milestogo.resources.views.HomeView;
 import org.milestogo.resources.views.ProfileView;
 
@@ -20,6 +21,7 @@ public class RestConfig extends Application {
         classes.add(ActivityResource.class);
         classes.add(ProgressResource.class);
         classes.add(ViewWriter.class);
+        classes.add(AboutView.class);
         return classes;
     }
 }

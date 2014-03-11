@@ -44,13 +44,14 @@ public class ActivityResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response createNewStatus(@Valid final Activity activity) {
+    public Response postNewActivity(@Valid final Activity activity) {
         HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("username") == null) {
             return Response.status(Response.Status.UNAUTHORIZED).build();
         }
         String username = (String) session.getAttribute("username");
         Profile profile = profileService.findProfile(username);
+        activity.setDistanceCovered(activity.getDistanceCovered() * activity.getGoalUnit().getConversion());
         activityService.save(activity, profile);
         return Response.status(Response.Status.CREATED).build();
     }

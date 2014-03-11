@@ -11,7 +11,8 @@ public class Progress {
     public Progress(long goal, long totalDistanceCovered) {
         this.goal = goal;
         this.totalDistanceCovered = totalDistanceCovered;
-        this.percentage = ((double)totalDistanceCovered / goal) * 100;
+        this.percentage = ((double)totalDistanceCovered / goal) * 100 ;
+        this.percentage = this.percentage > 100 ? 100 : this.percentage;
     }
 
     public Progress() {

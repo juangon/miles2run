@@ -24,8 +24,8 @@ public class ActivityDetails {
     public ActivityDetails(Long id, String status, long distanceCovered, GoalUnit goalUnit, Date activityDate, boolean share, String fullname) {
         this.id = id;
         this.status = status;
-        this.distanceCovered = distanceCovered;
         this.goalUnit = goalUnit;
+        this.distanceCovered = distanceCovered/goalUnit.getConversion();
         this.activityDate = activityDate;
         this.share = share;
         this.fullname = fullname;
