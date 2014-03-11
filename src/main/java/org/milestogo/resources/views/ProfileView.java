@@ -63,7 +63,7 @@ public class ProfileView {
             String twitterProfilePic = user.getOriginalProfileImageURL();
             twitterProfilePic = UrlUtils.removeProtocol(twitterProfilePic);
             ProfileVo profile = new ProfileVo(user.getScreenName(), user.getName(), user.getDescription(), connectionId, twitterProfilePic);
-            return new View("/createProfile.html", profile, "profile");
+            return new View("/createProfile", profile, "profile");
         } catch (TwitterException e) {
             throw new RuntimeException(e);
         }
@@ -86,6 +86,7 @@ public class ProfileView {
         profileService.save(profile);
         socialConnectionService.update(profile, profileForm.getConnectionId());
         request.getSession().setAttribute("username", profile.getUsername());
+        request.getSession().setAttribute("connectionId", profileForm.getConnectionId());
         return new View("/home", true);
     }
 
@@ -93,15 +94,9 @@ public class ProfileView {
     @GET
     @Path("/{username}")
     @Produces("text/html")
-    public String viewUserProfile(@PathParam("username") String username) {
-        ServletContextTemplateResolver templateResolver = new ServletContextTemplateResolver();
-        templateResolver.setTemplateMode("HTML5");
-        TemplateEngine templateEngine = new TemplateEngine();
-        templateEngine.setTemplateResolver(templateResolver);
-        WebContext context = new WebContext(request, response, request.getServletContext());
+    public View viewUserProfile(@PathParam("username") String username) {
         Profile profile = profileService.findProfileByUsername(username);
         logger.info(String.format("Profile with %s : %s", username, profile.toString()));
-        context.setVariable("profile", profile);
-        return templateEngine.process("/profile.html", context);
+        return new View("/profile", profile, "profile");
     }
 }

@@ -29,7 +29,6 @@ public class ViewResolver {
         if (object instanceof Viewable) {
             return (Viewable) object;
         }
-
         return null;
     }
 

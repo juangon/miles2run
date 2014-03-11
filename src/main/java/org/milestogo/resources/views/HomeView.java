@@ -31,6 +31,6 @@ public class HomeView {
         }
         String username = (String) session.getAttribute("username");
         Profile profile = profileService.findProfileByUsername(username);
-        return new View("/home.html", profile, "profile");
+        return new View("/home", profile, "profile");
     }
 }

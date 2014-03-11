@@ -81,10 +81,13 @@ public class View implements Viewable {
             throws IOException, ServletException, WebApplicationException {
         ServletContextTemplateResolver templateResolver = new ServletContextTemplateResolver();
         templateResolver.setTemplateMode("LEGACYHTML5");
+        templateResolver.setPrefix("/WEB-INF/templates");
+        templateResolver.setSuffix(".html");
+        templateResolver.setCacheTTLMs(3600000L);
         TemplateEngine templateEngine = new TemplateEngine();
         templateEngine.setTemplateResolver(templateResolver);
         WebContext context = new WebContext(request, response, request.getServletContext());
-        if(this.model != null){
+        if (this.model != null) {
             context.setVariable(this.modelName, this.model);
         }
         if (errors != null && !errors.isEmpty()) {

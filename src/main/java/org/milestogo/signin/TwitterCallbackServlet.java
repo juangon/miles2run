@@ -45,10 +45,11 @@ public class TwitterCallbackServlet extends HttpServlet {
             connectionId = String.valueOf(twitter.getId());
             SocialConnection existingSocialConnection = socialConnectionService.findByConnectionId(connectionId);
             if (existingSocialConnection != null) {
-                if(existingSocialConnection.getProfile() == null){
+                if (existingSocialConnection.getProfile() == null) {
                     response.sendRedirect(request.getContextPath() + "/profiles/new?connectionId=" + connectionId);
-                }else{
+                } else {
                     request.getSession().setAttribute("username", existingSocialConnection.getProfile().getUsername());
+                    request.getSession().setAttribute("connectionId", connectionId);
                     response.sendRedirect(request.getContextPath() + "/home");
                 }
             } else {

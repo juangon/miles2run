@@ -6,6 +6,7 @@ import org.milestogo.domain.Profile;
 import org.milestogo.resources.vo.Progress;
 import org.milestogo.services.ActivityService;
 import org.milestogo.services.ProfileService;
+import org.milestogo.services.TwitterService;
 
 import java.util.List;
 import java.util.logging.Logger;
@@ -40,6 +41,8 @@ public class ActivityResource {
     private ProfileService profileService;
     @Context
     private HttpServletRequest request;
+    @Inject
+    private TwitterService twitterService;
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -53,6 +56,10 @@ public class ActivityResource {
         Profile profile = profileService.findProfile(username);
         activity.setDistanceCovered(activity.getDistanceCovered() * activity.getGoalUnit().getConversion());
         activityService.save(activity, profile);
+        if(activity.isShare()){
+            String connectionId = (String)session.getAttribute("connectionId");
+            twitterService.postStatus(activity.getStatus(),connectionId);
+        }
         return Response.status(Response.Status.CREATED).build();
     }
 

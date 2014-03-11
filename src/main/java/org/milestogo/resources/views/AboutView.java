@@ -15,6 +15,6 @@ public class AboutView {
     @GET
     @Produces("text/html")
     public View about(){
-        return new View("/about.html");
+        return new View("/about");
     }
 }

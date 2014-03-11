@@ -8,10 +8,12 @@
 
     <title>MilesToGo</title>
 
-    <link href="css/bootstrap.css" rel="stylesheet">
-    <link href="css/toastr.css" rel="stylesheet">
-    <link href="css/main.css" rel="stylesheet">
-    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+    <link href="/css/bootstrap.css" th:href="@{/css/bootstrap.css}" rel="stylesheet"/>
+    <link href="/css/main.css" th:href="@{/css/main.css}" rel="stylesheet"/>
+    <link href="/css/toastr.css" th:href="@{/css/toastr.css}" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet"/>
+
+
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -69,12 +71,12 @@
     </div>
 </div>
 
+<script src="/js/jquery.js" th:src="@{/js/jquery.js}"></script>
+<script src="/js/bootstrap.js" th:src="@{/js/bootstrap.js}"></script>
+<script src="/js/angular.js" th:src="@{/js/angular.js}"></script>
+<script src="/js/angular-resource.js" th:src="@{/js/angular-resource.js}"></script>
+<script src="/js/toastr.js.js" th:src="@{/js/toastr.js}"></script>
+<script src="/js/app.js" th:src="@{/js/app.js}"></script>
 
-<script src="js/jquery.js"></script>
-<script src="js/bootstrap.js"></script>
-<script src="js/angular.js"></script>
-<script src="js/angular-resource.js"></script>
-<script src="js/toastr.js"></script>
-<script src="js/app.js"></script>
 </body>
 </html>
