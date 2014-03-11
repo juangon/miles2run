@@ -1,60 +1,63 @@
 angular.module("milestogo.services", ["ngResource"]).
-    factory('Status', function ($resource) {
-        var Status = $resource('app/api/status/:statusId', {statusId: '@id'});
-        Status.prototype.isNew = function () {
+    factory('Activity', function ($resource) {
+        var Activity = $resource('api/v1/activities/:activityId', {activityId: '@id'});
+        Activity.prototype.isNew = function () {
             return (typeof(this.id) === 'undefined');
         };
-        return Status;
+        return Activity;
     });
 
 angular.module("milestogo", ["milestogo.services"]).
     config(function ($routeProvider) {
         $routeProvider
-            .when('/', {templateUrl: 'views/status/list.html', controller: StatusListController})
-            .when('/status/new', {templateUrl: 'views/status/create.html', controller: StatusCreateController})
-            .when('/status/progress', {templateUrl: 'views/status/progress.html', controller: StatusProgressController})
-            .when('/status/:statusId', {templateUrl: 'views/status/detail.html', controller: StatusDetailController})
-            .when('/status/edit/:statusId', {templateUrl: 'views/status/create.html', controller: StatusDetailController})
+            .when('/', {templateUrl: 'views/activity/list.html', controller: ActivityListController})
+            .when('/activity/new', {templateUrl: 'views/activity/create.html', controller: ActivityCreateController})
+            .when('/activity/progress', {templateUrl: 'views/activity/progress.html', controller: ActivityProgressController})
+            .when('/activity/:activityId', {templateUrl: 'views/activity/detail.html', controller: ActivityDetailController})
+            .when('/activity/edit/:activityId', {templateUrl: 'views/activity/create.html', controller: ActivityDetailController})
             .otherwise({
                 redirectTo: '/'
             });
     });
 
-function StatusListController($scope, Status) {
-    $scope.statuses = Status.query();
+function ActivityListController($scope, Activity) {
+    $scope.activities = Activity.query();
 
 }
 
-function StatusCreateController($scope, $routeParams, $location, $http, Status) {
+function ActivityCreateController($scope, $routeParams, $location, $http, Activity) {
 
-    $scope.status = new Status();
+    $scope.activity = new Activity();
+
     $scope.save = function () {
-        console.log($scope.status);
-        $scope.status.$save(function (status, headers) {
-            toastr.success("Posted new status");
+        console.log($scope.activity);
+        $scope.activity.$save(function (activity, headers) {
+            toastr.success("Posted new activity");
             $location.path('/');
         });
     };
 }
 
 
-function StatusDetailController($scope, $routeParams, $location, Status) {
-    var statusId = $routeParams.statusId;
+function ActivityDetailController($scope, $routeParams, $location, Activity) {
+    var activityId = $routeParams.activityId;
 
-    $scope.status = Status.get({statusId: statusId});
+    $scope.activity = Activity.get({activityId: activityId});
 
     $scope.save = function () {
-        console.log($scope.status);
-        $scope.status.$save(function (status, headers) {
-            toastr.success("Updated new status");
+
+        console.log($scope.activity);
+
+        $scope.activity.$save(function (activity, headers) {
+            toastr.success("Updated new activity");
             $location.path('/');
         });
     };
 }
 
 
-function StatusProgressController($scope, $http) {
-    $http({method: 'GET', url: 'app/api/progress'}).success(function (data, status) {
+function ActivityProgressController($scope, $http) {
+    $http({method: 'GET', url: 'api/v1/progress'}).success(function (data, status) {
         $scope.status = status;
         $scope.data = data;
         $scope.style = "width:" + data.percentage + "%";

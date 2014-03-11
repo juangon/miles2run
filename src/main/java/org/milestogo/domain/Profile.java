@@ -51,19 +51,21 @@ public class Profile implements Serializable {
     @NotNull
     private String country;
 
+    @Enumerated(EnumType.STRING)
     private Gender gender;
 
     @NotNull
     private long goal;
 
     @NotNull
+    @Enumerated(EnumType.STRING)
     private GoalUnit goalUnit;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "profile")
     private final List<SocialConnection> socialConnections = new ArrayList<>();
 
     @OneToMany(mappedBy = "postedBy", fetch = FetchType.LAZY)
-    private final List<GoalStatus> statuses = new ArrayList<>();
+    private final List<Activity> activities = new ArrayList<>();
 
     @Temporal(TemporalType.DATE)
     @NotNull
@@ -177,8 +179,8 @@ public class Profile implements Serializable {
         return socialConnections;
     }
 
-    public List<GoalStatus> getStatuses() {
-        return statuses;
+    public List<Activity> getActivities() {
+        return activities;
     }
 
     public Date getRegisteredOn() {

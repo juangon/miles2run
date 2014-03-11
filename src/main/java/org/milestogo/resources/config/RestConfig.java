@@ -1,6 +1,8 @@
 package org.milestogo.resources.config;
 
 import org.milestogo.framework.ViewWriter;
+import org.milestogo.resources.api.ActivityResource;
+import org.milestogo.resources.api.ProgressResource;
 import org.milestogo.resources.views.HomeView;
 import org.milestogo.resources.views.ProfileView;
 
@@ -15,6 +17,8 @@ public class RestConfig extends Application {
         Set<Class<?>> classes = new HashSet<>();
         classes.add(HomeView.class);
         classes.add(ProfileView.class);
+        classes.add(ActivityResource.class);
+        classes.add(ProgressResource.class);
         classes.add(ViewWriter.class);
         return classes;
     }

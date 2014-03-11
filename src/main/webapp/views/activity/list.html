@@ -1,0 +1,15 @@
+<div class="panel panel-default">
+    <!-- Default panel contents -->
+    <div class="panel-heading">Timeline</div>
+
+    <div class="list-group">
+        <a href="#/activity/edit/{{activity.id}}" class="list-group-item" style="text-align: left" ng-repeat="activity in activities">
+            <h4 class="list-group-item-heading">You ran {{activity.distanceCovered}} meters</h4>
+
+            <p class="list-group-item-text">
+                {{activity.status}}
+            </p>
+        </a>
+    </div>
+</div>
+

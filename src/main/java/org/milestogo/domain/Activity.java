@@ -9,7 +9,7 @@ import java.util.Date;
  * Created by shekhargulati on 04/03/14.
  */
 @Entity
-public class GoalStatus {
+public class Activity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -30,22 +30,22 @@ public class GoalStatus {
     private Profile postedBy;
 
 
-    public GoalStatus() {
+    public Activity() {
     }
 
-    public GoalStatus(String status, long distanceCovered, Profile postedBy) {
+    public Activity(String status, long distanceCovered, Profile postedBy) {
         this.status = status;
         this.distanceCovered = distanceCovered;
         this.postedBy = postedBy;
     }
 
-    public GoalStatus(Long id, String status, long distanceCovered) {
+    public Activity(Long id, String status, long distanceCovered) {
         this.id = id;
         this.status = status;
         this.distanceCovered = distanceCovered;
     }
 
-    public GoalStatus(Long id, String status, long distanceCovered, Date postedAt) {
+    public Activity(Long id, String status, long distanceCovered, Date postedAt) {
         this.id = id;
         this.status = status;
         this.distanceCovered = distanceCovered;

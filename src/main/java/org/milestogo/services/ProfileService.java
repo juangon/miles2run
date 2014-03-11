@@ -26,6 +26,14 @@ public class ProfileService {
         entityManager.persist(profile);
     }
 
+    public Profile findProfile(String username) {
+        try {
+            return entityManager.createQuery("select p from Profile p where p.username =:username", Profile.class).setParameter("username", username).getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+
     public Profile findProfileByUsername(String username) {
         TypedQuery<Profile> query = entityManager.createNamedQuery("Profile.findByUsername", Profile.class);
         query.setParameter("username", username);
