@@ -1,15 +1,19 @@
-<div class="panel panel-default">
-    <!-- Default panel contents -->
-    <div class="panel-heading">Timeline</div>
-
-    <div class="list-group">
-        <a href="#/activity/edit/{{activity.id}}" class="list-group-item" style="text-align: left" ng-repeat="activity in activities">
-            <h4 class="list-group-item-heading">{{activity.fullname}} ran {{activity.distanceCovered}} {{activity.goalUnit | lowercase}}</h4>
-
-            <p class="list-group-item-text">
-                {{activity.status}}
-            </p>
-        </a>
-    </div>
-</div>
-
+<ul class="timeline">
+    <li ng-repeat="activity in activities">
+        <div ng-show="activity.share"  class="timeline-badge success">
+            <i class="fa fa-twitter"></i>
+        </div>
+        <div ng-hide="activity.share" class="timeline-badge info">
+            <i class="glyphicon glyphicon-share"></i>
+        </div>
+        <div class="timeline-panel">
+            <div class="timeline-heading">
+                <h4 class="timeline-title">{{activity.fullname}} ran {{activity.distanceCovered}} {{activity.goalUnit | lowercase}}</h4>
+                <p><small class="text-muted"><i class="glyphicon glyphicon-calendar"></i> {{activity.activityDate | date:'MMM dd, yyyy'}}</small></p>
+            </div>
+            <div class="timeline-body">
+                <p>{{activity.status}}</p>
+            </div>
+        </div>
+    </li>
+</ul>
