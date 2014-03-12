@@ -8,6 +8,8 @@ import org.milestogo.framework.View;
 import org.milestogo.resources.vo.ProfileVo;
 import org.milestogo.services.ProfileService;
 import org.milestogo.services.SocialConnectionService;
+import org.milestogo.utils.CityAndCountry;
+import org.milestogo.utils.GeocoderUtils;
 import org.milestogo.utils.UrlUtils;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
@@ -62,7 +64,8 @@ public class ProfileView {
             User user = twitter.showUser(Long.valueOf(connectionId));
             String twitterProfilePic = user.getOriginalProfileImageURL();
             twitterProfilePic = UrlUtils.removeProtocol(twitterProfilePic);
-            ProfileVo profile = new ProfileVo(user.getScreenName(), user.getName(), user.getDescription(), connectionId, twitterProfilePic);
+            CityAndCountry cityAndCountry = GeocoderUtils.parseLocation(user.getLocation());
+            ProfileVo profile = new ProfileVo(user.getScreenName(), user.getName(), user.getDescription(), connectionId, twitterProfilePic, cityAndCountry.getCity(), cityAndCountry.getCountry());
             return new View("/createProfile", profile, "profile");
         } catch (TwitterException e) {
             throw new RuntimeException(e);
@@ -80,7 +83,7 @@ public class ProfileView {
             errors.add(String.format("User already exist with username %s", profileForm.getUsername()));
         }
         if (!errors.isEmpty()) {
-            return new View("/createProfile.html", profileForm, "profile", errors);
+            return new View("/createProfile", profileForm, "profile", errors);
         }
         Profile profile = new Profile(profileForm);
         profileService.save(profile);
