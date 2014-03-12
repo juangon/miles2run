@@ -32,7 +32,7 @@
             <label class="col-md-2 control-label" for="status">How did it go?</label>
 
             <div class="col-md-6">
-                <textarea class="form-control" name="status" id="status" rows="5" placeholder="How you are feeling?" class="form-control input-md"  ng-model="activity.status" required></textarea>
+                <textarea class="form-control" name="status" id="status" rows="5" placeholder="How you are feeling?(max 140 characters)" class="form-control input-md"  maxlength="140" title="You can enter at max 140 characters" ng-model="activity.status"></textarea>
 
             </div>
         </div>

@@ -30,6 +30,7 @@ public class ProfileService {
         try {
             return entityManager.createQuery("select p from Profile p where p.username =:username", Profile.class).setParameter("username", username).getSingleResult();
         } catch (NoResultException e) {
+            logger.fine(String.format("No user found with username: %s", username));
             return null;
         }
     }

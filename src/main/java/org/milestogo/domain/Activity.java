@@ -18,7 +18,6 @@ public class Activity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @NotNull
     @Size(max = 140)
     private String status;
 
