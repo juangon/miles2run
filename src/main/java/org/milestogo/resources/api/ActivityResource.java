@@ -66,7 +66,7 @@ public class ActivityResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id}")
-    public Activity get(@NotNull @PathParam("id") Long id) {
+    public ActivityDetails get(@NotNull @PathParam("id") Long id) {
         return activityService.readById(id);
     }
 
@@ -88,7 +88,7 @@ public class ActivityResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id}")
     public Response updateStatus(@PathParam("id") Long id, @Valid Activity activity) {
-        Activity updatedActivity = activityService.update(id, activity);
+        ActivityDetails updatedActivity = activityService.update(id, activity);
         return Response.status(Response.Status.OK).entity(updatedActivity).build();
     }
 

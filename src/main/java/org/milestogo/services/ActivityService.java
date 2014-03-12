@@ -10,6 +10,7 @@ import javax.ejb.TransactionAttributeType;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import javax.validation.constraints.NotNull;
@@ -33,10 +34,13 @@ public class ActivityService {
         return activity;
     }
 
-    public Activity readById(@NotNull Long id) {
-        TypedQuery<Activity> query = entityManager.createQuery("SELECT new Activity(c.id,c.status,c.distanceCovered,c.postedAt) from Activity c where id =:id", Activity.class);
-        query.setParameter("id", id);
-        return query.getSingleResult();
+    public ActivityDetails readById(@NotNull Long id) {
+        TypedQuery<ActivityDetails> query = entityManager.createNamedQuery("Activity.findById", ActivityDetails.class).setParameter("id", id);
+        try {
+            return query.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 
     public Activity read(@NotNull Long id) {
@@ -52,7 +56,7 @@ public class ActivityService {
         return query.getResultList();
     }
 
-    public Activity update(@NotNull Long id, Activity activity) {
+    public ActivityDetails update(@NotNull Long id, Activity activity) {
         Activity existingActivity = this.read(id);
         if (existingActivity == null) {
             throw new ActivityNotFoundException("No activity found for id: " + id);
@@ -64,7 +68,7 @@ public class ActivityService {
     }
 
     public void delete(@NotNull Long id) {
-        Activity activity = this.readById(id);
+        Activity activity = this.read(id);
         if (activity == null) {
             throw new ActivityNotFoundException("No activity found for id: " + id);
         }
@@ -72,8 +76,7 @@ public class ActivityService {
     }
 
     public long findTotalDistanceCovered(Profile profile) {
-        TypedQuery<Long> query = entityManager.createQuery("SELECT SUM(g.distanceCovered) from Activity g WHERE g.postedBy =:postedBy", Long.class);
-        query.setParameter("postedBy", profile);
+        TypedQuery<Long> query = entityManager.createQuery("SELECT SUM(g.distanceCovered) from Activity g WHERE g.postedBy =:postedBy", Long.class).setParameter("postedBy", profile);;
         return query.getSingleResult();
     }
 }

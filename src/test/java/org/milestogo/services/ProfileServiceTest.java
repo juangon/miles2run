@@ -20,7 +20,7 @@ public class ProfileServiceTest {
 
     @Before
     public void setup() {
-        String unitName = "confsaysPU";
+        String unitName = "testPU";
         EntityManagerFactory emf =
                 Persistence.createEntityManagerFactory(unitName);
         this.em = emf.createEntityManager();
@@ -33,7 +33,7 @@ public class ProfileServiceTest {
     public void shouldSaveProfile() throws Exception {
         em.getTransaction().begin();
         Profile profile = profileService.save(newProfile());
-        em.getTransaction().commit();
+
         Assert.assertNotNull(profile);
         Assert.assertNotNull(profile.getId());
     }

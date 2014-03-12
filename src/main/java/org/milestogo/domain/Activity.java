@@ -10,7 +10,8 @@ import java.util.Date;
  */
 @Entity
 @NamedQueries({
-        @NamedQuery(name = "Activity.findAll", query = "SELECT NEW org.milestogo.domain.ActivityDetails(a.id,a.status,a.distanceCovered,a.goalUnit,a.activityDate,a.share,a.postedBy.fullname) FROM Activity a WHERE a.postedBy =:postedBy ORDER BY a.activityDate DESC")
+        @NamedQuery(name = "Activity.findAll", query = "SELECT NEW org.milestogo.domain.ActivityDetails(a.id,a.status,a.distanceCovered,a.goalUnit,a.activityDate,a.share,a.postedBy.fullname) FROM Activity a WHERE a.postedBy =:postedBy ORDER BY a.activityDate DESC"),
+        @NamedQuery(name = "Activity.findById", query = "SELECT new org.milestogo.domain.ActivityDetails(a.id,a.status,a.distanceCovered,a.goalUnit,a.activityDate,a.share,a.postedBy.fullname) from Activity a where a.id =:id")
 })
 public class Activity {
 
@@ -38,7 +39,7 @@ public class Activity {
     @ManyToOne
     private Profile postedBy;
 
-    @OneToOne(cascade = CascadeType.ALL ,fetch = FetchType.EAGER)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Share share;
 
     public Activity() {
