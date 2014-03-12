@@ -8,6 +8,7 @@
         <class>org.milestogo.domain.Profile</class>
         <class>org.milestogo.domain.SocialConnection</class>
         <class>org.milestogo.domain.Activity</class>
+        <class>org.milestogo.domain.Share</class>
 
         <properties>
             <property name="hibernate.show_sql" value="true" />
