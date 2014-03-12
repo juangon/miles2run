@@ -11,9 +11,9 @@ angular.module("milestogo.services", ["ngResource", "ui.bootstrap"]).
             return (typeof(this.id) === 'undefined');
         };
         return Profile;
-    }).factory('ProfileService',function(Profile){
+    }).factory('ProfileService', function (Profile) {
         return {
-            currentUser : Profile.get()
+            currentUser: Profile.get()
         };
     });
 
@@ -24,7 +24,7 @@ angular.module("milestogo", ["milestogo.services"]).
             .when('/activity/new', {templateUrl: 'views/activity/create.html', controller: ActivityCreateController})
             .when('/activity/progress', {templateUrl: 'views/activity/progress.html', controller: ActivityProgressController})
             .when('/activity/:activityId', {templateUrl: 'views/activity/detail.html', controller: ActivityDetailController})
-            .when('/activity/edit/:activityId', {templateUrl: 'views/activity/create.html', controller: ActivityDetailController})
+            .when('/activity/edit/:activityId', {templateUrl: 'views/activity/edit.html', controller: ActivityDetailController})
             .otherwise({
                 redirectTo: '/'
             });
@@ -91,20 +91,72 @@ function ActivityCreateController($scope, $routeParams, $location, $http, Activi
 }
 
 
-function ActivityDetailController($scope, $routeParams, $location, Activity) {
+function ActivityDetailController($scope, $routeParams, $location, Activity, $http) {
     var activityId = $routeParams.activityId;
-
-    $scope.activity = Activity.get({activityId: activityId});
+    $scope.activityDetails = Activity.get({activityId: activityId});
 
     $scope.save = function () {
 
-        console.log($scope.activity);
+        console.log($scope.activityDetails);
+        var activity = {
+            id: $scope.activityDetails.id,
+            status: $scope.activityDetails.status,
+            goalUnit: $scope.activityDetails.goalUnit,
+            distanceCovered: $scope.activityDetails.distanceCovered,
+            share: $scope.activityDetails.share
+        }
 
-        $scope.activity.$save(function (activity, headers) {
+        $http({method: 'PUT', data: activity, url: 'api/v1/activities/' + $scope.activityDetails.id}).success(function (data, status) {
             toastr.success("Updated new activity");
             $location.path('/');
-        });
+        }).
+            error(function (data, status) {
+                console.log(data);
+                console.log(status);
+            })
+
     };
+
+    $scope.today = function () {
+        $scope.dt = new Date();
+    };
+    $scope.today();
+
+    $scope.showWeeks = true;
+    $scope.toggleWeeks = function () {
+        $scope.showWeeks = !$scope.showWeeks;
+    };
+
+    $scope.clear = function () {
+        $scope.dt = null;
+    };
+
+    // Disable weekend selection
+    $scope.disabled = function (date, mode) {
+        return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
+    };
+
+    $scope.toggleMin = function () {
+        $scope.minDate = ( $scope.minDate ) ? null : new Date();
+    };
+    $scope.toggleMin();
+
+    $scope.open = function ($event) {
+        $event.preventDefault();
+        $event.stopPropagation();
+
+        $scope.opened = true;
+    };
+
+    $scope.dateOptions = {
+        'year-format': "'yy'",
+        'starting-day': 1
+    };
+
+    $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'shortDate'];
+    $scope.format = $scope.formats[0];
+
+
 }
 
 
