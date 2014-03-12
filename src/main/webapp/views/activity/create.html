@@ -4,9 +4,13 @@
         <div class="form-group">
             <label class="col-md-2 control-label" for="activityDate">Activity Date</label>
 
-            <div class="col-md-6">
-                <input id="activityDate" name="activityDate" type="date" placeholder="Date on which activity was performed"
-                       class="form-control input-md" ng-model="activity.activityDate" value="{{todayDate | date:'MM/dd/yyyy'}}" max="{{todayDate | date:'MM/dd/yyyy'}}" required>
+            <div class="col-md-5">
+                <input type="text" id="activityDate" name="activityDate" class="form-control" datepicker-popup="dd-MMMM-yyyy" ng-model="activity.activityDate" is-open="opened" max="minDate" datepicker-options="dateOptions" ng-required="true" close-text="Close">
+            </div>
+            <div class="col-md-offset-0 col-md-1">
+                <span class="input-group-btn">
+                    <button class="btn btn-info" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                </span>
             </div>
 
         </div>
