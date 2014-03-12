@@ -43,9 +43,10 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-6">
-                    <label class="checkbox-inline pull-left" for="share">
-                        <input type="checkbox" id="share" name="share" ng-model="activity.share">Share on social networks
-                    </label>
+                <div ng-repeat="provider in providers" class="col-md-3">
+                    <input type="checkbox" id="share-{{provider}}" name="share-{{provider}}" title="share on {{provider}}" ng-model="activity.share[provider]"> <i class="fa fa-{{provider}} fa-lg"></i>
+                </div>
+
             </div>
         </div>
 

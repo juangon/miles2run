@@ -17,11 +17,11 @@ public class ActivityDetails {
 
     private Date activityDate;
 
-    private boolean share;
+    private Share share;
 
     private String fullname;
 
-    public ActivityDetails(Long id, String status, long distanceCovered, GoalUnit goalUnit, Date activityDate, boolean share, String fullname) {
+    public ActivityDetails(Long id, String status, long distanceCovered, GoalUnit goalUnit, Date activityDate, Share share, String fullname) {
         this.id = id;
         this.status = status;
         this.goalUnit = goalUnit;
@@ -51,7 +51,7 @@ public class ActivityDetails {
         return activityDate;
     }
 
-    public boolean isShare() {
+    public Share getShare() {
         return share;
     }
 

@@ -56,7 +56,7 @@ public class ActivityResource {
         Profile profile = profileService.findProfile(username);
         activity.setDistanceCovered(activity.getDistanceCovered() * activity.getGoalUnit().getConversion());
         activityService.save(activity, profile);
-        if(activity.isShare()){
+        if(activity.getShare().isTwitter()){
             String connectionId = (String)session.getAttribute("connectionId");
             twitterService.postStatus(activity.getStatus(),connectionId);
         }

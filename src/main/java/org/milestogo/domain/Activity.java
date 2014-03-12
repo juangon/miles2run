@@ -38,7 +38,8 @@ public class Activity {
     @ManyToOne
     private Profile postedBy;
 
-    private boolean share;
+    @OneToOne(cascade = CascadeType.ALL ,fetch = FetchType.EAGER)
+    private Share share;
 
     public Activity() {
     }
@@ -119,12 +120,11 @@ public class Activity {
         this.postedBy = postedBy;
     }
 
-    public boolean isShare() {
+    public Share getShare() {
         return share;
     }
 
-    public void setShare(boolean share) {
+    public void setShare(Share share) {
         this.share = share;
     }
-
 }

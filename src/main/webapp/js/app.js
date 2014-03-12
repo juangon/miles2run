@@ -1,10 +1,20 @@
-angular.module("milestogo.services", ["ngResource","ui.bootstrap"]).
-    factory('Activity', function ($resource) {
+angular.module("milestogo.services", ["ngResource", "ui.bootstrap"]).
+    factory('Activity',function ($resource) {
         var Activity = $resource('api/v1/activities/:activityId', {activityId: '@id'});
         Activity.prototype.isNew = function () {
             return (typeof(this.id) === 'undefined');
         };
         return Activity;
+    }).factory('Profile',function ($resource) {
+        var Profile = $resource('api/v1/profiles/me');
+        Profile.prototype.isNew = function () {
+            return (typeof(this.id) === 'undefined');
+        };
+        return Profile;
+    }).factory('ProfileService',function(Profile){
+        return {
+            currentUser : Profile.get()
+        };
     });
 
 angular.module("milestogo", ["milestogo.services"]).
@@ -20,17 +30,18 @@ angular.module("milestogo", ["milestogo.services"]).
             });
     });
 
-function ActivityListController($scope, Activity) {
+function ActivityListController($scope, Activity, ProfileService) {
+    $scope.providers = ProfileService.currentUser.providers;
     $scope.activities = Activity.query();
 
 }
 
-function ActivityCreateController($scope, $routeParams, $location, $http, Activity) {
-
+function ActivityCreateController($scope, $routeParams, $location, $http, Activity, ProfileService) {
     $scope.activity = new Activity();
+    $scope.activity.share = {};
     $scope.todayDate = new Date();
     $scope.activity.goalUnit = "KMS";
-
+    $scope.providers = ProfileService.currentUser.providers;
     $scope.save = function () {
         console.log($scope.activity);
         $scope.activity.$save(function (activity, headers) {
@@ -39,14 +50,14 @@ function ActivityCreateController($scope, $routeParams, $location, $http, Activi
         });
     };
 
-    $scope.today = function() {
+    $scope.today = function () {
         $scope.dt = new Date();
     };
     $scope.today();
 
     $scope.showWeeks = true;
     $scope.toggleWeeks = function () {
-        $scope.showWeeks = ! $scope.showWeeks;
+        $scope.showWeeks = !$scope.showWeeks;
     };
 
     $scope.clear = function () {
@@ -54,16 +65,16 @@ function ActivityCreateController($scope, $routeParams, $location, $http, Activi
     };
 
     // Disable weekend selection
-    $scope.disabled = function(date, mode) {
+    $scope.disabled = function (date, mode) {
         return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
     };
 
-    $scope.toggleMin = function() {
+    $scope.toggleMin = function () {
         $scope.minDate = ( $scope.minDate ) ? null : new Date();
     };
     $scope.toggleMin();
 
-    $scope.open = function($event) {
+    $scope.open = function ($event) {
         $event.preventDefault();
         $event.stopPropagation();
 

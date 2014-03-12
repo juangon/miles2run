@@ -1,9 +1,12 @@
 <ul class="timeline">
     <li ng-repeat="activity in activities">
-        <div ng-show="activity.share"  class="timeline-badge success">
+        <div ng-show="activity.share.twitter"  class="timeline-badge success">
             <i class="fa fa-twitter"></i>
         </div>
-        <div ng-hide="activity.share" class="timeline-badge info">
+        <div ng-show="activity.share.facebook"  class="timeline-badge success">
+            <i class="fa fa-facebook"></i>
+        </div>
+        <div ng-hide="activity.share.facebook || activity.share.twitter" class="timeline-badge info">
             <i class="glyphicon glyphicon-share"></i>
         </div>
         <div class="timeline-panel">
