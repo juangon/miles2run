@@ -1,5 +1,6 @@
 <div class="noactivity well" ng-hide="data.totalDistanceCovered">
-    Nothing to show. <a class="btn btn-primary" ng-href="#activity/new">Post a new activity</a>
+    <h2>You don't have any activities on your dashboard yet.</h2>
+    <a class="btn btn-success" ng-href="#activity/new">Log New Activity</a>
 </div>
 <div class="progress" ng-show="data.totalDistanceCovered">
     <div class="progress-bar" role="progressbar" aria-valuenow="{{data.totalDistanceCovered}}" aria-valuemin="0" aria-valuemax="{{data.goal}}" style="{{style}}">

@@ -23,6 +23,8 @@ angular.module("milestogo", ["milestogo.services"]).
             .when('/', {templateUrl: 'views/activity/list.html', controller: ActivityListController})
             .when('/activity/new', {templateUrl: 'views/activity/create.html', controller: ActivityCreateController})
             .when('/activity/progress', {templateUrl: 'views/activity/progress.html', controller: ActivityProgressController})
+            .when('/notifications', {templateUrl: 'views/notifications/notifications.html', controller: NotificationController})
+            .when('/profiles/friends', {templateUrl: 'views/profiles/friends.html', controller: FriendsController})
             .when('/activity/:activityId', {templateUrl: 'views/activity/detail.html', controller: ActivityDetailController})
             .when('/activity/edit/:activityId', {templateUrl: 'views/activity/edit.html', controller: ActivityDetailController})
             .otherwise({
@@ -184,4 +186,12 @@ function ActivityProgressController($scope, $http) {
             console.log(status);
         })
 
+}
+
+function NotificationController($scope, $http) {
+    $scope.notifications = null;
+}
+
+function FriendsController($scope, $http) {
+    $scope.friends = null;
 }
