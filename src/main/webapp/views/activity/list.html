@@ -1,4 +1,9 @@
-<ul class="timeline">
+<div class="noactivity well" ng-show="!activities.length">
+    <h2>You haven't tracked any activities yet!!</h2>
+    <p class="lead">But don't worry! It's really easy to get started. Just click on the button below to enter your first activity:</p>
+    <a class="btn btn-success" ng-href="#activity/new">Post New Activity</a>
+</div>
+<ul class="timeline" ng-show="activities.length">
     <li ng-repeat="activity in activities">
         <div ng-show="activity.share.twitter"  class="timeline-badge success">
             <i class="fa fa-twitter"></i>

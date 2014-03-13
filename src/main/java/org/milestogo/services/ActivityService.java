@@ -76,7 +76,11 @@ public class ActivityService {
     }
 
     public long findTotalDistanceCovered(Profile profile) {
-        TypedQuery<Long> query = entityManager.createQuery("SELECT SUM(g.distanceCovered) from Activity g WHERE g.postedBy =:postedBy", Long.class).setParameter("postedBy", profile);;
+        long count = entityManager.createNamedQuery("Activity.countByProfile", Long.class).setParameter("profile", profile).getSingleResult();
+        if (count == 0) {
+            return 0;
+        }
+        TypedQuery<Long> query = entityManager.createQuery("SELECT SUM(a.distanceCovered) from Activity a WHERE a.postedBy =:postedBy", Long.class).setParameter("postedBy", profile);
         return query.getSingleResult();
     }
 }

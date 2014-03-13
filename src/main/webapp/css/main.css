@@ -9,6 +9,9 @@ body {
 .appnav{
     text-align: left;
 }
+.noactivity{
+    text-align: center;
+}
 
 div[class*='activity-']{
     border: ridge;
