@@ -4,9 +4,8 @@ import org.milestogo.domain.Activity;
 import org.milestogo.domain.ActivityDetails;
 import org.milestogo.domain.Profile;
 import org.milestogo.exceptions.ActivityNotFoundException;
+import org.milestogo.domain.Progress;
 
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -75,16 +74,16 @@ public class ActivityService {
         entityManager.remove(activity);
     }
 
-    public long findTotalDistanceCovered(Profile profile) {
+    public Progress findTotalDistanceCovered(Profile profile) {
         long count = entityManager.createNamedQuery("Activity.countByProfile", Long.class).setParameter("profile", profile).getSingleResult();
         if (count == 0) {
-            return 0;
+            return null;
         }
-        TypedQuery<Long> query = entityManager.createQuery("SELECT SUM(a.distanceCovered) from Activity a WHERE a.postedBy =:postedBy", Long.class).setParameter("postedBy", profile);
+        TypedQuery<Progress> query = entityManager.createQuery("SELECT new org.milestogo.domain.Progress(a.postedBy.goal,a.postedBy.goalUnit, SUM(a.distanceCovered),COUNT(a)) from Activity a WHERE a.postedBy =:postedBy", Progress.class).setParameter("postedBy", profile);
         return query.getSingleResult();
     }
 
-    public List<Activity> findActivitiesWithTimeStamp() {
-        return entityManager.createQuery("SELECT NEW Activity(a.activityDate,a.distanceCovered,a.goalUnit) from Activity a", Activity.class).getResultList();
+    public List<Activity> findActivitiesWithTimeStamp(Profile profile) {
+        return entityManager.createQuery("SELECT NEW Activity(a.activityDate,a.distanceCovered,a.goalUnit) from Activity a WHERE a.postedBy =:profile", Activity.class).setParameter("profile", profile).getResultList();
     }
 }

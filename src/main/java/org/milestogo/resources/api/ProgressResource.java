@@ -1,7 +1,7 @@
 package org.milestogo.resources.api;
 
 import org.milestogo.domain.Profile;
-import org.milestogo.resources.vo.Progress;
+import org.milestogo.domain.Progress;
 import org.milestogo.services.ActivityService;
 import org.milestogo.services.ProfileService;
 
@@ -31,8 +31,6 @@ public class ProgressResource {
         }
         String username = (String) session.getAttribute("username");
         Profile loggedInUser = profileService.findProfile(username);
-        long totalDistanceCovered = activityService.findTotalDistanceCovered(loggedInUser);
-        Progress progress = new Progress(loggedInUser.getGoal(),totalDistanceCovered);
-        return progress;
+        return activityService.findTotalDistanceCovered(loggedInUser);
     }
 }

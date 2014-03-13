@@ -15,6 +15,7 @@ body {
 
 div[class*='activity-']{
     border: ridge;
+    text-align: center;
 }
 
 .form-signin {

@@ -3,8 +3,6 @@ package org.milestogo.resources.api;
 import org.milestogo.domain.Activity;
 import org.milestogo.domain.ActivityDetails;
 import org.milestogo.domain.Profile;
-import org.milestogo.resources.vo.ActivityTimestampVo;
-import org.milestogo.resources.vo.Progress;
 import org.milestogo.services.ActivityService;
 import org.milestogo.services.ProfileService;
 import org.milestogo.services.TwitterService;
@@ -98,7 +96,13 @@ public class ActivityResource {
     @GET
     @Produces("application/json")
     public Map<String, Long> getActiviesWithTimestamp() {
-        List<Activity> activities = activityService.findActivitiesWithTimeStamp();
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("username") == null) {
+            return null;
+        }
+        String username = (String) session.getAttribute("username");
+        Profile loggedInUser = profileService.findProfile(username);
+        List<Activity> activities = activityService.findActivitiesWithTimeStamp(loggedInUser);
         Map<String, Long> map = new LinkedHashMap<>();
         for (Activity activity : activities) {
             map.put(String.valueOf(activity.getActivityDate().getTime() / 1000), activity.getDistanceCovered() / activity.getGoalUnit().getConversion());
