@@ -19,7 +19,7 @@
             <hr>
             <div class="timeline-footer">
                 <a ng-href="#/activity/edit/{{activity.id}}"><i class="glyphicon glyphicon-edit"></i></a>
-                <a class="pull-right"><i class="fa fa-archive"></i></a>
+                <a class="pull-right" ng-click="delete($index)"><i class="fa fa-archive"></i></a>
             </div>
         </div>
     </li>

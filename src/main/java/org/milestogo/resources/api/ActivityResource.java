@@ -80,7 +80,7 @@ public class ActivityResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id}")
-    public Response updateStatus(@PathParam("id") Long id, @Valid Activity activity) {
+    public Response updateActivity(@PathParam("id") Long id, @Valid Activity activity) {
         activity.setDistanceCovered(activity.getDistanceCovered() * activity.getGoalUnit().getConversion());
         ActivityDetails updatedActivity = activityService.update(id, activity);
         return Response.status(Response.Status.OK).entity(updatedActivity).build();
@@ -88,7 +88,7 @@ public class ActivityResource {
 
     @DELETE
     @Path("/{id}")
-    public Response deleteStatus(@PathParam("id") Long id) {
+    public Response deleteActivity(@PathParam("id") Long id) {
         activityService.delete(id);
         return Response.noContent().build();
     }

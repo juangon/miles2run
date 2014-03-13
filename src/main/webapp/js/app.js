@@ -30,9 +30,22 @@ angular.module("milestogo", ["milestogo.services"]).
             });
     });
 
-function ActivityListController($scope, Activity, ProfileService) {
+function ActivityListController($scope, Activity, ProfileService, $http) {
     $scope.providers = ProfileService.currentUser.providers;
     $scope.activities = Activity.query();
+
+    $scope.delete = function (idx) {
+        var activityToDelete = $scope.activities[idx];
+        console.log("Activity to delete: " + activityToDelete);
+        $http({method: 'DELETE', url: 'api/v1/activities/' + activityToDelete.id}).success(function (data, status) {
+            toastr.success("Deleted activity");
+            $scope.activities.splice(idx, 1);
+        }).
+            error(function (data, status) {
+                console.log(data);
+                console.log(status);
+            })
+    }
 
 }
 
