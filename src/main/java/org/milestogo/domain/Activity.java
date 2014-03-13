@@ -67,6 +67,12 @@ public class Activity {
         this.postedAt = postedAt;
     }
 
+    public Activity(Date activityDate, long distanceCovered, GoalUnit goalUnit) {
+        this.activityDate = activityDate;
+        this.distanceCovered = distanceCovered;
+        this.goalUnit = goalUnit;
+    }
+
     public Long getId() {
         return id;
     }

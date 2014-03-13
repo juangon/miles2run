@@ -3,12 +3,13 @@ package org.milestogo.resources.api;
 import org.milestogo.domain.Activity;
 import org.milestogo.domain.ActivityDetails;
 import org.milestogo.domain.Profile;
+import org.milestogo.resources.vo.ActivityTimestampVo;
 import org.milestogo.resources.vo.Progress;
 import org.milestogo.services.ActivityService;
 import org.milestogo.services.ProfileService;
 import org.milestogo.services.TwitterService;
 
-import java.util.List;
+import java.util.*;
 import java.util.logging.Logger;
 
 import javax.inject.Inject;
@@ -49,9 +50,9 @@ public class ActivityResource {
         Profile profile = profileService.findProfile(username);
         activity.setDistanceCovered(activity.getDistanceCovered() * activity.getGoalUnit().getConversion());
         activityService.save(activity, profile);
-        if(activity.getShare().isTwitter()){
-            String connectionId = (String)session.getAttribute("connectionId");
-            twitterService.postStatus(activity.getStatus(),connectionId);
+        if (activity.getShare().isTwitter()) {
+            String connectionId = (String) session.getAttribute("connectionId");
+            twitterService.postStatus(activity.getStatus(), connectionId);
         }
         return Response.status(Response.Status.CREATED).build();
     }
@@ -92,4 +93,17 @@ public class ActivityResource {
         activityService.delete(id);
         return Response.noContent().build();
     }
+
+    @Path("/list")
+    @GET
+    @Produces("application/json")
+    public Map<String, Long> getActiviesWithTimestamp() {
+        List<Activity> activities = activityService.findActivitiesWithTimeStamp();
+        Map<String, Long> map = new LinkedHashMap<>();
+        for (Activity activity : activities) {
+            map.put(String.valueOf(activity.getActivityDate().getTime() / 1000), activity.getDistanceCovered() / activity.getGoalUnit().getConversion());
+        }
+        return map;
+    }
+
 }

@@ -83,4 +83,8 @@ public class ActivityService {
         TypedQuery<Long> query = entityManager.createQuery("SELECT SUM(a.distanceCovered) from Activity a WHERE a.postedBy =:postedBy", Long.class).setParameter("postedBy", profile);
         return query.getSingleResult();
     }
+
+    public List<Activity> findActivitiesWithTimeStamp() {
+        return entityManager.createQuery("SELECT NEW Activity(a.activityDate,a.distanceCovered,a.goalUnit) from Activity a", Activity.class).getResultList();
+    }
 }

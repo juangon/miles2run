@@ -176,6 +176,7 @@ function ActivityDetailController($scope, $routeParams, $location, Activity, $ht
 
 
 function ActivityProgressController($scope, $http) {
+
     $http({method: 'GET', url: 'api/v1/progress'}).success(function (data, status) {
         $scope.status = status;
         $scope.data = data;
@@ -184,7 +185,25 @@ function ActivityProgressController($scope, $http) {
         error(function (data, status) {
             console.log(data);
             console.log(status);
-        })
+        });
+
+
+        $("#cal-heatmap").empty();
+        var cal = new CalHeatMap();
+        cal.init({
+            domain: "month",
+            subDomain:"day",
+            subDomainTextFormat: "%d",
+            itemName:"km",
+            data: "http://localhost:8080/milestogo/api/v1/activities/list",
+            start: new Date(2014,0),
+            cellSize: 9,
+            range: 3,
+            cellSize: 25,
+            domainGutter: 10,
+            legend: [2, 4, 6, 10]
+        });
+
 
 }
 
