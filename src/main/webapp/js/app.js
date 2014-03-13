@@ -195,7 +195,7 @@ function ActivityProgressController($scope, $http) {
             subDomain:"day",
             subDomainTextFormat: "%d",
             itemName:"km",
-            data: "http://localhost:8080/milestogo/api/v1/activities/list",
+            data: "/api/v1/activities/list",
             start: new Date(2014,0),
             cellSize: 9,
             range: 3,
