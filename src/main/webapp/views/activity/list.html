@@ -5,13 +5,13 @@
 </div>
 <ul class="timeline" ng-show="activities.length">
     <li ng-repeat="activity in activities">
-        <div ng-show="activity.share.twitter"  class="timeline-badge success">
+        <div ng-show="activity.share.twitter"  class="timeline-badge success" title="shared on twitter">
             <i class="fa fa-twitter"></i>
         </div>
-        <div ng-show="activity.share.facebook"  class="timeline-badge success">
+        <div ng-show="activity.share.facebook"  class="timeline-badge success" title="shared on facebook">
             <i class="fa fa-facebook"></i>
         </div>
-        <div ng-hide="activity.share.facebook || activity.share.twitter" class="timeline-badge info">
+        <div ng-hide="activity.share.facebook || activity.share.twitter" class="timeline-badge info" title="share">
             <i class="glyphicon glyphicon-share"></i>
         </div>
         <div class="timeline-panel">
@@ -23,8 +23,8 @@
             </div>
             <hr>
             <div class="timeline-footer">
-                <a ng-href="#/activity/edit/{{activity.id}}"><i class="glyphicon glyphicon-edit"></i></a>
-                <a class="pull-right" ng-click="delete($index)"><i class="glyphicon glyphicon-trash"></i></a>
+                <a ng-href="#/activity/edit/{{activity.id}}" title="edit activity"><i class="glyphicon glyphicon-edit"></i></a>
+                <a class="pull-right" ng-click="delete($index)" title="delete activity"><i class="glyphicon glyphicon-trash"></i></a>
             </div>
         </div>
     </li>
