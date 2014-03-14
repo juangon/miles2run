@@ -12,12 +12,8 @@
     <link href="/css/main.css" th:href="@{/css/main.css}" rel="stylesheet"/>
     <link href="/css/main.css" th:href="@{/css/timeline.css}" rel="stylesheet"/>
     <link href="/css/toastr.css" th:href="@{/css/toastr.css}" rel="stylesheet">
-    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet"/>
-    <script src="/js/angular.js" th:src="@{/js/angular.js}"></script>
-    <script src="/js/angular-resource.js" th:src="@{/js/angular-resource.js}"></script>
-
-
-
+    <link href="/css/font-awesome.css" th:href="@{/css/font-awesome.css}" rel="stylesheet"/>
+    <link rel="stylesheet" href="/css/cal-heatmap.css" th:href="@{/css/cal-heatmap.css}"/>
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -46,9 +42,11 @@
             </ul>
             <ul class="nav navbar-collapse pull-right">
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" th:inline="text"><img th:src="${profile.miniProfilePic}"/> [[${profile.fullname}]] <b class="caret"></b></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" th:inline="text"><img
+                            th:src="${profile.miniProfilePic}"/> [[${profile.fullname}]] <b class="caret"></b></a>
                     <ul class="dropdown-menu">
-                        <li><a href="#" th:href="@{'/profiles/' + ${profile.username}}" th:text="${profile.fullname}"></a></li>
+                        <li><a href="#" th:href="@{'/profiles/' + ${profile.username}}"
+                               th:text="${profile.fullname}"></a></li>
                         <li><a href="#" th:href="@{/logout}">Logout</a></li>
                     </ul>
                 </li>
@@ -80,11 +78,12 @@
 
 <script src="/js/jquery.js" th:src="@{/js/jquery.js}"></script>
 <script src="/js/bootstrap.js" th:src="@{/js/bootstrap.js}"></script>
+<script src="/js/angular.js" th:src="@{/js/angular.js}"></script>
+<script src="/js/angular-resource.js" th:src="@{/js/angular-resource.js}"></script>
 <script src="/js/ui-bootstrap-tpls-0.10.0.min.js" th:src="@{/js/ui-bootstrap-tpls-0.10.0.min.js}"></script>
 <script src="/js/toastr.js.js" th:src="@{/js/toastr.js}"></script>
-<script type="text/javascript" src="//d3js.org/d3.v3.min.js"></script>
-<script type="text/javascript" src="//cdn.jsdelivr.net/cal-heatmap/3.3.10/cal-heatmap.min.js"></script>
-<link rel="stylesheet" href="//cdn.jsdelivr.net/cal-heatmap/3.3.10/cal-heatmap.css" />
+<script type="text/javascript" src="/js/d3.v3.min.js" th:src="@{/js/d3.v3.min.js}"></script>
+<script type="text/javascript" src="/js/cal-heatmap.min.js" th:src="@{/js/cal-heatmap.min.js}"></script>
 <script src="/js/app.js" th:src="@{/js/app.js}"></script>
 
 </body>
