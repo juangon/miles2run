@@ -62,6 +62,8 @@ public class ActivityService {
         }
         existingActivity.setStatus(activity.getStatus());
         existingActivity.setDistanceCovered(activity.getDistanceCovered());
+        existingActivity.setActivityDate(activity.getActivityDate());
+        existingActivity.setGoalUnit(activity.getGoalUnit());
         entityManager.persist(existingActivity);
         return this.readById(id);
     }

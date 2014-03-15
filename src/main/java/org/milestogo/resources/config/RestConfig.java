@@ -21,6 +21,9 @@ public class RestConfig extends Application {
         classes.add(ProfileView.class);
         classes.add(ActivityResource.class);
         classes.add(ProgressResource.class);
+        classes.add(org.milestogo.api.v2.ActivityResource.class);
+        classes.add(org.milestogo.api.v2.ProfileResource.class);
+        classes.add(org.milestogo.api.v2.ProgressResource.class);
         classes.add(ViewWriter.class);
         classes.add(AboutView.class);
         classes.add(ProfileResource.class);

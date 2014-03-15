@@ -1,5 +1,6 @@
 package org.milestogo.services;
 
+import org.milestogo.domain.GoalUnit;
 import org.milestogo.domain.Profile;
 import org.milestogo.domain.ProfileSocialConnectionDetails;
 import org.milestogo.domain.SocialProvider;
@@ -62,21 +63,23 @@ public class ProfileService {
         }
     }
 
-    public ProfileSocialConnectionDetails findProfileWithSocialConnections(String username){
+    public ProfileSocialConnectionDetails findProfileWithSocialConnections(String username) {
         Query query = entityManager.createNamedQuery("Profile.findProfileWithSocialNetworks").setParameter("username", username);
         List result = query.getResultList();
-        if(result == null || result.isEmpty()){
+        if (result == null || result.isEmpty()) {
             return null;
         }
-        ProfileSocialConnectionDetails profile = new ProfileSocialConnectionDetails();
-        for(Object object : result){
-            if(object instanceof Object[]){
-                Object[] row = (Object[])object;
-                profile.setId((Long)row[0]);
-                profile.setUsername((String)row[1]);
-                profile.getProviders().add(((SocialProvider)row[2]).getProvider());
+        ProfileSocialConnectionDetails profileSocialConnectionDetails = new ProfileSocialConnectionDetails();
+        for (Object object : result) {
+            if (object instanceof Object[]) {
+                Object[] row = (Object[]) object;
+                profileSocialConnectionDetails.setId((Long) row[0]);
+                profileSocialConnectionDetails.setUsername((String) row[1]);
+                profileSocialConnectionDetails.setGoal((Long) row[2]);
+                profileSocialConnectionDetails.setGoalUnit((GoalUnit) row[3]);
+                profileSocialConnectionDetails.getProviders().add(((SocialProvider) row[4]).getProvider());
             }
         }
-        return profile;
+        return profileSocialConnectionDetails;
     }
 }
