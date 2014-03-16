@@ -74,6 +74,10 @@ public class Profile implements Serializable {
     @ImageUrl
     private String profilePic;
 
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private Role role = Role.USER;
+
     @Transient
     private String miniProfilePic;
 
@@ -217,6 +221,10 @@ public class Profile implements Serializable {
 
     public void setGoalUnit(GoalUnit goalUnit) {
         this.goalUnit = goalUnit;
+    }
+
+    public Role getRole() {
+        return role;
     }
 
     private String getImageWithSize(String size) {
