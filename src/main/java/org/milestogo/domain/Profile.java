@@ -17,9 +17,9 @@ import java.util.List;
  */
 @Entity
 @NamedQueries({
-        @NamedQuery(name = "Profile.findByUsername",query = "select new Profile(p.username,p.bio,p.city,p.country,p.fullname,p.profilePic) from Profile p where p.username =:username"),
-        @NamedQuery(name = "Profile.findByEmail",query = "select new Profile(p.username,p.bio,p.city,p.country,p.fullname,p.profilePic) from Profile p where p.email =:email"),
-        @NamedQuery(name="Profile.findProfileWithSocialNetworks",query = "select p.id,p.username,s.provider from Profile p JOIN p.socialConnections s where p.username =:username")
+        @NamedQuery(name = "Profile.findByUsername", query = "select new Profile(p.username,p.bio,p.city,p.country,p.fullname,p.profilePic) from Profile p where p.username =:username"),
+        @NamedQuery(name = "Profile.findByEmail", query = "select new Profile(p.username,p.bio,p.city,p.country,p.fullname,p.profilePic) from Profile p where p.email =:email"),
+        @NamedQuery(name = "Profile.findProfileWithSocialNetworks", query = "select p.id,p.username,p.goal,p.goalUnit,s.provider from Profile p JOIN p.socialConnections s where p.username =:username")
 })
 public class Profile implements Serializable {
 
@@ -61,7 +61,7 @@ public class Profile implements Serializable {
     @Enumerated(EnumType.STRING)
     private GoalUnit goalUnit;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "profile")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "profile")
     private final List<SocialConnection> socialConnections = new ArrayList<>();
 
     @OneToMany(mappedBy = "postedBy", fetch = FetchType.LAZY)

@@ -10,6 +10,8 @@ public class ProfileSocialConnectionDetails {
     private Long id;
     private String username;
     private final List<String> providers = new ArrayList<>();
+    private long goal;
+    private GoalUnit goalUnit;
 
     public Long getId() {
         return id;
@@ -29,5 +31,21 @@ public class ProfileSocialConnectionDetails {
 
     public List<String> getProviders() {
         return providers;
+    }
+
+    public long getGoal() {
+        return goal;
+    }
+
+    public void setGoal(long goal) {
+        this.goal = goal;
+    }
+
+    public GoalUnit getGoalUnit() {
+        return goalUnit;
+    }
+
+    public void setGoalUnit(GoalUnit goalUnit) {
+        this.goalUnit = goalUnit;
     }
 }
