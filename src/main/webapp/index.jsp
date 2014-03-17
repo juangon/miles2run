@@ -44,9 +44,13 @@
             <c:if test="${not empty sessionScope.profile}">
                 <ul class="nav navbar-collapse pull-right">
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="${sessionScope.profile.miniProfilePic}"> ${sessionScope.profile.fullname} <b class="caret"></b></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img
+                                src="${sessionScope.profile.miniProfilePic}"> ${sessionScope.profile.fullname} <b
+                                class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li><a href="<c:url value="/profiles/${sessionScope.profile.username}"></c:url>">${sessionScope.profile.fullname}</a></li>
+                            <li>
+                                <a href="<c:url value="/profiles/${sessionScope.profile.username}"></c:url>">${sessionScope.profile.fullname}</a>
+                            </li>
                             <li><a href="<c:url value="/logout"></c:url>">Logout</a></li>
                         </ul>
                     </li>
@@ -59,49 +63,59 @@
 </div>
 
 <div id="main" class="container-fluid">
-        <div id="activity" class="row">
-            <h2>Latest MilesToGo Activity</h2>
-            <h6>See what's happening in MilesToGo around the world</h6>
-            <br><br>
-
-            <div class="col-xs-4">
-                <div class="activity-developers">
-                    <h1>500 Developers</h1>
-                </div>
-
-            </div>
-            <div class="col-xs-4">
-                <div class="activity-countries">
-                    <h1>50 Countries</h1>
-                </div>
-
-            </div>
-            <div class="col-xs-4">
-                <div class="activity-meters">
-                    <h1>500,000 Meters Run</h1>
-                </div>
-            </div>
-        </div>
+    <div id="activity" class="row">
+        <h2>Latest MilesToGo Activity</h2>
+        <h6>See what's happening in MilesToGo around the world</h6>
         <br><br>
 
-        <div id="join" class="row">
-            <div class="col-xs-4">
-                <h2>Join the community</h2>
-            </div>
-            <div class="col-xs-4">
-                <a href="signin/twitter" class="btn btn-lg btn-info"><i class="fa fa-twitter"></i> Sign in with Twitter</a>
-            </div>
-            <div class="col-xs-4">
-                <a href="signin/facebook" class="btn btn-lg btn-info"><i class="fa fa-facebook"></i> Sign in with
-                    Facebook</a>
+        <div class="col-xs-4">
+            <div id="developerCounter" class="activity-developers">
+                <h1>500 Developers</h1>
             </div>
 
         </div>
+        <div class="col-xs-4">
+            <div id="countryCounter" class="activity-countries">
+                <h1>50 Countries</h1>
+            </div>
+
+        </div>
+        <div class="col-xs-4">
+            <div id="runCounter" class="activity-meters">
+                <h1>500,000 Meters Run</h1>
+            </div>
+        </div>
+    </div>
+    <br><br>
+
+    <div id="join" class="row">
+        <div class="col-xs-4">
+            <h2>Join the community</h2>
+        </div>
+        <div class="col-xs-4">
+            <a href="signin/twitter" class="btn btn-lg btn-info"><i class="fa fa-twitter"></i> Sign in with Twitter</a>
+        </div>
+        <div class="col-xs-4">
+            <a href="signin/facebook" class="btn btn-lg btn-info"><i class="fa fa-facebook"></i> Sign in with
+                Facebook</a>
+        </div>
+
+    </div>
 
 </div>
 
 
 <script src="js/jquery.js"></script>
 <script src="js/bootstrap.js"></script>
+<script>
+    $(document).ready(function () {
+        $.get("api/v2/counters", function (data) {
+            $("#developerCounter").html("<h1>" + data.developers + " Developers</h1>");
+            $("#countryCounter").html("<h1>" + data.countries + " Countries</h1>");
+            $("#runCounter").html("<h1>" + data.totalDistanceCovered + " Meters ran</h1>");
+        });
+    });
+
+</script>
 </body>
 </html>
