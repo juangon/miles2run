@@ -109,12 +109,23 @@
 <script src="js/bootstrap.js"></script>
 <script>
     $(document).ready(function () {
-        $.get("api/v2/counters", function (data) {
-            $("#developerCounter").html("<h1>" + data.developers + " Developers</h1>");
-            $("#countryCounter").html("<h1>" + data.countries + " Countries</h1>");
-            $("#runCounter").html("<h1>" + data.totalDistanceCovered + " Meters ran</h1>");
-        });
+        doPoll();
     });
+    function doPoll() {
+        $.ajax({
+            url: "api/v2/counters",
+            type: "GET",
+            success: function (data) {
+                $("#developerCounter").html("<h1>" + data.developers + " Developers</h1>");
+                $("#countryCounter").html("<h1>" + data.countries + " Countries</h1>");
+                $("#runCounter").html("<h1>" + data.totalDistanceCovered + " Meters ran</h1>");
+                setTimeout(doPoll, 10000);
+            },
+            error: function(){
+                setTimeout(doPoll, 60000);
+            }
+        })
+    }
 
 </script>
 </body>
