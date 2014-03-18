@@ -1,9 +1,9 @@
-<div class="noactivity well" ng-show="!activities.length" ng-cloak>
+<div class="noactivity well" ng-if="activities.length == 0" ng-cloak>
     <h2>You haven't tracked any activities yet!!</h2>
     <p class="lead">But don't worry! It's really easy to get started. Just click on the button below to enter your first activity:</p>
-    <a class="btn btn-success" ng-href="#activity/new">Post New Activity</a>
+    <a class="btn btn-success" ng-href="#activity/post">Post New Activity</a>
 </div>
-<ul class="timeline" ng-show="activities.length">
+<ul class="timeline" ng-if="activities.length">
     <li ng-repeat="activity in activities">
         <div ng-show="activity.share.twitter"  class="timeline-badge success" title="shared on twitter">
             <i class="fa fa-twitter"></i>

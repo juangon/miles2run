@@ -1,8 +1,11 @@
-<div class="noactivity well" ng-hide="data">
-    <h2>You don't have any activities on your dashboard yet.</h2>
-    <a class="btn btn-success" ng-href="#activity/new">Log New Activity</a>
+<div class="alert alert-danger" ng-if="error">
+    {{error.message}}
 </div>
-<div class="userprogress" ng-show="data">
+<div class="noactivity well" ng-if="!data && !error">
+    <h2>You don't have any activities on your dashboard yet.</h2>
+    <a class="btn btn-success" ng-href="#activity/post">Log New Activity</a>
+</div>
+<div class="userprogress" ng-if="data && !error">
     <div class="row">
         <div class="col-md-4">
             <div class="activity-goal">
@@ -28,13 +31,15 @@
     <hr>
     <div class="row">
         <h2>Your Progress</h2>
-        <div class="progress-bar" role="progressbar" aria-valuenow="{{data.totalDistanceCovered}}" aria-valuemin="0" aria-valuemax="{{data.goal}}" style="{{style}}">
+
+        <div class="progress-bar" role="progressbar" aria-valuenow="{{data.totalDistanceCovered}}" aria-valuemin="0"
+             aria-valuemax="{{data.goal}}" style="{{style}}">
             {{data.percentage}}%
         </div>
     </div>
 
 </div>
+
 <hr>
 <h2>Your Activity Calendar</h2>
-<div id="cal-heatmap" align="center"></div>
-
+<cal-heatmap config="config"></cal-heatmap>

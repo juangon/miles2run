@@ -13,6 +13,11 @@ body {
     text-align: center;
 }
 
+cal-heatmap{
+    text-align: left;
+    align-content: center;
+}
+
 div[class*='activity-']{
     border: ridge;
     text-align: center;
