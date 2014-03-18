@@ -70,19 +70,16 @@
 
         <div class="col-xs-4">
             <div id="developerCounter" class="activity-developers">
-                <h1>500 Developers</h1>
             </div>
 
         </div>
         <div class="col-xs-4">
             <div id="countryCounter" class="activity-countries">
-                <h1>50 Countries</h1>
             </div>
 
         </div>
         <div class="col-xs-4">
             <div id="runCounter" class="activity-meters">
-                <h1>500,000 Meters Run</h1>
             </div>
         </div>
     </div>
