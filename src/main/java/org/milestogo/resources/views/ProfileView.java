@@ -3,17 +3,15 @@ package org.milestogo.resources.views;
 import org.jboss.resteasy.annotations.Form;
 import org.milestogo.domain.Profile;
 import org.milestogo.domain.SocialConnection;
-import org.milestogo.resources.views.forms.ProfileForm;
 import org.milestogo.framework.View;
+import org.milestogo.resources.views.forms.ProfileForm;
 import org.milestogo.resources.vo.ProfileVo;
+import org.milestogo.services.CounterService;
 import org.milestogo.services.ProfileService;
 import org.milestogo.services.SocialConnectionService;
 import org.milestogo.utils.CityAndCountry;
 import org.milestogo.utils.GeocoderUtils;
 import org.milestogo.utils.UrlUtils;
-import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.context.WebContext;
-import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
@@ -53,6 +51,9 @@ public class ProfileView {
     @Inject
     private ProfileService profileService;
 
+    @Inject
+    private CounterService counterService;
+
     @GET
     @Produces("text/html")
     @Path("/new")
@@ -88,6 +89,8 @@ public class ProfileView {
         Profile profile = new Profile(profileForm);
         profileService.save(profile);
         socialConnectionService.update(profile, profileForm.getConnectionId());
+        counterService.updateDeveloperCounter();
+        counterService.updateCountryCounter(profile.getCountry());
         request.getSession().setAttribute("username", profile.getUsername());
         request.getSession().setAttribute("connectionId", profileForm.getConnectionId());
         return new View("/home", true);

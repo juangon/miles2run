@@ -1,5 +1,6 @@
 package org.milestogo.resources.config;
 
+import org.milestogo.api.v2.CounterResource;
 import org.milestogo.framework.ViewWriter;
 import org.milestogo.resources.api.ActivityResource;
 import org.milestogo.resources.api.ProfileResource;
@@ -24,6 +25,7 @@ public class RestConfig extends Application {
         classes.add(org.milestogo.api.v2.ActivityResource.class);
         classes.add(org.milestogo.api.v2.ProfileResource.class);
         classes.add(org.milestogo.api.v2.ProgressResource.class);
+        classes.add(CounterResource.class);
         classes.add(ViewWriter.class);
         classes.add(AboutView.class);
         classes.add(ProfileResource.class);

@@ -2,6 +2,7 @@ package org.milestogo.api.v2;
 
 import org.milestogo.domain.*;
 import org.milestogo.services.ActivityService;
+import org.milestogo.services.CounterService;
 import org.milestogo.services.ProfileService;
 import org.milestogo.services.TwitterService;
 
@@ -31,6 +32,8 @@ public class ActivityResource {
     private ProfileService profileService;
     @Inject
     private TwitterService twitterService;
+    @Inject
+    private CounterService counterService;
 
 
     @POST
@@ -41,8 +44,10 @@ public class ActivityResource {
         if (profile == null) {
             return Response.status(Response.Status.NOT_FOUND).entity("No user exists with username " + username).build();
         }
-        activity.setDistanceCovered(activity.getDistanceCovered() * activity.getGoalUnit().getConversion());
+        long distanceCovered = activity.getDistanceCovered() * activity.getGoalUnit().getConversion();
+        activity.setDistanceCovered(distanceCovered);
         activityService.save(activity, profile);
+        counterService.updateRunCounter(distanceCovered);
         //TODO : Ideally it should iterate over all the providers and post status on all the checked ones
         Share share = activity.getShare();
         if (share != null && share.isTwitter()) {
