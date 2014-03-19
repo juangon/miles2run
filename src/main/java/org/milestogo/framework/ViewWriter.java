@@ -55,7 +55,11 @@ public class ViewWriter implements MessageBodyWriter<Object> {
         }
 
         if (!jsessionIdCookieExists && notStaticResource(request)) {
-            response.addCookie(new Cookie("JSESSIONID", request.getSession().getId()));
+            Cookie sessionCookie = new Cookie("JSESSIONID", request.getSession().getId());
+            sessionCookie.setSecure(true);
+            int thirtyDays = 60 * 60 * 24 * 30;
+            sessionCookie.setMaxAge(thirtyDays);
+            response.addCookie(sessionCookie);
         }
         try {
             if (viewingPleasure.isRedirect()) {
