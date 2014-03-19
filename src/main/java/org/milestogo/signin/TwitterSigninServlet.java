@@ -12,6 +12,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 /**
@@ -25,6 +26,10 @@ public class TwitterSigninServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if (userExistsInSession(request.getSession(false))) {
+            response.sendRedirect(request.getContextPath() + "/home");
+            return;
+        }
         Twitter twitter = twitterFactory.getInstance();
         try {
             StringBuffer callbackUrl = request.getRequestURL();
@@ -33,11 +38,19 @@ public class TwitterSigninServlet extends HttpServlet {
             RequestToken requestToken = twitter.getOAuthRequestToken(callbackUrl.toString());
             request.getSession().setAttribute("requestToken", requestToken);
             ServletContext servletContext = request.getServletContext();
-            servletContext.setAttribute(requestToken.getToken(),requestToken);
+            servletContext.setAttribute(requestToken.getToken(), requestToken);
             response.sendRedirect(requestToken.getAuthenticationURL());
         } catch (TwitterException e) {
-            throw new RuntimeException("Unable to get Twitter Authentication Url. Exception is: "+e);
+            throw new RuntimeException("Unable to get Twitter Authentication Url. Exception is: " + e);
         }
+    }
+
+    private boolean userExistsInSession(HttpSession session) {
+        if (session == null) {
+            return false;
+        }
+        return session.getAttribute("username") != null ? true : false;
+
     }
 
 }
