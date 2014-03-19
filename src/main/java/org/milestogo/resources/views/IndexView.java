@@ -40,7 +40,8 @@ public class IndexView {
             Profile profile = profileService.findProfileByUsername(username);
             model.put("profile", profile);
         }
-        Long runCounter = counterService.getRunCounter();
+        // TODO: Fix me .. currently directly converting to KMS
+        Long runCounter = counterService.getRunCounter() / 1000;
         Long countryCounter = counterService.getCountryCounter();
         Long developerCounter = counterService.getDeveloperCounter();
         Counter counter = new Counter(developerCounter, countryCounter, runCounter);
