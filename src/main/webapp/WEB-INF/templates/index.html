@@ -54,50 +54,27 @@
 </div>
 
 <div id="main" class="container-fluid" ng-controller="CounterCtrl">
-    <div class="row" ng-if="!managed">
+
+    <div id="activity" class="row">
         <h2>Latest MilesToGo Activity</h2>
         <h6>See what's happening in MilesToGo around the world</h6>
         <br><br>
 
         <div class="col-xs-4">
-            <div class="activity-developers">
-                <h1 th:text="${counter.developers} + ' Developer(s)'"></h1>
+            <div id="developerCounter" class="activity-developers">
+                <h1 ng-bind="counter.developers | developerText" th:text="${counter.developers} + ' Developers'"></h1>
             </div>
 
         </div>
         <div class="col-xs-4">
-            <div class="activity-countries">
-                <h1 th:text="${counter.countries} + ' Country(ies)'"></h1>
+            <div id="countryCounter" class="activity-countries">
+                <h1 ng-bind="counter.countries | countryText" th:text="${counter.countries} + ' Countries'"></h1>
             </div>
 
         </div>
         <div class="col-xs-4">
-            <div class="activity-meters">
-                <h1 th:text="${counter.totalDistanceCovered} + ' Km(s)'"></h1>
-            </div>
-        </div>
-    </div>
-
-    <div id="activity" class="row" ng-if="managed">
-        <h2>Latest MilesToGo Activity</h2>
-        <h6>See what's happening in MilesToGo around the world</h6>
-        <br><br>
-
-        <div class="col-xs-4">
-            <div class="activity-developers">
-                <h1 ng-bind="counter.developers | developerText"></h1>
-            </div>
-
-        </div>
-        <div class="col-xs-4">
-            <div class="activity-countries">
-                <h1 ng-bind="counter.countries | countryText"></h1>
-            </div>
-
-        </div>
-        <div class="col-xs-4">
-            <div class="activity-meters">
-                <h1 ng-bind="(counter.totalDistanceCovered | unit:'kms' | number:2) + '  Kms'"></h1>
+            <div id="runCounter" class="activity-meters">
+                <h1 ng-bind="(counter.totalDistanceCovered | unit:'kms' | number:2) + '  Kms'" th:text="${counter.totalDistanceCovered} + ' Kms'"></h1>
             </div>
         </div>
     </div>
