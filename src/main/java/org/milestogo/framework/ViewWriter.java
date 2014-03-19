@@ -55,6 +55,9 @@ public class ViewWriter implements MessageBodyWriter<Object> {
         }
 
         if (!jsessionIdCookieExists && notStaticResource(request)) {
+            System.out.println("Going to create cookiee for requestURI " + request.getRequestURI());
+            System.out.println("Going to create cookiee for servletPath " + request.getServletPath());
+            System.out.println("Going to create cookiee for pathInfo " + request.getPathInfo());
             response.addCookie(new Cookie("JSESSIONID", request.getSession().getId()));
         }
         try {
