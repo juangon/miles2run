@@ -71,7 +71,6 @@ public class TwitterCallbackServlet extends HttpServlet {
                     logger.info(String.format("New session created with id %s", newSession.getId()));
                     newSession.setAttribute("username", username);
                     newSession.setAttribute("connectionId", connectionId);
-                    response.addCookie(new Cookie("JSESSIONID", newSession.getId()));
                     response.sendRedirect(request.getContextPath() + "/home");
                 }
             } else {

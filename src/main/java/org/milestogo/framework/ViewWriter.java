@@ -4,6 +4,7 @@ import org.jboss.resteasy.spi.InternalServerErrorException;
 import org.jboss.resteasy.spi.ResteasyProviderFactory;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.WebApplicationException;
@@ -42,7 +43,7 @@ public class ViewWriter implements MessageBodyWriter<Object> {
 
         HttpServletRequest request = ResteasyProviderFactory.getContextData(HttpServletRequest.class);
         HttpServletResponse response = ResteasyProviderFactory.getContextData(HttpServletResponse.class);
-
+        response.addCookie(new Cookie("JSESSIONID",request.getSession().getId()));
         try {
             if(viewingPleasure.isRedirect()){
                 String contextPath = request.getContextPath();
