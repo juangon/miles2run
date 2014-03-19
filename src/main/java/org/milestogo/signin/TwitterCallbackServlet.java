@@ -70,8 +70,10 @@ public class TwitterCallbackServlet extends HttpServlet {
                 } else {
                     String username = existingSocialConnection.getProfile().getUsername();
                     logger.info(String.format("User %s already had authenticated with twitter. So redirecting to home.", username));
-                    request.getSession().setAttribute("username", username);
-                    request.getSession().setAttribute("connectionId", connectionId);
+                    HttpSession newSession = request.getSession(true);
+                    logger.info(String.format("New session created with id %s", newSession.getId()));
+                    newSession.setAttribute("username", username);
+                    newSession.setAttribute("connectionId", connectionId);
                     response.sendRedirect(request.getContextPath() + "/home");
                 }
             } else {

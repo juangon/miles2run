@@ -34,6 +34,7 @@ public class HomeView {
             logger.info(String.format("No user existed in session %s . So redirecting to Index view", session));
             return new View("/", true);
         }
+        logger.info(String.format("session with id %s", session.getId()));
         String username = (String) session.getAttribute("username");
         Profile profile = profileService.findProfileByUsername(username);
         return new View("/home", profile, "profile");
