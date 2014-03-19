@@ -1,5 +1,6 @@
 package org.milestogo.framework;
 
+import org.apache.commons.lang3.StringUtils;
 import org.jboss.resteasy.spi.InternalServerErrorException;
 import org.jboss.resteasy.spi.ResteasyProviderFactory;
 
@@ -43,12 +44,21 @@ public class ViewWriter implements MessageBodyWriter<Object> {
 
         HttpServletRequest request = ResteasyProviderFactory.getContextData(HttpServletRequest.class);
         HttpServletResponse response = ResteasyProviderFactory.getContextData(HttpServletResponse.class);
-        response.addCookie(new Cookie("JSESSIONID",request.getSession().getId()));
+        Cookie[] cookies = request.getCookies();
+        boolean jsessionIdCookieExists = false;
+        for (Cookie cookie : cookies) {
+            if (StringUtils.equals(cookie.getName(), "JSESSIONID")) {
+                jsessionIdCookieExists = true;
+            }
+        }
+        if(!jsessionIdCookieExists){
+            response.addCookie(new Cookie("JSESSIONID", request.getSession().getId()));
+        }
         try {
-            if(viewingPleasure.isRedirect()){
+            if (viewingPleasure.isRedirect()) {
                 String contextPath = request.getContextPath();
                 response.sendRedirect(contextPath + viewingPleasure.getPath());
-            }   else{
+            } else {
                 String processedTemplate = viewingPleasure.render(request, response);
                 String charset = mediaType.getParameters().get("charset");
                 if (charset == null) entityStream.write(processedTemplate.getBytes());
