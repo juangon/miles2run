@@ -1,5 +1,12 @@
+<script type="text/ng-template" id="user.html">
+    <a ng-href="profiles/{{match.model.username}}">
+        <img ng-src="{{match.model.pic}}" width="18">
+        <span bind-html-unsafe="match.label | typeaheadHighlight:query"></span>
+    </a>
+</script>
+
 <div class="noactivity well" ng-hide="friends">
     <h2>You have no friends.</h2>
     <p class="lead">Search your friends</p>
-    <input type="text" placeholder="Enter full name">
+    <input type="text" ng-model="user" placeholder="Type your friend's name" typeahead="profile as profile.fullname for profile in getProfiles($viewValue) | filter:$viewValue" typeahead-template-url="user.html" class="form-control">
 </div>
