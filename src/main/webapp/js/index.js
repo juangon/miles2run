@@ -31,8 +31,6 @@ app.filter('developerText', function () {
 app.controller('CounterCtrl', CounterCtrl);
 
 function CounterCtrl($scope, $http, $timeout) {
-
-
     var poll = function () {
         $timeout(function () {
             $http.get("api/v2/counters").success(function (data, status, headers, config) {
@@ -48,5 +46,9 @@ function CounterCtrl($scope, $http, $timeout) {
     }
 
     poll();
+
+    $http.get("api/v2/counters").success(function (data, status, headers, config) {
+        $scope.counter = data;
+    });
 
 }
