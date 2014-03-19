@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('milestogo')
-    .controller('FriendsCtrl', function ($scope, $http) {
+    .controller('FriendsCtrl', function ($scope, $http, $window) {
         $scope.selected = undefined;
 
         // Any function returning a promise object can be used to load values asynchronously
@@ -16,5 +16,10 @@ angular.module('milestogo')
                 return profiles;
             });
         };
+
+        $scope.fetchProfile = function () {
+            console.log($scope.profile);
+            $window.location.href = "profiles/" + $scope.profile.username;
+        }
 
     });
