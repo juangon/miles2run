@@ -49,16 +49,20 @@ public class ViewWriter implements MessageBodyWriter<Object> {
         if (cookies != null) {
             for (Cookie cookie : cookies) {
                 if (StringUtils.equals(cookie.getName(), "JSESSIONID")) {
+                    System.out.println("Cookie exist with JSESSIONID " + cookie.getValue());
                     jsessionIdCookieExists = true;
                 }
             }
         }
 
         if (!jsessionIdCookieExists && notStaticResource(request)) {
+            System.out.println("Setting new cookie for requet with requestURI " + request.getRequestURI());
+            System.out.println("Setting new cookie for request with serveltPath " + request.getServletPath());
+            System.out.println("Setting new cookie for request with contextPath " + request.getContextPath());
             Cookie sessionCookie = new Cookie("JSESSIONID", request.getSession().getId());
-            sessionCookie.setSecure(true);
-            int thirtyDays = 60 * 60 * 24 * 30;
-            sessionCookie.setMaxAge(thirtyDays);
+//            sessionCookie.setSecure(true);
+//            int thirtyDays = 60 * 60 * 24 * 30;
+//            sessionCookie.setMaxAge(thirtyDays);
             response.addCookie(sessionCookie);
         }
         try {
