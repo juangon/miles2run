@@ -15,8 +15,6 @@ import org.jboss.resteasy.spi.HttpResponse;
 @WebFilter(displayName = "Jug",urlPatterns = "/*",initParams = {@WebInitParam(name = "javax.ws.rs.Application",value = "org.milestogo.resources.config.RestConfig")})
 public class JugFilterDispatcher extends FilterDispatcher {
 
-
-
    @Override
    public HttpResponse createResteasyHttpResponse(HttpServletResponse response) {
        return new HttpServletResponseWrapper(response, getDispatcher().getProviderFactory()) {

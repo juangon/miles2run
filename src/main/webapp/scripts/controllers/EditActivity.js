@@ -24,7 +24,7 @@ angular.module('milestogo')
             };
 
             ActivityService.updateActivity($scope.currentUser.username, activityId, activity).success(function (data, status, headers, config) {
-                toastr.success("Updated new activity");
+                toastr.success("Updated activity");
                 $location.path('/');
             }).error(function (data, status, headers, config) {
                 console.log("Error handler for update activity. Status code " + status);

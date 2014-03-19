@@ -19,6 +19,9 @@ angular.module('milestogo')
             },
             deleteActivity: function (username, activityId) {
                 return $http.delete(baseUrl + "profiles/" + username + "/activities/" + activityId);
+            },
+            shareActivity: function (username, activityId, data) {
+                return $http.put(baseUrl + "profiles/" + username + "/activities/" + activityId + "/share", data);
             }
 
         };

@@ -14,10 +14,7 @@ import javax.inject.Inject;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.*;
 import java.io.IOException;
 import java.util.logging.Logger;
 
@@ -62,12 +59,18 @@ public class TwitterCallbackServlet extends HttpServlet {
             session.removeAttribute("requestToken");
             connectionId = String.valueOf(twitter.getId());
             SocialConnection existingSocialConnection = socialConnectionService.findByConnectionId(connectionId);
+            logger.info("SocialConnection " + existingSocialConnection);
             if (existingSocialConnection != null) {
                 if (existingSocialConnection.getProfile() == null) {
+                    logger.info("Profile was null. So redirecting to new profile creation.");
                     response.sendRedirect(request.getContextPath() + "/profiles/new?connectionId=" + connectionId);
                 } else {
-                    request.getSession().setAttribute("username", existingSocialConnection.getProfile().getUsername());
-                    request.getSession().setAttribute("connectionId", connectionId);
+                    String username = existingSocialConnection.getProfile().getUsername();
+                    logger.info(String.format("User %s already had authenticated with twitter. So redirecting to home.", username));
+                    HttpSession newSession = request.getSession(true);
+                    logger.info(String.format("New session created with id %s", newSession.getId()));
+                    newSession.setAttribute("username", username);
+                    newSession.setAttribute("connectionId", connectionId);
                     response.sendRedirect(request.getContextPath() + "/home");
                 }
             } else {

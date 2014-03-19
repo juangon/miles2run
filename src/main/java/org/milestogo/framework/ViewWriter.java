@@ -1,9 +1,11 @@
 package org.milestogo.framework;
 
+import org.apache.commons.lang3.StringUtils;
 import org.jboss.resteasy.spi.InternalServerErrorException;
 import org.jboss.resteasy.spi.ResteasyProviderFactory;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.WebApplicationException;
@@ -42,12 +44,24 @@ public class ViewWriter implements MessageBodyWriter<Object> {
 
         HttpServletRequest request = ResteasyProviderFactory.getContextData(HttpServletRequest.class);
         HttpServletResponse response = ResteasyProviderFactory.getContextData(HttpServletResponse.class);
+        Cookie[] cookies = request.getCookies();
+        boolean jsessionIdCookieExists = false;
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (StringUtils.equals(cookie.getName(), "JSESSIONID")) {
+                    jsessionIdCookieExists = true;
+                }
+            }
+        }
 
+        if (!jsessionIdCookieExists && notStaticResource(request)) {
+            response.addCookie(new Cookie("JSESSIONID", request.getSession().getId()));
+        }
         try {
-            if(viewingPleasure.isRedirect()){
+            if (viewingPleasure.isRedirect()) {
                 String contextPath = request.getContextPath();
                 response.sendRedirect(contextPath + viewingPleasure.getPath());
-            }   else{
+            } else {
                 String processedTemplate = viewingPleasure.render(request, response);
                 String charset = mediaType.getParameters().get("charset");
                 if (charset == null) entityStream.write(processedTemplate.getBytes());
@@ -56,6 +70,15 @@ public class ViewWriter implements MessageBodyWriter<Object> {
         } catch (ServletException ex) {
             throw new WebApplicationException(ex);
         }
+    }
+
+    private boolean notStaticResource(HttpServletRequest request) {
+        String servletPath = request.getServletPath();
+        if (StringUtils.endsWith(servletPath, "js") || StringUtils.endsWith(servletPath, "css") || StringUtils.endsWith(servletPath, "styles") || StringUtils.endsWith(servletPath, "scripts")) {
+            return false;
+        }
+        return true;
+
     }
 
     public ViewResolver getViewResolver() {

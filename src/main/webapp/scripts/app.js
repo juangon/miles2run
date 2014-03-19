@@ -17,6 +17,10 @@ angular.module('milestogo', [
                 templateUrl: 'views/postactivity.html',
                 controller: 'PostActivityCtrl'
             })
+            .when('/activity/share/:activityId',{
+                templateUrl:'views/share.html',
+                controller:'ShareActivityCtrl'
+            })
             .when('/progress', {
                 templateUrl: 'views/progress.html',
                 controller: 'ProgressCtrl'
