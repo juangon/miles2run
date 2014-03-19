@@ -55,9 +55,6 @@ public class ViewWriter implements MessageBodyWriter<Object> {
         }
 
         if (!jsessionIdCookieExists && notStaticResource(request)) {
-            System.out.println("Going to create cookiee for requestURI " + request.getRequestURI());
-            System.out.println("Going to create cookiee for servletPath " + request.getServletPath());
-            System.out.println("Going to create cookiee for pathInfo " + request.getPathInfo());
             response.addCookie(new Cookie("JSESSIONID", request.getSession().getId()));
         }
         try {
@@ -77,7 +74,6 @@ public class ViewWriter implements MessageBodyWriter<Object> {
 
     private boolean notStaticResource(HttpServletRequest request) {
         String servletPath = request.getServletPath();
-        System.out.println("Servlet path " + servletPath);
         if (StringUtils.endsWith(servletPath, "js") || StringUtils.endsWith(servletPath, "css") || StringUtils.endsWith(servletPath, "styles") || StringUtils.endsWith(servletPath, "scripts")) {
             return false;
         }
