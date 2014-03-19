@@ -7,6 +7,7 @@ import org.milestogo.resources.api.ProfileResource;
 import org.milestogo.resources.api.ProgressResource;
 import org.milestogo.resources.views.AboutView;
 import org.milestogo.resources.views.HomeView;
+import org.milestogo.resources.views.IndexView;
 import org.milestogo.resources.views.ProfileView;
 
 import javax.ws.rs.core.Application;
@@ -26,6 +27,7 @@ public class RestConfig extends Application {
         classes.add(org.milestogo.api.v2.ProfileResource.class);
         classes.add(org.milestogo.api.v2.ProgressResource.class);
         classes.add(CounterResource.class);
+        classes.add(IndexView.class);
         classes.add(ViewWriter.class);
         classes.add(AboutView.class);
         classes.add(ProfileResource.class);

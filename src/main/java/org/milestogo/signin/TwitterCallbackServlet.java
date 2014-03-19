@@ -11,6 +11,7 @@ import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
 
 import javax.inject.Inject;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.logging.Logger;
 
 /**
  * Created by shekhargulati on 03/03/14.
@@ -31,6 +33,8 @@ public class TwitterCallbackServlet extends HttpServlet {
     private SocialConnectionService socialConnectionService;
     @Inject
     private ProfileService profileService;
+    @Inject
+    private Logger logger;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -39,7 +43,21 @@ public class TwitterCallbackServlet extends HttpServlet {
         RequestToken requestToken = (RequestToken) session.getAttribute("requestToken");
         String oauthVerifier = request.getParameter("oauth_verifier");
         String connectionId = null;
+        ServletContext servletContext = request.getServletContext();
         try {
+            if (oauthVerifier != null && requestToken == null) {
+                logger.info(String.format("Request token was %s. So fetching it from ServletContext", requestToken));
+                String twitterSentRequestToken = request.getParameter("oauth_token");
+                if (twitterSentRequestToken != null) {
+                    requestToken = (RequestToken) servletContext.getAttribute(twitterSentRequestToken);
+                }
+                if (requestToken == null) {
+                    throw new IllegalStateException("Verifier present but request token null");
+                }
+                //Discard the stored request tokens
+                servletContext.removeAttribute(twitterSentRequestToken);
+            }
+            logger.info("Request Token " + requestToken);
             AccessToken oAuthAccessToken = twitter.getOAuthAccessToken(requestToken, oauthVerifier);
             session.removeAttribute("requestToken");
             connectionId = String.valueOf(twitter.getId());
