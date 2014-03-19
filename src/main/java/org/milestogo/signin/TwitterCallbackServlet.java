@@ -14,10 +14,7 @@ import javax.inject.Inject;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.*;
 import java.io.IOException;
 import java.util.logging.Logger;
 
@@ -74,6 +71,7 @@ public class TwitterCallbackServlet extends HttpServlet {
                     logger.info(String.format("New session created with id %s", newSession.getId()));
                     newSession.setAttribute("username", username);
                     newSession.setAttribute("connectionId", connectionId);
+                    response.addCookie(new Cookie("JSESSIONID", newSession.getId()));
                     response.sendRedirect(request.getContextPath() + "/home");
                 }
             } else {
