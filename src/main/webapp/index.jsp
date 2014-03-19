@@ -62,7 +62,7 @@
     </div>
 </div>
 
-<div id="main" class="container-fluid">
+<div id="main" class="container-fluid" ng-controller="CounterCtrl">
     <div id="activity" class="row">
         <h2>Latest MilesToGo Activity</h2>
         <h6>See what's happening in MilesToGo around the world</h6>
@@ -70,16 +70,19 @@
 
         <div class="col-xs-4">
             <div id="developerCounter" class="activity-developers">
+                <h1 ng-bind="counter.developers | developerText"></h1>
             </div>
 
         </div>
         <div class="col-xs-4">
             <div id="countryCounter" class="activity-countries">
+                <h1 ng-bind="counter.countries | countryText"></h1>
             </div>
 
         </div>
         <div class="col-xs-4">
             <div id="runCounter" class="activity-meters">
+                <h1 ng-bind="(counter.totalDistanceCovered | unit:'kms' | number:2) + '  Kms'"></h1>
             </div>
         </div>
     </div>
@@ -104,26 +107,7 @@
 
 <script src="js/jquery.js"></script>
 <script src="js/bootstrap.js"></script>
-<script>
-    $(document).ready(function () {
-        doPoll();
-    });
-    function doPoll() {
-        $.ajax({
-            url: "api/v2/counters",
-            type: "GET",
-            success: function (data) {
-                $("#developerCounter").html("<h1>" + data.developers + " Developers</h1>");
-                $("#countryCounter").html("<h1>" + data.countries + " Countries</h1>");
-                $("#runCounter").html("<h1>" + data.totalDistanceCovered + " Meters ran</h1>");
-                setTimeout(doPoll, 10000);
-            },
-            error: function(){
-                setTimeout(doPoll, 60000);
-            }
-        })
-    }
-
-</script>
+<script src="js/angular.js"></script>
+<script src="js/index.js"></script>
 </body>
 </html>
