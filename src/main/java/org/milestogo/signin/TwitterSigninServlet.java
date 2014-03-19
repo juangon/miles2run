@@ -6,6 +6,7 @@ import twitter4j.TwitterFactory;
 import twitter4j.auth.RequestToken;
 
 import javax.inject.Inject;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -31,6 +32,8 @@ public class TwitterSigninServlet extends HttpServlet {
             callbackUrl.replace(index, callbackUrl.length(), "").append("/callback/twitter");
             RequestToken requestToken = twitter.getOAuthRequestToken(callbackUrl.toString());
             request.getSession().setAttribute("requestToken", requestToken);
+            ServletContext servletContext = request.getServletContext();
+            servletContext.setAttribute(requestToken.getToken(),requestToken);
             response.sendRedirect(requestToken.getAuthenticationURL());
         } catch (TwitterException e) {
             throw new RuntimeException("Unable to get Twitter Authentication Url. Exception is: "+e);

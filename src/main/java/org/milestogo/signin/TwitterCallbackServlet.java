@@ -11,6 +11,7 @@ import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
 
 import javax.inject.Inject;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -39,7 +40,19 @@ public class TwitterCallbackServlet extends HttpServlet {
         RequestToken requestToken = (RequestToken) session.getAttribute("requestToken");
         String oauthVerifier = request.getParameter("oauth_verifier");
         String connectionId = null;
+        ServletContext servletContext = request.getServletContext();
         try {
+            if(oauthVerifier != null && requestToken == null){
+                String twitterSentRequestToken = request.getParameter("oauth_token");
+                if(twitterSentRequestToken != null){
+                    requestToken = (RequestToken) servletContext.getAttribute(twitterSentRequestToken);
+                }
+                if(requestToken == null){
+                    throw new IllegalStateException("Verifier present but request token null");
+                }
+                //Discard the stored request tokens
+                servletContext.removeAttribute(twitterSentRequestToken);
+            }
             System.out.println("Request Token " + requestToken);
             AccessToken oAuthAccessToken = twitter.getOAuthAccessToken(requestToken, oauthVerifier);
             session.removeAttribute("requestToken");
