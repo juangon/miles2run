@@ -46,12 +46,15 @@ public class ViewWriter implements MessageBodyWriter<Object> {
         HttpServletResponse response = ResteasyProviderFactory.getContextData(HttpServletResponse.class);
         Cookie[] cookies = request.getCookies();
         boolean jsessionIdCookieExists = false;
-        for (Cookie cookie : cookies) {
-            if (StringUtils.equals(cookie.getName(), "JSESSIONID")) {
-                jsessionIdCookieExists = true;
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (StringUtils.equals(cookie.getName(), "JSESSIONID")) {
+                    jsessionIdCookieExists = true;
+                }
             }
         }
-        if(!jsessionIdCookieExists){
+
+        if (!jsessionIdCookieExists && notStaticResource(request)) {
             response.addCookie(new Cookie("JSESSIONID", request.getSession().getId()));
         }
         try {
@@ -67,6 +70,16 @@ public class ViewWriter implements MessageBodyWriter<Object> {
         } catch (ServletException ex) {
             throw new WebApplicationException(ex);
         }
+    }
+
+    private boolean notStaticResource(HttpServletRequest request) {
+        String servletPath = request.getServletPath();
+        System.out.println("Servlet path " + servletPath);
+        if (StringUtils.endsWith(servletPath, "js") || StringUtils.endsWith(servletPath, "css") || StringUtils.endsWith(servletPath, "styles") || StringUtils.endsWith(servletPath, "scripts")) {
+            return false;
+        }
+        return true;
+
     }
 
     public ViewResolver getViewResolver() {
