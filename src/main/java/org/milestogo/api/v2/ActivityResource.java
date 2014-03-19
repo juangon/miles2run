@@ -83,8 +83,18 @@ public class ActivityResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id}")
     public Response updateActivity(@PathParam("id") Long id, @Valid Activity activity) {
-        activity.setDistanceCovered(activity.getDistanceCovered() * activity.getGoalUnit().getConversion());
-        ActivityDetails updatedActivity = activityService.update(id, activity);
+        Activity existingActivity = activityService.read(id);
+        if (existingActivity == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+        long distanceCovered = activity.getDistanceCovered() * activity.getGoalUnit().getConversion();
+        long activityPreviousDistanceCovered = existingActivity.getDistanceCovered();
+        long updatedRunCounter = distanceCovered - activityPreviousDistanceCovered;
+        logger.info(String.format("distanceCovered %d activityPreviousDistanceCovered %d updatedRunCounter %d", distanceCovered, activityPreviousDistanceCovered, updatedRunCounter));
+
+        counterService.updateRunCounter(updatedRunCounter);
+        activity.setDistanceCovered(distanceCovered);
+        ActivityDetails updatedActivity = activityService.update(existingActivity, activity);
         return Response.status(Response.Status.OK).entity(updatedActivity).build();
     }
 

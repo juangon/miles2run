@@ -55,17 +55,14 @@ public class ActivityService {
         return query.getResultList();
     }
 
-    public ActivityDetails update(@NotNull Long id, Activity activity) {
-        Activity existingActivity = this.read(id);
-        if (existingActivity == null) {
-            throw new ActivityNotFoundException("No activity found for id: " + id);
-        }
+    public ActivityDetails update(Activity existingActivity, Activity activity) {
+        existingActivity = this.read(existingActivity.getId());
         existingActivity.setStatus(activity.getStatus());
         existingActivity.setDistanceCovered(activity.getDistanceCovered());
         existingActivity.setActivityDate(activity.getActivityDate());
         existingActivity.setGoalUnit(activity.getGoalUnit());
         entityManager.persist(existingActivity);
-        return this.readById(id);
+        return this.readById(existingActivity.getId());
     }
 
     public void delete(@NotNull Long id) {
