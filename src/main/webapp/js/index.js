@@ -31,12 +31,16 @@ app.filter('developerText', function () {
 app.controller('CounterCtrl', CounterCtrl);
 
 function CounterCtrl($scope, $http, $timeout) {
+    $scope.managed = false;
+
     var poll = function () {
         $timeout(function () {
             $http.get("api/v2/counters").success(function (data, status, headers, config) {
+                $scope.managed = true;
                 $scope.counter = data;
                 poll();
             }).error(function (data, status, headers, config) {
+                $scope.managed = true;
                 console.log(data);
                 console.log(status);
                 poll();
