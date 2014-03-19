@@ -2,6 +2,9 @@ package org.milestogo.framework;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -88,7 +91,15 @@ public class View implements Viewable {
         templateEngine.setTemplateResolver(templateResolver);
         WebContext context = new WebContext(request, response, request.getServletContext());
         if (this.model != null) {
-            context.setVariable(this.modelName, this.model);
+            if (this.model instanceof Map) {
+                Map<String, Object> map = (Map) this.model;
+                Set<Map.Entry<String, Object>> entries = map.entrySet();
+                for (Map.Entry<String, Object> entry : entries) {
+                    context.setVariable(entry.getKey(), entry.getValue());
+                }
+            } else {
+                context.setVariable(this.modelName, this.model);
+            }
         }
         if (errors != null && !errors.isEmpty()) {
             context.setVariable("errors", errors);
