@@ -12,7 +12,7 @@
             <i class="fa fa-facebook"></i>
         </div>
         <div ng-hide="activity.share.facebook || activity.share.twitter" class="timeline-badge info" title="share">
-            <i class="glyphicon glyphicon-share"></i>
+            <a ng-href="#/activity/share/{{activity.id}}" title="share activity"><i class="glyphicon glyphicon-share"></i></a>
         </div>
         <div class="timeline-panel">
             <div class="timeline-heading">

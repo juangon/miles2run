@@ -104,4 +104,18 @@ public class SocialConnection implements Serializable{
     public void setProfile(Profile profile) {
         this.profile = profile;
     }
+
+    @Override
+    public String toString() {
+        return "SocialConnection{" +
+                "id=" + id +
+                ", accessToken='" + accessToken + '\'' +
+                ", accessSecret='" + accessSecret + '\'' +
+                ", provider=" + provider +
+                ", handle='" + handle + '\'' +
+                ", connectionId='" + connectionId + '\'' +
+                ", connectedOn=" + connectedOn +
+                ", profile=" + profile +
+                '}';
+    }
 }

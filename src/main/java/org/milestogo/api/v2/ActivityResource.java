@@ -104,4 +104,24 @@ public class ActivityResource {
         activityService.delete(id);
         return Response.noContent().build();
     }
+
+    @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/{id}/share")
+    public Response shareActivity(@PathParam("username") String username, @PathParam("id") Long id, Activity activity) {
+        Profile profile = profileService.findProfile(username);
+        if (profile == null) {
+            return Response.status(Response.Status.NOT_FOUND).entity("No user exists with username " + username).build();
+        }
+        Share share = activity.getShare();
+        if (share != null && share.isTwitter()) {
+            for (SocialConnection socialConnection : profile.getSocialConnections()) {
+                if (socialConnection.getProvider() == SocialProvider.TWITTER) {
+                    twitterService.postStatus(activity.getStatus(), socialConnection.getConnectionId());
+                }
+            }
+        }
+        return Response.ok().build();
+    }
 }
