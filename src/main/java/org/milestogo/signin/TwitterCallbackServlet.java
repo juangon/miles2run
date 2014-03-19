@@ -40,6 +40,7 @@ public class TwitterCallbackServlet extends HttpServlet {
         String oauthVerifier = request.getParameter("oauth_verifier");
         String connectionId = null;
         try {
+            System.out.println("Request Token " + requestToken);
             AccessToken oAuthAccessToken = twitter.getOAuthAccessToken(requestToken, oauthVerifier);
             session.removeAttribute("requestToken");
             connectionId = String.valueOf(twitter.getId());
