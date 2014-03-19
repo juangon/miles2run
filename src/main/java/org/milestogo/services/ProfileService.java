@@ -1,9 +1,6 @@
 package org.milestogo.services;
 
-import org.milestogo.domain.GoalUnit;
-import org.milestogo.domain.Profile;
-import org.milestogo.domain.ProfileSocialConnectionDetails;
-import org.milestogo.domain.SocialProvider;
+import org.milestogo.domain.*;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -81,5 +78,10 @@ public class ProfileService {
             }
         }
         return profileSocialConnectionDetails;
+    }
+
+    public List<ProfileDetails> findProfileWithFullnameLike(String name) {
+        return entityManager.createQuery("SELECT new org.milestogo.domain.ProfileDetails(p.username,p.fullname,p.profilePic) from Profile p WHERE p.fullname LIKE :name", ProfileDetails.class).setParameter("name", "%" + name + "%").getResultList();
+
     }
 }
