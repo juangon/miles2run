@@ -16,6 +16,7 @@ public class ImageUrlValidator implements ConstraintValidator<ImageUrl, CharSequ
             return true;
         }
         String imageUrl = value.toString();
+        imageUrl = imageUrl.trim().toLowerCase();
         return (imageUrl.endsWith(".jpg") || imageUrl.endsWith(".png") || imageUrl.endsWith(".jpeg") || imageUrl
                 .endsWith(".gif")) ? true : false;
     }

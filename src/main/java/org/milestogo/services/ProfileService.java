@@ -81,7 +81,10 @@ public class ProfileService {
     }
 
     public List<ProfileDetails> findProfileWithFullnameLike(String name) {
-        return entityManager.createQuery("SELECT new org.milestogo.domain.ProfileDetails(p.username,p.fullname,p.profilePic) from Profile p WHERE p.fullname LIKE :name", ProfileDetails.class).setParameter("name", "%" + name + "%").getResultList();
+        return entityManager.createQuery("SELECT new org.milestogo.domain.ProfileDetails(p.username,p.fullname,p.profilePic, p.city, p.country) from Profile p WHERE p.fullname LIKE :name", ProfileDetails.class).setParameter("name", "%" + name + "%").getResultList();
+    }
 
+    public List<ProfileDetails> findAllProfiles(List<String> usernames) {
+        return entityManager.createQuery("SELECT new org.milestogo.domain.ProfileDetails(p.username,p.fullname,p.profilePic, p.city, p.country) from Profile p WHERE p.username IN :usernames", ProfileDetails.class).setParameter("usernames", usernames).getResultList();
     }
 }

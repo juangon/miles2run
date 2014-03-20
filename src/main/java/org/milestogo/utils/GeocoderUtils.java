@@ -2,10 +2,7 @@ package org.milestogo.utils;
 
 import com.google.code.geocoder.Geocoder;
 import com.google.code.geocoder.GeocoderRequestBuilder;
-import com.google.code.geocoder.model.GeocodeResponse;
-import com.google.code.geocoder.model.GeocoderAddressComponent;
-import com.google.code.geocoder.model.GeocoderRequest;
-import com.google.code.geocoder.model.GeocoderResult;
+import com.google.code.geocoder.model.*;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
@@ -40,6 +37,31 @@ public abstract class GeocoderUtils {
             return new CityAndCountry(city, country);
         } catch (Exception e) {
             return new CityAndCountry(null, null);
+        }
+
+    }
+
+    public static double[] lngLat(String city, String country) {
+        return findLngLat(new StringBuilder(city).append(" , ").append(country).toString());
+    }
+
+    private static double[] findLngLat(String location) {
+        try {
+            final Geocoder geocoder = new Geocoder();
+            GeocoderRequest geocoderRequest = new GeocoderRequestBuilder()
+                    .setAddress(location).setLanguage("en").getGeocoderRequest();
+            GeocodeResponse geocoderResponse = geocoder.geocode(geocoderRequest);
+
+            if (geocoderResponse.getResults() == null || geocoderResponse.getResults().isEmpty()) {
+                return new double[0];
+            }
+
+            GeocoderResult geocoderResult = geocoderResponse.getResults().get(0);
+            LatLng latLng = geocoderResult.getGeometry().getLocation();
+            return new double[]{latLng.getLng().doubleValue(),
+                    latLng.getLat().doubleValue()};
+        } catch (Exception e) {
+            return new double[0];
         }
 
     }
