@@ -10,7 +10,7 @@ import java.util.Date;
  */
 @Entity
 @NamedQueries({
-        @NamedQuery(name = "Activity.findAll", query = "SELECT NEW org.milestogo.domain.ActivityDetails(a.id,a.status,a.distanceCovered,a.goalUnit,a.activityDate,a.share,a.postedBy.fullname) FROM Activity a WHERE a.postedBy =:postedBy ORDER BY a.activityDate DESC"),
+        @NamedQuery(name = "Activity.findAll", query = "SELECT NEW org.milestogo.domain.ActivityDetails(a.id,a.status,a.distanceCovered,a.goalUnit,a.activityDate,a.share,a.postedBy.fullname,a.postedBy.username,a.postedBy.profilePic) FROM Activity a WHERE a.postedBy =:postedBy ORDER BY a.activityDate DESC"),
         @NamedQuery(name = "Activity.findById", query = "SELECT new org.milestogo.domain.ActivityDetails(a.id,a.status,a.distanceCovered,a.goalUnit,a.activityDate,a.share,a.postedBy.fullname) from Activity a where a.id =:id"),
         @NamedQuery(name = "Activity.countByProfile", query = "SELECT COUNT(a) FROM Activity a WHERE a.postedBy =:profile")
 
