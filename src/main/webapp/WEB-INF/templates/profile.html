@@ -8,6 +8,7 @@
     <link href="/css/bootstrap.css" th:href="@{/css/bootstrap.css}" rel="stylesheet"/>
     <link href="/css/main.css" th:href="@{/css/main.css}" rel="stylesheet"/>
     <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="/css/timeline.css" th:href="@{/css/timeline.css}">
 </head>
 
 <body>
@@ -98,8 +99,26 @@
 
                 <p th:text="${profile.city} + ', '+ ${profile.country}"></p>
             </div>
-            <div class="row" style="border: groove; margin-top: 20px;">
-                <h4>Timeline</h4>
+            <div class="row apptext" th:if="${not #lists.isEmpty(timeline)}">
+                <h2>Timeline</h2>
+                <ul class="timeline list-unstyled apptext" >
+                    <li th:each="activity : ${timeline}">
+                        <div class="timeline-panel">
+                            <div class="timeline-heading">
+                                <h4 class="timeline-title" th:text="${activity.fullname} + ' ran '+ ${activity.distanceCovered} + ${activity.goalUnit}"></h4>
+                            </div>
+                            <div class="timeline-body">
+                                <p th:text="${activity.status}"></p>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+
+            </div>
+            <div class="well noactivity top-buffer" th:if="${#lists.isEmpty(timeline)}">
+                <h2>No activity yet!!</h2>
+                <p class="lead">Login to connect with the user:</p>
+                <a th:href="@{/signin/twitter}" class="btn btn-lg btn-info"><i class="fa fa-twitter"></i> Sign in with Twitter</a>
             </div>
         </div>
 

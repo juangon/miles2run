@@ -55,6 +55,13 @@ public class ActivityService {
         return query.getResultList();
     }
 
+    public List<ActivityDetails> findAll(String username) {
+        Profile profile = profileService.findProfile(username);
+        TypedQuery<ActivityDetails> query = entityManager.createNamedQuery("Activity.findAll", ActivityDetails.class);
+        query.setParameter("postedBy", profile);
+        return query.getResultList();
+    }
+
     public ActivityDetails update(Activity existingActivity, Activity activity) {
         existingActivity = this.read(existingActivity.getId());
         existingActivity.setStatus(activity.getStatus());

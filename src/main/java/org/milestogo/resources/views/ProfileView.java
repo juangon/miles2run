@@ -2,10 +2,7 @@ package org.milestogo.resources.views;
 
 import org.jboss.resteasy.annotations.Form;
 import org.milestogo.dao.FriendDao;
-import org.milestogo.domain.Profile;
-import org.milestogo.domain.ProfileDetails;
-import org.milestogo.domain.Progress;
-import org.milestogo.domain.SocialConnection;
+import org.milestogo.domain.*;
 import org.milestogo.framework.View;
 import org.milestogo.recommendation.FriendRecommender;
 import org.milestogo.resources.views.forms.ProfileForm;
@@ -134,6 +131,8 @@ public class ProfileView {
         }
         Profile profile = profileService.findProfileByUsername(username);
         model.put("profile", profile);
+        List<ActivityDetails> timeline = activityService.findAll(username);
+        model.put("timeline", timeline);
         return new View("/profile", model, "model");
     }
 
