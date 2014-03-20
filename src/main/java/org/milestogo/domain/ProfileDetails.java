@@ -8,11 +8,15 @@ public class ProfileDetails {
     private String username;
     private String fullname;
     private String pic;
+    private String city;
+    private String country;
 
-    public ProfileDetails(String username, String fullname, String pic) {
+    public ProfileDetails(String username, String fullname, String pic, String city, String country) {
         this.username = username;
         this.fullname = fullname;
-        this.pic = this.getImageWithSize(pic, "mini");
+        this.pic = pic;
+        this.city = city;
+        this.country = country;
     }
 
     private String getImageWithSize(String picUrl, String size) {
@@ -35,5 +39,13 @@ public class ProfileDetails {
 
     public String getPic() {
         return pic;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public String getCountry() {
+        return country;
     }
 }

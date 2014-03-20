@@ -1,6 +1,7 @@
 package org.milestogo.resources.config;
 
 import org.milestogo.api.v2.CounterResource;
+import org.milestogo.api.v2.FriendRecommendationResource;
 import org.milestogo.framework.ViewWriter;
 import org.milestogo.resources.api.ActivityResource;
 import org.milestogo.resources.api.ProfileResource;
@@ -31,6 +32,7 @@ public class RestConfig extends Application {
         classes.add(ViewWriter.class);
         classes.add(AboutView.class);
         classes.add(ProfileResource.class);
+        classes.add(FriendRecommendationResource.class);
         return classes;
     }
 }

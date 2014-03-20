@@ -2,6 +2,13 @@
 
 angular.module('milestogo')
     .controller('FriendsCtrl', function ($scope, $http, $window) {
+
+        $scope.currentUser = JSON.parse(localStorage['user']);
+
+        $http.get('api/v2/profiles/' + $scope.currentUser.username + "/friends").then(function (response) {
+            $scope.friends = response.data;
+        });
+
         $scope.selected = undefined;
 
         // Any function returning a promise object can be used to load values asynchronously
@@ -20,6 +27,10 @@ angular.module('milestogo')
         $scope.fetchProfile = function () {
             console.log($scope.profile);
             $window.location.href = "profiles/" + $scope.profile.username;
+        };
+
+        $scope.followUser = function (friend) {
+            console.log(friend);
         }
 
     });

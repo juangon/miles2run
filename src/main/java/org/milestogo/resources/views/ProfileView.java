@@ -1,6 +1,7 @@
 package org.milestogo.resources.views;
 
 import org.jboss.resteasy.annotations.Form;
+import org.milestogo.dao.FriendDao;
 import org.milestogo.domain.Profile;
 import org.milestogo.domain.SocialConnection;
 import org.milestogo.framework.View;
@@ -54,6 +55,9 @@ public class ProfileView {
     @Inject
     private CounterService counterService;
 
+    @Inject
+    FriendDao friendDao;
+
     @GET
     @Produces("text/html")
     @Path("/new")
@@ -89,6 +93,7 @@ public class ProfileView {
         Profile profile = new Profile(profileForm);
         profileService.save(profile);
         socialConnectionService.update(profile, profileForm.getConnectionId());
+        friendDao.save(profile);
         counterService.updateDeveloperCounter();
         counterService.updateCountryCounter(profile.getCountry());
         request.getSession().setAttribute("username", profile.getUsername());
