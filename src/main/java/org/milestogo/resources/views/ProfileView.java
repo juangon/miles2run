@@ -4,11 +4,13 @@ import org.jboss.resteasy.annotations.Form;
 import org.milestogo.dao.FriendDao;
 import org.milestogo.domain.Profile;
 import org.milestogo.domain.ProfileDetails;
+import org.milestogo.domain.Progress;
 import org.milestogo.domain.SocialConnection;
 import org.milestogo.framework.View;
 import org.milestogo.recommendation.FriendRecommender;
 import org.milestogo.resources.views.forms.ProfileForm;
 import org.milestogo.resources.vo.ProfileVo;
+import org.milestogo.services.ActivityService;
 import org.milestogo.services.CounterService;
 import org.milestogo.services.ProfileService;
 import org.milestogo.services.SocialConnectionService;
@@ -64,6 +66,9 @@ public class ProfileView {
     @Inject
     private FriendRecommender friendRecommender;
 
+    @Inject
+    private ActivityService activityService;
+
     @GET
     @Produces("text/html")
     @Path("/new")
@@ -118,10 +123,14 @@ public class ProfileView {
             Profile loggedInUser = profileService.findProfileByUsername(currentLoggedInUser);
             model.put("loggedInUser", loggedInUser);
             List<String> recommendFriends = friendRecommender.recommend(currentLoggedInUser);
-            if(!recommendFriends.isEmpty()){
+            if (!recommendFriends.isEmpty()) {
                 List<ProfileDetails> recommendations = profileService.findAllProfiles(recommendFriends);
                 model.put("recommendations", recommendations);
             }
+        }
+        Progress progress = activityService.findTotalDistanceCovered(username);
+        if (progress != null) {
+            model.put("progress", progress);
         }
         Profile profile = profileService.findProfileByUsername(username);
         model.put("profile", profile);

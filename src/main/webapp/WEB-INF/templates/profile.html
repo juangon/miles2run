@@ -50,7 +50,7 @@
 
     <div class="row">
         <div class="col-xs-3">
-            <div class="row list-group" style="border: groove;text-align: left">
+            <div class="row apptext list-group" style="border: groove">
                 <a href="#" class="list-group-item">
                     <span class="badge">&gt;</span>
                     Timeline
@@ -65,11 +65,21 @@
                 </a>
             </div>
 
-            <div class="row" style="border: groove" th:if="${recommendations != null}">
+            <div class="row top-buffer" style="border: groove" th:if="${progress != null}">
+                <h4>Progress</h4>
+
+                <div class="progress-bar bottom-buffer" role="progressbar" th:style="'width:' + ${progress.percentage} + '%'"
+                     th:text="${progress.percentage} + '%'">
+                </div>
+            </div>
+
+            <div class="row top-buffer" style="border: groove" th:if="${recommendations != null}">
                 <h4>Who to follow</h4>
                 <hr>
                 <div class="row top-buffer" th:each="friend : ${recommendations}">
-                    <a th:href="@{'/profiles/' + ${friend.username}}"><img th:src="${friend.pic}" width="50px" height="50px"></a>
+                    <a th:href="@{'/profiles/' + ${friend.username}}">
+                        <img th:src="${friend.pic}" width="50px" height="50px">
+                    </a>
                     <h4 th:text="${friend.fullname}"></h4>
                     <button class="btn btn-default btn-sm"><i class="glyphicon glyphicon-user"></i> Follow</button>
                 </div>
@@ -79,20 +89,14 @@
 
         <div class="col-xs-offset-1 col-xs-8">
             <div class="row" style="border: groove;background: #808080">
-                <img th:src="${profile.biggerProfilePic}" width="73px" height="73px"/>
+                <img class="top-buffer" th:src="${profile.biggerProfilePic}" width="73px" height="73px"/>
 
-                <h2 th:text="${profile.fullname}"></h2>
+                <h3 th:text="${profile.fullname}"></h3>
                 <h6 th:text="'@' + ${profile.username}"></h6>
 
-                <p class="lead" th:text="${profile.bio}"></p>
-            </div>
-            <div class="row" style="border: groove; margin-top: 20px">
-                <h4>Progress</h4>
+                <p th:text="${profile.bio}"></p>
 
-                <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
-                     style="width: 60%">
-                    60%
-                </div>
+                <p th:text="${profile.city} + ', '+ ${profile.country}"></p>
             </div>
             <div class="row" style="border: groove; margin-top: 20px;">
                 <h4>Timeline</h4>
