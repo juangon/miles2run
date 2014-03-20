@@ -21,6 +21,10 @@ public class ActivityDetails {
 
     private String fullname;
 
+    private String username;
+
+    private String profilePic;
+
     public ActivityDetails(Long id, String status, long distanceCovered, GoalUnit goalUnit, Date activityDate, Share share, String fullname) {
         this.id = id;
         this.status = status;
@@ -29,6 +33,18 @@ public class ActivityDetails {
         this.activityDate = activityDate;
         this.share = share;
         this.fullname = fullname;
+    }
+
+    public ActivityDetails(Long id, String status, long distanceCovered, GoalUnit goalUnit, Date activityDate, Share share, String fullname, String username, String profilePic) {
+        this.id = id;
+        this.status = status;
+        this.goalUnit = goalUnit;
+        this.distanceCovered = distanceCovered/goalUnit.getConversion();
+        this.activityDate = activityDate;
+        this.share = share;
+        this.fullname = fullname;
+        this.username = username;
+        this.profilePic = profilePic;
     }
 
     public Long getId() {
@@ -57,5 +73,13 @@ public class ActivityDetails {
 
     public String getFullname() {
         return fullname;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getProfilePic() {
+        return profilePic;
     }
 }

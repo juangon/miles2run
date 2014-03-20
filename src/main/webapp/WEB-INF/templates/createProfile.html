@@ -393,8 +393,8 @@
                 <label class="col-md-4 control-label" for="bio">Bio</label>
 
                 <div class="col-md-4">
-                    <textarea class="form-control" id="bio" name="bio" th:text="${profile.bio}" title="Please enter 'bio'" required>Tell us about
-                        yourself</textarea>
+                    <textarea class="form-control" id="bio" name="bio" th:text="${profile.bio}" maxlength="140" title="Please enter 'bio' in under 140 characters" required>Tell us about
+                        yourself(max 140 characters)</textarea>
                 </div>
             </div>
 
