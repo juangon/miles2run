@@ -117,8 +117,11 @@
             </div>
             <div class="well noactivity top-buffer" th:if="${#lists.isEmpty(timeline)}">
                 <h2>No activity yet!!</h2>
-                <p class="lead">Login to connect with the user:</p>
-                <a th:href="@{/signin/twitter}" class="btn btn-lg btn-info"><i class="fa fa-twitter"></i> Sign in with Twitter</a>
+
+                <div th:unless="${loggedInUser != null}">
+                    <p class="lead">Login to connect with the user:</p>
+                    <a th:href="@{/signin/twitter}" class="btn btn-lg btn-info"><i class="fa fa-twitter"></i> Sign in with Twitter</a>
+                </div>
             </div>
         </div>
 
