@@ -22,10 +22,14 @@ import twitter4j.auth.AccessToken;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.Response;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 /**
@@ -106,8 +110,23 @@ public class ProfileView {
     @Path("/{username}")
     @Produces("text/html")
     public View viewUserProfile(@PathParam("username") String username) {
+        Map<String, Object> model = new HashMap<>();
+        String currentLoggedInUser = getCurrentLoggedInUser();
+        if (currentLoggedInUser != null) {
+            Profile loggedInUser = profileService.findProfileByUsername(currentLoggedInUser);
+            model.put("loggedInUser", loggedInUser);
+        }
         Profile profile = profileService.findProfileByUsername(username);
-        logger.info(String.format("Profile with %s : %s", username, profile.toString()));
-        return new View("/profile", profile, "profile");
+        model.put("profile", profile);
+        return new View("/profile", model, "model");
+    }
+
+    private String getCurrentLoggedInUser() {
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("username") == null) {
+            return null;
+        }
+        String username = (String) session.getAttribute("username");
+        return username;
     }
 }

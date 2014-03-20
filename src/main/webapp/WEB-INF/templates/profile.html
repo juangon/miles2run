@@ -29,11 +29,11 @@
                 <li><a th:href="@{/about}">About</a></li>
             </ul>
 
-                <ul class="nav navbar-collapse pull-right" th:if="${profile != null}">
+                <ul class="nav navbar-collapse pull-right" th:if="${loggedInUser != null}">
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" th:inline="text"><img th:src="${profile.miniProfilePic}"/> [[${profile.fullname}]] <b class="caret"></b></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" th:inline="text"><img th:src="${loggedInUser.miniProfilePic}"/> [[${loggedInUser.fullname}]] <b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li><a href="#" th:href="@{'/app/profiles/' + ${profile.username}}" th:text="${profile.fullname}"></a></li>
+                            <li><a href="#" th:href="@{'/app/profiles/' + ${loggedInUser.username}}" th:text="${loggedInUser.fullname}"></a></li>
                             <li><a href="#" th:href="@{/logout}">Logout</a></li>
                         </ul>
                     </li>
