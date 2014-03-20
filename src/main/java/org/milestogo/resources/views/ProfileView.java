@@ -3,8 +3,10 @@ package org.milestogo.resources.views;
 import org.jboss.resteasy.annotations.Form;
 import org.milestogo.dao.FriendDao;
 import org.milestogo.domain.Profile;
+import org.milestogo.domain.ProfileDetails;
 import org.milestogo.domain.SocialConnection;
 import org.milestogo.framework.View;
+import org.milestogo.recommendation.FriendRecommender;
 import org.milestogo.resources.views.forms.ProfileForm;
 import org.milestogo.resources.vo.ProfileVo;
 import org.milestogo.services.CounterService;
@@ -26,10 +28,7 @@ import javax.servlet.http.HttpSession;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.Logger;
 
 /**
@@ -61,6 +60,9 @@ public class ProfileView {
 
     @Inject
     FriendDao friendDao;
+
+    @Inject
+    private FriendRecommender friendRecommender;
 
     @GET
     @Produces("text/html")
@@ -115,6 +117,11 @@ public class ProfileView {
         if (currentLoggedInUser != null) {
             Profile loggedInUser = profileService.findProfileByUsername(currentLoggedInUser);
             model.put("loggedInUser", loggedInUser);
+            List<String> recommendFriends = friendRecommender.recommend(currentLoggedInUser);
+            if(!recommendFriends.isEmpty()){
+                List<ProfileDetails> recommendations = profileService.findAllProfiles(recommendFriends);
+                model.put("recommendations", recommendations);
+            }
         }
         Profile profile = profileService.findProfileByUsername(username);
         model.put("profile", profile);
