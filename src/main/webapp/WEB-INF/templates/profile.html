@@ -8,6 +8,7 @@
     <link href="/css/bootstrap.css" th:href="@{/css/bootstrap.css}" rel="stylesheet"/>
     <link href="/css/main.css" th:href="@{/css/main.css}" rel="stylesheet"/>
     <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="/css/timeline.css" th:href="@{/css/timeline.css}">
 </head>
 
 <body>
@@ -21,7 +22,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">MilesToGo</a>
+            <a class="navbar-brand" href="#" th:href="@{/}">MilesToGo</a>
         </div>
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
@@ -29,15 +30,17 @@
                 <li><a th:href="@{/about}">About</a></li>
             </ul>
 
-                <ul class="nav navbar-collapse pull-right" th:if="${profile != null}">
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" th:inline="text"><img th:src="${profile.miniProfilePic}"/> [[${profile.fullname}]] <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="#" th:href="@{'/app/profiles/' + ${profile.username}}" th:text="${profile.fullname}"></a></li>
-                            <li><a href="#" th:href="@{/logout}">Logout</a></li>
-                        </ul>
-                    </li>
-                </ul>
+            <ul class="nav navbar-collapse pull-right" th:if="${loggedInUser != null}">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" th:inline="text"><img
+                            th:src="${loggedInUser.miniProfilePic}"/> [[${loggedInUser.fullname}]] <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#" th:href="@{'/profiles/' + ${loggedInUser.username}}"
+                               th:text="${loggedInUser.fullname}"></a></li>
+                        <li><a href="#" th:href="@{/logout}">Logout</a></li>
+                    </ul>
+                </li>
+            </ul>
         </div>
 
         <!--/.nav-collapse -->
@@ -48,7 +51,7 @@
 
     <div class="row">
         <div class="col-xs-3">
-            <div class="row list-group" style="border: groove;text-align: left">
+            <div class="row apptext list-group" style="border: groove">
                 <a href="#" class="list-group-item">
                     <span class="badge">&gt;</span>
                     Timeline
@@ -63,27 +66,62 @@
                 </a>
             </div>
 
-            <div class="row" style="border: groove">
+            <div class="row top-buffer" style="border: groove" th:if="${progress != null}">
+                <h4>Progress</h4>
+
+                <div class="progress-bar bottom-buffer" role="progressbar" th:style="'width:' + ${progress.percentage} + '%'"
+                     th:text="${progress.percentage} + '%'">
+                </div>
+            </div>
+
+            <div class="row top-buffer" style="border: groove" th:if="${recommendations != null}">
                 <h4>Who to follow</h4>
+                <hr>
+                <div class="row top-buffer" th:each="friend : ${recommendations}">
+                    <a th:href="@{'/profiles/' + ${friend.username}}">
+                        <img th:src="${friend.pic}" width="50px" height="50px">
+                    </a>
+                    <h4 th:text="${friend.fullname}"></h4>
+                    <button class="btn btn-default btn-sm"><i class="glyphicon glyphicon-user"></i> Follow</button>
+                </div>
             </div>
 
         </div>
 
         <div class="col-xs-offset-1 col-xs-8">
             <div class="row" style="border: groove;background: #808080">
-                <img th:src="${profile.biggerProfilePic}" width="73px" height="73px"/>
-                <h2 th:text="${profile.fullname}"></h2>
+                <img class="top-buffer" th:src="${profile.biggerProfilePic}" width="73px" height="73px"/>
+
+                <h3 th:text="${profile.fullname}"></h3>
                 <h6 th:text="'@' + ${profile.username}"></h6>
-                <p class="lead" th:text="${profile.bio}"></p>
+
+                <p th:text="${profile.bio}"></p>
+
+                <p th:text="${profile.city} + ', '+ ${profile.country}"></p>
             </div>
-            <div class="row" style="border: groove; margin-top: 20px">
-                <h4>Progress</h4>
-                <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%">
-                    60%
+            <div class="row apptext" th:if="${not #lists.isEmpty(timeline)}">
+                <h2>Timeline</h2>
+                <ul class="timeline list-unstyled apptext" >
+                    <li th:each="activity : ${timeline}">
+                        <div class="timeline-panel">
+                            <div class="timeline-heading">
+                                <h4 class="timeline-title" th:text="${activity.fullname} + ' ran '+ ${activity.distanceCovered} + ${activity.goalUnit}"></h4>
+                            </div>
+                            <div class="timeline-body">
+                                <p th:text="${activity.status}"></p>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+
+            </div>
+            <div class="well noactivity top-buffer" th:if="${#lists.isEmpty(timeline)}">
+                <h2>No activity yet!!</h2>
+
+                <div th:unless="${loggedInUser != null}">
+                    <p class="lead">Login to connect with the user:</p>
+                    <a th:href="@{/signin/twitter}" class="btn btn-lg btn-info"><i class="fa fa-twitter"></i> Sign in with Twitter</a>
                 </div>
-            </div>
-            <div class="row" style="border: groove; margin-top: 20px;">
-                <h4>Timeline</h4>
             </div>
         </div>
 

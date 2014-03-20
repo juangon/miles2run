@@ -1,24 +1,38 @@
 body {
     padding-top: 50px;
 }
+
 #main {
     padding: 40px 15px;
     text-align: center;
 }
 
-.appnav{
-    text-align: left;
-}
-.noactivity{
+.appnav {
     text-align: left;
 }
 
-cal-heatmap{
+.apptext {
+    text-align: left;
+}
+
+.noactivity {
+    text-align: center;
+}
+
+.top-buffer {
+    margin-top: 10px;
+}
+
+.bottom-buffer {
+    margin-top: 10px;
+}
+
+cal-heatmap {
     text-align: left;
     align-content: center;
 }
 
-div[class*='activity-']{
+div[class*='activity-'] {
     border: ridge;
     text-align: center;
 }
@@ -28,13 +42,16 @@ div[class*='activity-']{
     padding: 15px;
     margin: 0 auto;
 }
+
 .form-signin .form-signin-heading,
 .form-signin .checkbox {
     margin-bottom: 10px;
 }
+
 .form-signin .checkbox {
     font-weight: normal;
 }
+
 .form-signin .form-control {
     position: relative;
     height: auto;
@@ -44,14 +61,17 @@ div[class*='activity-']{
     padding: 10px;
     font-size: 16px;
 }
+
 .form-signin .form-control:focus {
     z-index: 2;
 }
+
 .form-signin input[type="email"] {
     margin-bottom: -1px;
     border-bottom-right-radius: 0;
     border-bottom-left-radius: 0;
 }
+
 .form-signin input[type="password"] {
     margin-bottom: 10px;
     border-top-left-radius: 0;

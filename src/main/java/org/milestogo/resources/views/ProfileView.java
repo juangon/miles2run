@@ -2,11 +2,12 @@ package org.milestogo.resources.views;
 
 import org.jboss.resteasy.annotations.Form;
 import org.milestogo.dao.FriendDao;
-import org.milestogo.domain.Profile;
-import org.milestogo.domain.SocialConnection;
+import org.milestogo.domain.*;
 import org.milestogo.framework.View;
+import org.milestogo.recommendation.FriendRecommender;
 import org.milestogo.resources.views.forms.ProfileForm;
 import org.milestogo.resources.vo.ProfileVo;
+import org.milestogo.services.ActivityService;
 import org.milestogo.services.CounterService;
 import org.milestogo.services.ProfileService;
 import org.milestogo.services.SocialConnectionService;
@@ -22,10 +23,11 @@ import twitter4j.auth.AccessToken;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
-import java.util.ArrayList;
-import java.util.List;
+import javax.ws.rs.core.Response;
+import java.util.*;
 import java.util.logging.Logger;
 
 /**
@@ -57,6 +59,12 @@ public class ProfileView {
 
     @Inject
     FriendDao friendDao;
+
+    @Inject
+    private FriendRecommender friendRecommender;
+
+    @Inject
+    private ActivityService activityService;
 
     @GET
     @Produces("text/html")
@@ -106,8 +114,34 @@ public class ProfileView {
     @Path("/{username}")
     @Produces("text/html")
     public View viewUserProfile(@PathParam("username") String username) {
+        Map<String, Object> model = new HashMap<>();
+        String currentLoggedInUser = getCurrentLoggedInUser();
+        if (currentLoggedInUser != null) {
+            Profile loggedInUser = profileService.findProfileByUsername(currentLoggedInUser);
+            model.put("loggedInUser", loggedInUser);
+            List<String> recommendFriends = friendRecommender.recommend(currentLoggedInUser);
+            if (!recommendFriends.isEmpty()) {
+                List<ProfileDetails> recommendations = profileService.findAllProfiles(recommendFriends);
+                model.put("recommendations", recommendations);
+            }
+        }
+        Progress progress = activityService.findTotalDistanceCovered(username);
+        if (progress != null) {
+            model.put("progress", progress);
+        }
         Profile profile = profileService.findProfileByUsername(username);
-        logger.info(String.format("Profile with %s : %s", username, profile.toString()));
-        return new View("/profile", profile, "profile");
+        model.put("profile", profile);
+        List<ActivityDetails> timeline = activityService.findAll(username);
+        model.put("timeline", timeline);
+        return new View("/profile", model, "model");
+    }
+
+    private String getCurrentLoggedInUser() {
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("username") == null) {
+            return null;
+        }
+        String username = (String) session.getAttribute("username");
+        return username;
     }
 }

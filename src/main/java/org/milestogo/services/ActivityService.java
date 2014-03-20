@@ -55,6 +55,13 @@ public class ActivityService {
         return query.getResultList();
     }
 
+    public List<ActivityDetails> findAll(String username) {
+        Profile profile = profileService.findProfile(username);
+        TypedQuery<ActivityDetails> query = entityManager.createNamedQuery("Activity.findAll", ActivityDetails.class);
+        query.setParameter("postedBy", profile);
+        return query.getResultList();
+    }
+
     public ActivityDetails update(Activity existingActivity, Activity activity) {
         existingActivity = this.read(existingActivity.getId());
         existingActivity.setStatus(activity.getStatus());
@@ -84,5 +91,16 @@ public class ActivityService {
 
     public List<Activity> findActivitiesWithTimeStamp(Profile profile) {
         return entityManager.createQuery("SELECT NEW Activity(a.activityDate,a.distanceCovered,a.goalUnit) from Activity a WHERE a.postedBy =:profile", Activity.class).setParameter("profile", profile).getResultList();
+    }
+
+    public Progress findTotalDistanceCovered(String username) {
+        Profile profile = profileService.findProfile(username);
+        long count = entityManager.createNamedQuery("Activity.countByProfile", Long.class).setParameter("profile", profile).getSingleResult();
+        if (count == 0) {
+            return null;
+        }
+        TypedQuery<Progress> query = entityManager.createQuery("SELECT new org.milestogo.domain.Progress(a.postedBy.goal,a.postedBy.goalUnit, SUM(a.distanceCovered),COUNT(a)) from Activity a WHERE a.postedBy =:postedBy", Progress.class).setParameter("postedBy", profile);
+        return query.getSingleResult();
+
     }
 }
