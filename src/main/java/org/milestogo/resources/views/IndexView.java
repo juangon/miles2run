@@ -2,6 +2,7 @@ package org.milestogo.resources.views;
 
 import org.milestogo.api.v2.Counter;
 import org.milestogo.domain.Profile;
+import org.milestogo.exceptions.ViewException;
 import org.milestogo.framework.View;
 import org.milestogo.services.CounterService;
 import org.milestogo.services.ProfileService;
@@ -14,6 +15,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.core.Context;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Created by shekhargulati on 19/03/14.
@@ -30,22 +33,29 @@ public class IndexView {
 
     @Inject
     private CounterService counterService;
+    @Inject
+    private Logger logger;
 
     @GET
     public View index() {
-        Map<String, Object> model = new HashMap<>();
-        HttpSession session = request.getSession(false);
-        if (session != null && session.getAttribute("username") != null) {
-            String username = (String) session.getAttribute("username");
-            Profile profile = profileService.findProfileByUsername(username);
-            model.put("profile", profile);
+        try {
+            Map<String, Object> model = new HashMap<>();
+            HttpSession session = request.getSession(false);
+            if (session != null && session.getAttribute("username") != null) {
+                String username = (String) session.getAttribute("username");
+                Profile profile = profileService.findProfileByUsername(username);
+                model.put("profile", profile);
+            }
+            // TODO: Fix me .. currently directly converting to KMS
+            Long runCounter = counterService.getRunCounter() / 1000;
+            Long countryCounter = counterService.getCountryCounter();
+            Long developerCounter = counterService.getDeveloperCounter();
+            Counter counter = new Counter(developerCounter, countryCounter, runCounter);
+            model.put("counter", counter);
+            return new View("/index", model);
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "Unable to load index page.", e);
+            throw new ViewException(e.getMessage(), e);
         }
-        // TODO: Fix me .. currently directly converting to KMS
-        Long runCounter = counterService.getRunCounter() / 1000;
-        Long countryCounter = counterService.getCountryCounter();
-        Long developerCounter = counterService.getDeveloperCounter();
-        Counter counter = new Counter(developerCounter, countryCounter, runCounter);
-        model.put("counter", counter);
-        return new View("/index", model);
     }
 }

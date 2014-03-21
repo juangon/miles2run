@@ -20,8 +20,8 @@ import java.util.logging.Logger;
 /**
  * Created by shekhargulati on 11/03/14.
  */
-@Path("/about")
-public class AboutView {
+@Path("/signin")
+public class SigninView {
 
     @Context
     private HttpServletRequest request;
@@ -42,8 +42,11 @@ public class AboutView {
                 String username = (String) session.getAttribute("username");
                 Profile profile = profileService.findProfileByUsername(username);
                 model.put("profile", profile);
+                return new View("/home", model);
             }
-            return new View("/about", model);
+
+            return new View("/signin");
+
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Unable to load about page.", e);
             throw new ViewException(e.getMessage(), e);

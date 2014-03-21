@@ -42,7 +42,7 @@ public class Profile implements Serializable {
     private String fullname;
 
     @NotNull
-    @Size(max = 140)
+    @Size(max = 200)
     private String bio;
 
     @NotNull

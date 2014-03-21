@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="author" content="Shekhar Gulati">
 
-    <title>About MilesToGo</title>
+    <title>Signin MilesToGo</title>
 
     <link href="/css/bootstrap.css" th:href="@{/css/bootstrap.css}" rel="stylesheet">
     <link rel="stylesheet" href="/css/font-awesome.css" th:href="@{/css/font-awesome.css}">
@@ -55,9 +55,16 @@
 
 <div id="main" class="container-fluid" ng-controller="CounterCtrl">
 
-    <div class="jumbotron">
-        <h1 style="color: red">Oops, 404!</h1>
-        <p th:text="${error}"></p>
+    <div id="join" class="row">
+        <h2>Please signin before performing any action</h2>
+        <div class="col-xs-6">
+            <a href="signin/twitter" class="btn btn-lg btn-info"><i class="fa fa-twitter"></i> Sign in with Twitter</a>
+        </div>
+        <div class="col-xs-6">
+            <a href="signin/facebook" class="btn btn-lg btn-info"><i class="fa fa-facebook"></i> Sign in with
+                Facebook</a>
+        </div>
+
     </div>
 
 </div>
