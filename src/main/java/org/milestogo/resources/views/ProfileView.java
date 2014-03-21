@@ -32,7 +32,6 @@ import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.Response;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -124,12 +123,14 @@ public class ProfileView {
                 Throwable rollbackCause = rollbackException.getCause();
                 if (rollbackCause instanceof PersistenceException) {
                     PersistenceException persistenceException = (PersistenceException) rollbackCause;
-                    ConstraintViolationException constraintViolationException = (ConstraintViolationException) persistenceException.getCause();
-                    Set<ConstraintViolation<?>> constraintViolations = constraintViolationException.getConstraintViolations();
-                    for (ConstraintViolation<?> constraintViolation : constraintViolations) {
-                        errors.add(String.format("Field '%s' with value '%s' is invalid. %s", constraintViolation.getPropertyPath(), constraintViolation.getInvalidValue(), constraintViolation.getMessage()));
+                    if (persistenceException.getCause() instanceof ConstraintViolationException) {
+                        ConstraintViolationException constraintViolationException = (ConstraintViolationException) persistenceException.getCause();
+                        Set<ConstraintViolation<?>> constraintViolations = constraintViolationException.getConstraintViolations();
+                        for (ConstraintViolation<?> constraintViolation : constraintViolations) {
+                            errors.add(String.format("Field '%s' with value '%s' is invalid. %s", constraintViolation.getPropertyPath(), constraintViolation.getInvalidValue(), constraintViolation.getMessage()));
+                        }
+                        return new View("/createProfile", profileForm, "profile", errors);
                     }
-                    return new View("/createProfile", profileForm, "profile", errors);
                 }
                 errors.add(e.getMessage());
                 return new View("/createProfile", profileForm, "profile", errors);
