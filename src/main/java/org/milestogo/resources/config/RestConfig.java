@@ -2,7 +2,6 @@ package org.milestogo.resources.config;
 
 import org.milestogo.api.v2.CounterResource;
 import org.milestogo.api.v2.FriendRecommendationResource;
-import org.milestogo.exceptions.ViewResourceNotFoundException;
 import org.milestogo.framework.NotFoundExceptionMapper;
 import org.milestogo.framework.ViewExceptionMapper;
 import org.milestogo.framework.ViewResourceNotFoundExceptionMapper;
@@ -38,6 +37,7 @@ public class RestConfig extends Application {
         classes.add(ViewExceptionMapper.class);
         classes.add(ViewResourceNotFoundExceptionMapper.class);
         classes.add(SigninView.class);
+        classes.add(NotFoundView.class);
         return classes;
     }
 }

@@ -9,10 +9,13 @@ import javax.servlet.annotation.WebInitParam;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.logging.Logger;
 
 
 @WebFilter(displayName = "Jug", urlPatterns = "/*", initParams = {@WebInitParam(name = "javax.ws.rs.Application", value = "org.milestogo.resources.config.RestConfig")})
 public class JugFilterDispatcher extends FilterDispatcher {
+
+    private Logger logger = Logger.getLogger(this.getClass().getName());
 
     @Override
     public HttpResponse createResteasyHttpResponse(HttpServletResponse response) {
