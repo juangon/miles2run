@@ -105,11 +105,18 @@
                     <li th:each="activity : ${timeline}">
                         <div class="row top-buffer" style="border: groove">
                             <div class="col-md-1">
-                                <img th:src="${activity.profilePic}" width="50px" height="50px">
+                                <a href="#" th:href="@{'/profiles/' + ${activity.username}}" th:inline="text"><img
+                                        th:src="${activity.profilePic}" width="50px" height="50px"></a>
                             </div>
                             <div class="col-md-11">
-                                <h4 class="timeline-title" th:text="${activity.fullname} + ' ran '+ ${activity.distanceCovered} + ${activity.goalUnit}"></h4>
-                                <p th:inline="text">[[${activity.status}]]<small class="text-muted pull-right"><i class="glyphicon glyphicon-time"></i> [[${activity.activityDate}]]</small></p>
+                                <h4 class="timeline-title" th:inline="text">[[${activity.fullname} + ' ran '+
+                                    ${activity.distanceCovered} + ${activity.goalUnit}]]
+                                    <small class="text-muted pull-right"><i class="glyphicon glyphicon-time"
+                                                                            title="activity date"></i>
+                                        [[${activity.activityDate}]]
+                                    </small>
+                                </h4>
+                                <p th:if="${activity.status != null}" th:text="${activity.status}"></p>
                             </div>
                         </div>
 
