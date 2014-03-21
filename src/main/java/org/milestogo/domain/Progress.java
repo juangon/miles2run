@@ -15,9 +15,9 @@ public class Progress {
         this.goal = goal / this.goalUnit.getConversion();
         this.totalDistanceCovered = totalDistanceCovered / this.goalUnit.getConversion();
         this.activityCount = activityCount;
-        if(goal != 0){
-            double percentageInDouble =  ((double)totalDistanceCovered / goal) * 100;
-            this.percentage = new Double(percentageInDouble).longValue();
+        if (goal != 0) {
+            double percentageInDouble = ((double) totalDistanceCovered / goal) * 100;
+            this.percentage = Double.valueOf(Math.ceil(percentageInDouble)).longValue();
             this.percentage = this.percentage > 100 ? 100 : this.percentage;
         }
     }

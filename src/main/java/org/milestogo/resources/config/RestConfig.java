@@ -37,7 +37,6 @@ public class RestConfig extends Application {
         classes.add(ViewExceptionMapper.class);
         classes.add(ViewResourceNotFoundExceptionMapper.class);
         classes.add(SigninView.class);
-        classes.add(NotFoundView.class);
         return classes;
     }
 }
