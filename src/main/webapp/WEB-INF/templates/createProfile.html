@@ -30,11 +30,10 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">MilesToGo</a>
+            <a class="navbar-brand" href="/" th:href="@{/}">MilesToGo</a>
         </div>
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-
                 <li><a th:href="@{/about}">About</a></li>
             </ul>
 
@@ -56,7 +55,7 @@
         </ul>
     </div>
 
-    <form id="profileForm" class="form-horizontal" role="form" action="" th:action="@{/profiles}" method="POST" novalidate="false">
+    <form id="profileForm" class="form-horizontal" role="form" action="" th:action="@{/profiles/new}" method="POST" novalidate="false">
         <fieldset>
 
             <!-- Form Name -->
@@ -76,8 +75,8 @@
                 <label class="col-md-4 control-label" for="fullname">Full Name</label>
 
                 <div class="col-md-6">
-                    <input id="fullname" name="fullname" type="text" placeholder="Your full name"
-                           class="form-control input-md" th:value="${profile.fullname}" title="Please enter 'fullname'" required="">
+                    <input id="fullname" name="fullname" type="text" placeholder="Your full name(max 50 characters)"
+                           class="form-control input-md" th:value="${profile.fullname}" title="Please enter 'fullname' less than 50 characters" required="">
 
                 </div>
             </div>
@@ -98,8 +97,7 @@
 
                 <div class="col-md-6">
                     <input id="username" name="username" type="text"
-                           placeholder="Your unique username(only alphanumeric)" class="form-control input-md" title="Please enter 'username'"
-                           th:value="${profile.username}" required="">
+                           placeholder="Your unique username(only alphanumeric)" class="form-control input-md" maxlength="20" title="Please enter 'username' less than 20 characters" th:value="${profile.username}" required="">
 
                 </div>
             </div>
@@ -393,8 +391,7 @@
                 <label class="col-md-4 control-label" for="bio">Bio</label>
 
                 <div class="col-md-4">
-                    <textarea class="form-control" id="bio" name="bio" th:text="${profile.bio}" maxlength="140" title="Please enter 'bio' in under 140 characters" required>Tell us about
-                        yourself(max 140 characters)</textarea>
+                    <textarea class="form-control" id="bio" name="bio" th:text="${profile.bio}" maxlength="200" title="Please enter 'bio' in under 200 characters" required placeholder="Tell us about yourself(max 200 characters)"></textarea>
                 </div>
             </div>
 
@@ -441,6 +438,24 @@
     $(document).ready(function () {
         $('#profileForm').validate();
     });
+</script>
+
+<script>
+    (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r;
+        i[r] = i[r] || function () {
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date();
+        a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0];
+        a.async = 1;
+        a.src = g;
+        m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+    ga('create', 'UA-49243977-1', 'miles2run.org');
+    ga('send', 'pageview');
+
 </script>
 
 </body>

@@ -1,12 +1,12 @@
 <!doctype html>
-<html lang="en" ng-app="milestogo" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="author" content="Shekhar Gulati">
 
-    <title>MilesToGo</title>
+    <title>Error 500(Internal Server Error)!</title>
 
     <link href="/css/bootstrap.css" th:href="@{/css/bootstrap.css}" rel="stylesheet">
     <link rel="stylesheet" href="/css/font-awesome.css" th:href="@{/css/font-awesome.css}">
@@ -55,43 +55,10 @@
 
 <div id="main" class="container-fluid" ng-controller="CounterCtrl">
 
-    <div id="activity" class="row">
-        <h2>Latest MilesToGo Activity</h2>
-        <h6>See what's happening in MilesToGo around the world</h6>
-        <br><br>
-
-        <div class="col-xs-4">
-            <div id="developerCounter" class="activity-developers">
-                <h1 ng-bind="counter.developers | developerText" th:text="${counter.developers} + ' Developers'"></h1>
-            </div>
-
-        </div>
-        <div class="col-xs-4">
-            <div id="countryCounter" class="activity-countries">
-                <h1 ng-bind="counter.countries | countryText" th:text="${counter.countries} + ' Countries'"></h1>
-            </div>
-
-        </div>
-        <div class="col-xs-4">
-            <div id="runCounter" class="activity-meters">
-                <h1 ng-bind="(counter.totalDistanceCovered | unit:'kms' | number:2) + '  Kms'" th:text="${counter.totalDistanceCovered} + ' Kms'"></h1>
-            </div>
-        </div>
-    </div>
-    <br><br>
-
-    <div id="join" class="row">
-        <div class="col-xs-4">
-            <h2>Join the community</h2>
-        </div>
-        <div class="col-xs-4">
-            <a href="signin/twitter" class="btn btn-lg btn-info"><i class="fa fa-twitter"></i> Sign in with Twitter</a>
-        </div>
-        <div class="col-xs-4">
-            <a href="signin/facebook" class="btn btn-lg btn-info"><i class="fa fa-facebook"></i> Sign in with
-                Facebook</a>
-        </div>
-
+    <div class="jumbotron">
+        <h1 style="color: red">Oops, 500!</h1>
+        <p class="lead">We appear to be having technical difficulties. Please try the operation again or come back later.</p>
+        <p th:text="${error}"></p>
     </div>
 
 </div>

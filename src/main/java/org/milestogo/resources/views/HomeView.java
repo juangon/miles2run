@@ -1,6 +1,7 @@
 package org.milestogo.resources.views;
 
 import org.milestogo.domain.Profile;
+import org.milestogo.exceptions.ViewException;
 import org.milestogo.framework.View;
 import org.milestogo.services.ProfileService;
 
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpSession;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Context;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -29,14 +31,19 @@ public class HomeView {
 
     @GET
     public View home() {
-        HttpSession session = request.getSession(false);
-        if (session == null || session.getAttribute("username") == null) {
-            logger.info(String.format("No user existed in session %s . So redirecting to Index view", session));
-            return new View("/", true);
+        try {
+            HttpSession session = request.getSession(false);
+            if (session == null || session.getAttribute("username") == null) {
+                logger.info(String.format("No user existed in session %s . So redirecting to Index view", session));
+                return new View("/signin", true);
+            }
+            logger.info(String.format("session with id %s", session.getId()));
+            String username = (String) session.getAttribute("username");
+            Profile profile = profileService.findProfileByUsername(username);
+            return new View("/home", profile, "profile");
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "Unable to load home page.", e);
+            throw new ViewException(e.getMessage(), e);
         }
-        logger.info(String.format("session with id %s", session.getId()));
-        String username = (String) session.getAttribute("username");
-        Profile profile = profileService.findProfileByUsername(username);
-        return new View("/home", profile, "profile");
     }
 }
