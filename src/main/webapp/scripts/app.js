@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('milestogo', [
+var app = angular.module('milestogo', [
         'ngCookies',
         'ngResource',
         'ngSanitize',
@@ -17,9 +17,9 @@ angular.module('milestogo', [
                 templateUrl: 'views/postactivity.html',
                 controller: 'PostActivityCtrl'
             })
-            .when('/activity/share/:activityId',{
-                templateUrl:'views/share.html',
-                controller:'ShareActivityCtrl'
+            .when('/activity/share/:activityId', {
+                templateUrl: 'views/share.html',
+                controller: 'ShareActivityCtrl'
             })
             .when('/progress', {
                 templateUrl: 'views/progress.html',
@@ -48,6 +48,7 @@ angular.module('milestogo', [
             toastr.error("Looks like you are not signed in. Please signin using twitter");
         });
     });
+
 
 function HeaderCtrl($scope, $location) {
 
