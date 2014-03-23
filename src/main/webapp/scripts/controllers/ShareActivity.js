@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('milestogo')
-    .controller('ShareActivityCtrl', function ($scope, $routeParams, ActivityService, $location) {
-        $scope.currentUser = JSON.parse(localStorage['user']);
+    .controller('ShareActivityCtrl', function ($scope, $routeParams, ActivityService, $location, activeProfile) {
+        $scope.currentUser = activeProfile;
 
         var activityId = $routeParams.activityId;
 

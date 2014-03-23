@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('milestogo')
-    .controller('MainCtrl', function ($scope, ActivityService) {
-        $scope.currentUser = JSON.parse(localStorage['user']);
+    .controller('MainCtrl', function ($scope, ActivityService, activeProfile) {
+        $scope.currentUser = activeProfile;
 
         ActivityService.timeline($scope.currentUser.username).success(function (data, status, headers, config) {
             $scope.activities = data;

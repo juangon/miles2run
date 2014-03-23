@@ -40,15 +40,12 @@ var app = angular.module('milestogo', [
             .otherwise({
                 redirectTo: '/'
             });
-    }).run(function ($rootScope, ProfileService, $route, $location) {
-        ProfileService.me().success(function (data, status, headers, config) {
-            console.log("User cached..");
-            localStorage['user'] = JSON.stringify(data);
-        }).error(function (data, status, headers, config) {
-            toastr.error("Looks like you are not signed in. Please signin using twitter");
-        });
     });
 
+app.config(['$provide', function ($provide) {
+    var profile = angular.copy(window.activeUserProfile);
+    $provide.constant('activeProfile', profile);
+}]);
 
 function HeaderCtrl($scope, $location) {
 
