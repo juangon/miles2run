@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('milestogo')
-    .controller('ProgressCtrl', function ($scope, ProgressService, ConfigService) {
-        $scope.currentUser = JSON.parse(localStorage['user']);
+    .controller('ProgressCtrl', function ($scope, ProgressService, ConfigService, activeProfile) {
+        $scope.currentUser = activeProfile;
         $scope.error = null;
         $scope.data = {};
 

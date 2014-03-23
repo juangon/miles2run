@@ -1,15 +1,14 @@
 'use strict';
 
-function PostActivityCtrl($scope, ActivityService, $location, ProfileService) {
+function PostActivityCtrl($scope, ActivityService, $location, ProfileService, activeProfile) {
 
-    $scope.currentUser = JSON.parse(localStorage['user']);
+    $scope.currentUser = activeProfile;
     $scope.activity = {
-        goalUnit: $scope.currentUser.goalUnit,
+        goalUnit: $scope.currentUser.goalUnit.$name,
         share: {}
     };
 
     $scope.postActivity = function () {
-        console.log($scope.activity);
         ActivityService.postActivity($scope.currentUser.username, $scope.activity).success(function (data, status, headers, config) {
             toastr.success("Posted new activity");
             $location.path('/');

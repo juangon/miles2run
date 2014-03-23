@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('milestogo')
-    .controller('FriendsCtrl', function ($scope, $http, $window) {
+    .controller('FriendsCtrl', function ($scope, $http, $window, activeProfile) {
 
-        $scope.currentUser = JSON.parse(localStorage['user']);
+        $scope.currentUser = activeProfile;
 
         $http.get('api/v2/profiles/' + $scope.currentUser.username + "/friends").then(function (response) {
             $scope.friends = response.data;
