@@ -28,6 +28,16 @@
         </div>
 
         <div class="form-group">
+            <label class="col-md-2 control-label">Duration</label>
+
+            <div class="col-md-6 input-group">
+                <input id="durationHours" name="durationHours" ng-model="duration.hours" title="Hours" type="number" step="1" min="0" max="23"> hour(s) :
+                <input id="durationMinutes" name="durationMinutes" ng-model="duration.minutes" title="Minutes" type="number" step="1" min="0" max="59"> minute(s) :
+                <input id="durationSeconds" name="durationSeconds" ng-model="duration.seconds" title="Seconds" type="number" step="1" min="0" max="59"> second(s)
+            </div>
+        </div>
+
+        <div class="form-group">
             <label class="col-md-2 control-label" for="status">How did it go?</label>
 
             <div class="col-md-6 input-group">

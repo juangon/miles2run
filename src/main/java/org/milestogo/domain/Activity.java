@@ -11,7 +11,7 @@ import java.util.Date;
 @Entity
 @NamedQueries({
         @NamedQuery(name = "Activity.findAll", query = "SELECT NEW org.milestogo.domain.ActivityDetails(a.id,a.status,a.distanceCovered,a.goalUnit,a.activityDate,a.share,a.postedBy.fullname,a.postedBy.username,a.postedBy.profilePic) FROM Activity a WHERE a.postedBy =:postedBy ORDER BY a.activityDate DESC"),
-        @NamedQuery(name = "Activity.findById", query = "SELECT new org.milestogo.domain.ActivityDetails(a.id,a.status,a.distanceCovered,a.goalUnit,a.activityDate,a.share,a.postedBy.fullname) from Activity a where a.id =:id"),
+        @NamedQuery(name = "Activity.findById", query = "SELECT new org.milestogo.domain.ActivityDetails(a.id,a.status,a.distanceCovered,a.goalUnit,a.activityDate,a.share,a.postedBy.fullname,a.duration) from Activity a where a.id =:id"),
         @NamedQuery(name = "Activity.countByProfile", query = "SELECT COUNT(a) FROM Activity a WHERE a.postedBy =:profile")
 
 })
@@ -43,6 +43,8 @@ public class Activity {
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Share share;
+
+    private long duration;
 
     public Activity() {
     }
@@ -135,5 +137,13 @@ public class Activity {
 
     public void setShare(Share share) {
         this.share = share;
+    }
+
+    public long getDuration() {
+        return duration;
+    }
+
+    public void setDuration(long duration) {
+        this.duration = duration;
     }
 }

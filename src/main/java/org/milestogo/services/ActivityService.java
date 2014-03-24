@@ -3,8 +3,8 @@ package org.milestogo.services;
 import org.milestogo.domain.Activity;
 import org.milestogo.domain.ActivityDetails;
 import org.milestogo.domain.Profile;
-import org.milestogo.exceptions.ActivityNotFoundException;
 import org.milestogo.domain.Progress;
+import org.milestogo.exceptions.ActivityNotFoundException;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -68,6 +68,7 @@ public class ActivityService {
         existingActivity.setDistanceCovered(activity.getDistanceCovered());
         existingActivity.setActivityDate(activity.getActivityDate());
         existingActivity.setGoalUnit(activity.getGoalUnit());
+        existingActivity.setDuration(activity.getDuration());
         entityManager.persist(existingActivity);
         return this.readById(existingActivity.getId());
     }

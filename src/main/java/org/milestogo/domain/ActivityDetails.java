@@ -25,21 +25,24 @@ public class ActivityDetails {
 
     private String profilePic;
 
-    public ActivityDetails(Long id, String status, long distanceCovered, GoalUnit goalUnit, Date activityDate, Share share, String fullname) {
+    private long duration;
+
+    public ActivityDetails(Long id, String status, long distanceCovered, GoalUnit goalUnit, Date activityDate, Share share, String fullname, long duration) {
         this.id = id;
         this.status = status;
         this.goalUnit = goalUnit;
-        this.distanceCovered = distanceCovered/goalUnit.getConversion();
+        this.distanceCovered = distanceCovered / goalUnit.getConversion();
         this.activityDate = activityDate;
         this.share = share;
         this.fullname = fullname;
+        this.duration = duration;
     }
 
     public ActivityDetails(Long id, String status, long distanceCovered, GoalUnit goalUnit, Date activityDate, Share share, String fullname, String username, String profilePic) {
         this.id = id;
         this.status = status;
         this.goalUnit = goalUnit;
-        this.distanceCovered = distanceCovered/goalUnit.getConversion();
+        this.distanceCovered = distanceCovered / goalUnit.getConversion();
         this.activityDate = activityDate;
         this.share = share;
         this.fullname = fullname;
@@ -81,5 +84,9 @@ public class ActivityDetails {
 
     public String getProfilePic() {
         return profilePic;
+    }
+
+    public long getDuration() {
+        return duration;
     }
 }
