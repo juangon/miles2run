@@ -40,8 +40,10 @@ public class TwitterCallbackServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String denied = request.getParameter("denied");
+        String contextPath = request.getContextPath();
         if (StringUtils.isNotBlank(denied)) {
-            response.sendRedirect(request.getContextPath());
+            logger.info("Context Path: " + contextPath);
+            response.sendRedirect(contextPath);
         } else {
             Twitter twitter = twitterFactory.getInstance();
             HttpSession session = request.getSession();
@@ -71,7 +73,7 @@ public class TwitterCallbackServlet extends HttpServlet {
                 if (existingSocialConnection != null) {
                     if (existingSocialConnection.getProfile() == null) {
                         logger.info("Profile was null. So redirecting to new profile creation.");
-                        response.sendRedirect(request.getContextPath() + "/profiles/new?connectionId=" + connectionId);
+                        response.sendRedirect(contextPath + "/profiles/new?connectionId=" + connectionId);
                     } else {
                         String username = existingSocialConnection.getProfile().getUsername();
                         logger.info(String.format("User %s already had authenticated with twitter. So redirecting to home.", username));
@@ -79,12 +81,12 @@ public class TwitterCallbackServlet extends HttpServlet {
                         logger.info(String.format("New session created with id %s", newSession.getId()));
                         newSession.setAttribute("username", username);
                         newSession.setAttribute("connectionId", connectionId);
-                        response.sendRedirect(request.getContextPath() + "/home");
+                        response.sendRedirect(contextPath + "/home");
                     }
                 } else {
                     SocialConnection socialConnection = new SocialConnection(oAuthAccessToken.getToken(), oAuthAccessToken.getTokenSecret(), SocialProvider.TWITTER, oAuthAccessToken.getScreenName(), connectionId);
                     socialConnectionService.save(socialConnection);
-                    response.sendRedirect(request.getContextPath() + "/profiles/new?connectionId=" + connectionId);
+                    response.sendRedirect(contextPath + "/profiles/new?connectionId=" + connectionId);
                 }
 
             } catch (TwitterException e) {
