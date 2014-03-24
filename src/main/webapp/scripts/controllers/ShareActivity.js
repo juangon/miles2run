@@ -29,6 +29,21 @@ angular.module('milestogo')
                 toastr.error("Unable to share activity. Please try later.");
                 $location.path('/');
             });
+        };
+
+        $scope.socialProviderSelected = function () {
+            if(!$scope.activityDetails){
+                return "disabled";
+            }
+            return anyProviderSelected($scope.activityDetails.share) ? "goodtogo" : "disabled";
         }
+
+        var anyProviderSelected = function(share){
+            if(share.facebook || share.twitter || share.googlePlus){
+                return true;
+            }
+            return false;
+        }
+
 
     });
