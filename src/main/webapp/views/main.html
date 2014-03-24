@@ -1,3 +1,11 @@
+<script type="text/ng-template" id="confirm.html">
+    <div class="modal-footer">
+        <p class="pull-left">Are you sure you want to delete this activity?</p>
+        <button class="btn btn-danger" ng-click="ok()">Delete</button>
+        <button class="btn btn-default" ng-click="cancel()">Cancel</button>
+    </div>
+</script>
+
 <div class="noactivity well" ng-if="activities.length == 0" ng-cloak>
     <h2>You haven't tracked any activities yet!!</h2>
     <p class="lead">But don't worry! It's really easy to get started. Just click on the button below to enter your first activity:</p>
