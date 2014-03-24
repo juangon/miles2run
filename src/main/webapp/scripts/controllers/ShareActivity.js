@@ -32,7 +32,6 @@ angular.module('milestogo')
         };
 
         $scope.isDisabled = function () {
-            console.log($scope.activityDetails);
             if(!$scope.activityDetails){
                 return "disabled";
             }
