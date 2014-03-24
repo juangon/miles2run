@@ -6,6 +6,7 @@ import com.google.code.geocoder.model.*;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by shekhargulati on 12/03/14.
@@ -42,7 +43,12 @@ public abstract class GeocoderUtils {
     }
 
     public static double[] lngLat(String city, String country) {
-        return findLngLat(new StringBuilder(city).append(" , ").append(country).toString());
+        String countryDisplayName = toDisplayName(country);
+        return findLngLat(new StringBuilder(city).append(" , ").append(countryDisplayName).toString());
+    }
+
+    private static String toDisplayName(String countryCode) {
+        return new Locale("", countryCode).getDisplayCountry();
     }
 
     private static double[] findLngLat(String location) {

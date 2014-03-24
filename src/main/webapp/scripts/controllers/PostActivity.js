@@ -9,6 +9,7 @@ function PostActivityCtrl($scope, ActivityService, $location, ProfileService, ac
     };
 
     $scope.postActivity = function () {
+        $scope.activity.duration = toSeconds($scope.duration);
         ActivityService.postActivity($scope.currentUser.username, $scope.activity).success(function (data, status, headers, config) {
             toastr.success("Posted new activity");
             $location.path('/');
@@ -57,6 +58,17 @@ function PostActivityCtrl($scope, ActivityService, $location, ProfileService, ac
 
     $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'shortDate'];
     $scope.format = $scope.formats[0];
+}
+
+function toSeconds(duration) {
+    if (duration) {
+        var hours = duration.hours ? duration.hours : 0;
+        var minutes = duration.minutes ? duration.minutes : 0;
+        var seconds = duration.seconds ? duration.seconds : 0;
+        return hours * 60 * 60 + minutes * 60 + seconds;
+    }
+    return 0;
+
 }
 angular.module('milestogo')
     .controller('PostActivityCtrl', PostActivityCtrl);
