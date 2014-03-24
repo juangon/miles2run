@@ -43,6 +43,9 @@ public class TwitterCallbackServlet extends HttpServlet {
         String contextPath = request.getContextPath();
         if (StringUtils.isNotBlank(denied)) {
             logger.info("Context Path: " + contextPath);
+            if (StringUtils.isBlank(contextPath)) {
+                contextPath = "/";
+            }
             response.sendRedirect(contextPath);
         } else {
             Twitter twitter = twitterFactory.getInstance();
