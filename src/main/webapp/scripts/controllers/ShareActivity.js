@@ -31,7 +31,7 @@ angular.module('milestogo')
             });
         };
 
-        $scope.isDisabled = function () {
+        $scope.socialProviderSelected = function () {
             if(!$scope.activityDetails){
                 return "disabled";
             }
