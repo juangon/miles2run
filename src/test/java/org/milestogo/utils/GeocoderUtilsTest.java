@@ -3,8 +3,6 @@ package org.milestogo.utils;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.Arrays;
-
 /**
  * Created by shekhargulati on 12/03/14.
  */
@@ -36,10 +34,10 @@ public class GeocoderUtilsTest {
     @Test
     public void testFindLngLat() throws Exception {
         String city = "Gurgaon";
-        String country = "India";
+        String country = "IN";
         double[] lngLat = GeocoderUtils.lngLat(city, country);
         Assert.assertNotNull(lngLat);
-        Assert.assertArrayEquals(new double[]{77.0266383, 28.4594965}, lngLat, 0.2);
+        Assert.assertArrayEquals(new double[]{77.0266383, 28.4594965}, lngLat, 0.0d);
 
     }
 }
