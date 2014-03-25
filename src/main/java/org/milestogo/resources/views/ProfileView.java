@@ -152,7 +152,6 @@ public class ProfileView {
         }
     }
 
-
     @GET
     @Path("/{username}")
     @Produces("text/html")
@@ -168,13 +167,6 @@ public class ProfileView {
             if (currentLoggedInUser != null) {
                 Profile loggedInUser = profileService.findProfileByUsername(currentLoggedInUser);
                 model.put("loggedInUser", loggedInUser);
-                List<String> recommendFriends = friendRecommender.recommend(currentLoggedInUser);
-                logger.info("Recommended Friends : " + recommendFriends);
-                if (!recommendFriends.isEmpty()) {
-                    List<ProfileDetails> recommendations = profileService.findAllProfiles(recommendFriends);
-                    logger.info("Recommended Friends Profile Details " + recommendations);
-                    model.put("recommendations", recommendations);
-                }
             }
 
             Progress progress = activityService.findTotalDistanceCovered(username);
@@ -197,6 +189,81 @@ public class ProfileView {
             throw new ViewException(e.getMessage(), e);
         }
     }
+
+
+    @GET
+    @Path("/{username}/following")
+    @Produces("text/html")
+    public View following(@PathParam("username") String username) {
+        try {
+            Profile profile = profileService.findProfileByUsername(username);
+            if (profile == null) {
+                throw new ViewResourceNotFoundException(String.format("No user exists with username %s", username));
+            }
+            Map<String, Object> model = new HashMap<>();
+            model.put("profile", profile);
+            String currentLoggedInUser = getCurrentLoggedInUser();
+            if (currentLoggedInUser != null) {
+                Profile loggedInUser = profileService.findProfileByUsername(currentLoggedInUser);
+                model.put("loggedInUser", loggedInUser);
+            }
+            UserProfile userProfile = profileMongoDao.findProfile(username);
+            List<String> following = userProfile.getFollowing();
+            if (!following.isEmpty()) {
+                List<ProfileDetails> profiles = profileService.findAllProfiles(following);
+                model.put("followingProfiles", profiles);
+            }
+            model.put("username", username);
+            model.put("followers", userProfile.getFollowers().size());
+            model.put("following", userProfile.getFollowing().size());
+            model.put("activities", activityService.count(username));
+            return new View("/following", model, "model");
+        } catch (Exception e) {
+            if (e instanceof ViewResourceNotFoundException) {
+                throw e;
+            }
+            logger.log(Level.SEVERE, String.format("Unable to load %s page.", username), e);
+            throw new ViewException(e.getMessage(), e);
+        }
+
+    }
+
+    @GET
+    @Path("/{username}/followers")
+    @Produces("text/html")
+    public View followers(@PathParam("username") String username) {
+        try {
+            Profile profile = profileService.findProfileByUsername(username);
+            if (profile == null) {
+                throw new ViewResourceNotFoundException(String.format("No user exists with username %s", username));
+            }
+            Map<String, Object> model = new HashMap<>();
+            model.put("profile", profile);
+            String currentLoggedInUser = getCurrentLoggedInUser();
+            if (currentLoggedInUser != null) {
+                Profile loggedInUser = profileService.findProfileByUsername(currentLoggedInUser);
+                model.put("loggedInUser", loggedInUser);
+            }
+            UserProfile userProfile = profileMongoDao.findProfile(username);
+            List<String> followers = userProfile.getFollowers();
+            if (!followers.isEmpty()) {
+                List<ProfileDetails> profiles = profileService.findAllProfiles(followers);
+                model.put("followerProfiles", profiles);
+            }
+            model.put("username", username);
+            model.put("followers", userProfile.getFollowers().size());
+            model.put("following", userProfile.getFollowing().size());
+            model.put("activities", activityService.count(username));
+            return new View("/followers", model, "model");
+        } catch (Exception e) {
+            if (e instanceof ViewResourceNotFoundException) {
+                throw e;
+            }
+            logger.log(Level.SEVERE, String.format("Unable to load %s page.", username), e);
+            throw new ViewException(e.getMessage(), e);
+        }
+    }
+
 
     private String getCurrentLoggedInUser() {
         HttpSession session = request.getSession(false);

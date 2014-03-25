@@ -110,4 +110,9 @@ public class ActivityService {
     }
 
 
+    public long count(String username) {
+        Profile profile = profileService.findProfile(username);
+        long count = entityManager.createNamedQuery("Activity.countByProfile", Long.class).setParameter("profile", profile).getSingleResult();
+        return count;
+    }
 }

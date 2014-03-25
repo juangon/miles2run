@@ -38,10 +38,10 @@ public class ProfileMongoDao {
         DBCollection profiles = db.getCollection("profiles");
         BasicDBObject findQuery = new BasicDBObject("username", username);
         DBObject dbObject = profiles.findOne(findQuery);
-        UserProfile userProfile = new UserProfile();
         if (dbObject == null) {
-            return userProfile;
+            return null;
         }
+        UserProfile userProfile = new UserProfile();
         BasicDBObject basicDBObject = (BasicDBObject) dbObject;
         String profileUsername = basicDBObject.getString("username");
         BasicDBList followingDbList = (BasicDBList) basicDBObject.get("following");
