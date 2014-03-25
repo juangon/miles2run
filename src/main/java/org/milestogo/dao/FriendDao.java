@@ -25,4 +25,12 @@ public class FriendDao {
     }
 
 
+    public void createFriendship(String username, String userToFollow) {
+        DBCollection friends = db.getCollection("friends");
+        BasicDBObject findQuery = new BasicDBObject("username", username);
+        BasicDBObject updateQuery = new BasicDBObject();
+        updateQuery.put("$push", new BasicDBObject("following", userToFollow));
+        friends.update(findQuery, updateQuery);
+        friends.update(new BasicDBObject("username", userToFollow), new BasicDBObject("$push", new BasicDBObject("followers", username)));
+    }
 }

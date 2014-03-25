@@ -22,9 +22,10 @@ public class LocationBasedFriendRecommender implements FriendRecommender {
     @Override
     public List<String> recommend(String username) {
         DBCollection friends = db.getCollection("friends");
-        DBObject user = friends.findOne(new BasicDBObject("username", username), new BasicDBObject("lngLat", 1));
+        DBObject user = friends.findOne(new BasicDBObject("username", username));
         BasicDBObject nearQuery = new BasicDBObject();
         nearQuery.put("username", new BasicDBObject("$ne", username));
+        nearQuery.put("followers", new BasicDBObject("$nin", toArray(user.get("username"))));
         nearQuery.put("lngLat", new BasicDBObject("$near", user.get("lngLat")));
         logger.info(String.format("Near Query %s", nearQuery.toString()));
         DBCursor cursor = friends.find(nearQuery, new BasicDBObject("username", 1)).limit(3);
@@ -33,5 +34,12 @@ public class LocationBasedFriendRecommender implements FriendRecommender {
             userFriends.add((String) cursor.next().get("username"));
         }
         return userFriends;
+    }
+
+    private String[] toArray(Object obj) {
+        if (obj == null) {
+            return new String[0];
+        }
+        return new String[]{(String) obj};
     }
 }

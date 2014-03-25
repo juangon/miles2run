@@ -5,13 +5,6 @@ angular.module('milestogo')
 
         $scope.currentUser = activeProfile;
 
-        $http.get('api/v2/profiles/' + $scope.currentUser.username + "/friends").then(function (response) {
-            $scope.friends = response.data;
-        });
-
-        $scope.selected = undefined;
-
-        // Any function returning a promise object can be used to load values asynchronously
         $scope.getProfiles = function (val) {
             return $http.get('api/v2/profiles', {
                 params: {
@@ -25,12 +18,23 @@ angular.module('milestogo')
         };
 
         $scope.fetchProfile = function () {
-            console.log($scope.profile);
             $window.location.href = "profiles/" + $scope.profile.username;
         };
 
-        $scope.followUser = function (friend) {
+        $http.get('api/v2/profiles/' + $scope.currentUser.username + "/suggestions").then(function (response) {
+            $scope.friends = response.data;
+        });
+
+
+        $scope.followUser = function (friend, idx) {
             console.log(friend);
+            $http.post('api/v2/profiles/' + $scope.currentUser.username + "/friendships/create", {"userToFollow": friend.username}).success(function (data, status, headers, config) {
+                console.log("User followed... " + status);
+                $scope.friends.splice(idx, 1);
+                toastr.success("Successfully followed user");
+            }).error(function (data, status, headers, config) {
+                toastr.error("Unable to follow user. Please try later");
+            });
         }
 
     });
