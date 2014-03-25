@@ -120,11 +120,11 @@
                 <ul class="list-unstyled apptext">
                     <li th:each="activity : ${timeline}">
                         <div class="row top-buffer" style="border: groove">
-                            <div class="col-md-1">
+                            <div class="col-xs-1">
                                 <a href="#" th:href="@{'/profiles/' + ${activity.username}}" th:inline="text"><img
                                         th:src="${activity.profilePic}" width="50px" height="50px"></a>
                             </div>
-                            <div class="col-md-11">
+                            <div class="col-xs-11">
                                 <h4 class="timeline-title" th:inline="text">[[${activity.fullname} + ' ran '+
                                     ${activity.distanceCovered} + ${activity.goalUnit}]]
                                     <small class="text-muted pull-right"><i class="glyphicon glyphicon-time"
