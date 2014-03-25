@@ -1,7 +1,8 @@
 package org.milestogo.resources.views;
 
 import org.jboss.resteasy.annotations.Form;
-import org.milestogo.dao.FriendDao;
+import org.milestogo.dao.ProfileMongoDao;
+import org.milestogo.dao.UserProfile;
 import org.milestogo.domain.*;
 import org.milestogo.exceptions.ViewException;
 import org.milestogo.exceptions.ViewResourceNotFoundException;
@@ -64,7 +65,7 @@ public class ProfileView {
     private CounterService counterService;
 
     @Inject
-    FriendDao friendDao;
+    ProfileMongoDao profileMongoDao;
 
     @Inject
     private FriendRecommender friendRecommender;
@@ -138,7 +139,7 @@ public class ProfileView {
             }
 
             socialConnectionService.update(profile, profileForm.getConnectionId());
-            friendDao.save(profile);
+            profileMongoDao.save(profile);
             counterService.updateDeveloperCounter();
             counterService.updateCountryCounter(profile.getCountry());
             request.getSession().setAttribute("username", profile.getUsername());
@@ -150,7 +151,6 @@ public class ProfileView {
 
         }
     }
-
 
     @GET
     @Path("/{username}")
@@ -167,11 +167,6 @@ public class ProfileView {
             if (currentLoggedInUser != null) {
                 Profile loggedInUser = profileService.findProfileByUsername(currentLoggedInUser);
                 model.put("loggedInUser", loggedInUser);
-                List<String> recommendFriends = friendRecommender.recommend(currentLoggedInUser);
-                if (!recommendFriends.isEmpty()) {
-                    List<ProfileDetails> recommendations = profileService.findAllProfiles(recommendFriends);
-                    model.put("recommendations", recommendations);
-                }
             }
 
             Progress progress = activityService.findTotalDistanceCovered(username);
@@ -180,6 +175,11 @@ public class ProfileView {
             }
             List<ActivityDetails> timeline = activityService.findAll(username);
             model.put("timeline", timeline);
+            UserProfile userProfile = profileMongoDao.findProfile(username);
+            model.put("username", username);
+            model.put("followers", userProfile.getFollowers().size());
+            model.put("following", userProfile.getFollowing().size());
+            model.put("activities", timeline.size());
             return new View("/profile", model, "model");
         } catch (Exception e) {
             if (e instanceof ViewResourceNotFoundException) {
@@ -189,6 +189,81 @@ public class ProfileView {
             throw new ViewException(e.getMessage(), e);
         }
     }
+
+
+    @GET
+    @Path("/{username}/following")
+    @Produces("text/html")
+    public View following(@PathParam("username") String username) {
+        try {
+            Profile profile = profileService.findProfileByUsername(username);
+            if (profile == null) {
+                throw new ViewResourceNotFoundException(String.format("No user exists with username %s", username));
+            }
+            Map<String, Object> model = new HashMap<>();
+            model.put("profile", profile);
+            String currentLoggedInUser = getCurrentLoggedInUser();
+            if (currentLoggedInUser != null) {
+                Profile loggedInUser = profileService.findProfileByUsername(currentLoggedInUser);
+                model.put("loggedInUser", loggedInUser);
+            }
+            UserProfile userProfile = profileMongoDao.findProfile(username);
+            List<String> following = userProfile.getFollowing();
+            if (!following.isEmpty()) {
+                List<ProfileDetails> profiles = profileService.findAllProfiles(following);
+                model.put("followingProfiles", profiles);
+            }
+            model.put("username", username);
+            model.put("followers", userProfile.getFollowers().size());
+            model.put("following", userProfile.getFollowing().size());
+            model.put("activities", activityService.count(username));
+            return new View("/following", model, "model");
+        } catch (Exception e) {
+            if (e instanceof ViewResourceNotFoundException) {
+                throw e;
+            }
+            logger.log(Level.SEVERE, String.format("Unable to load %s page.", username), e);
+            throw new ViewException(e.getMessage(), e);
+        }
+
+    }
+
+    @GET
+    @Path("/{username}/followers")
+    @Produces("text/html")
+    public View followers(@PathParam("username") String username) {
+        try {
+            Profile profile = profileService.findProfileByUsername(username);
+            if (profile == null) {
+                throw new ViewResourceNotFoundException(String.format("No user exists with username %s", username));
+            }
+            Map<String, Object> model = new HashMap<>();
+            model.put("profile", profile);
+            String currentLoggedInUser = getCurrentLoggedInUser();
+            if (currentLoggedInUser != null) {
+                Profile loggedInUser = profileService.findProfileByUsername(currentLoggedInUser);
+                model.put("loggedInUser", loggedInUser);
+            }
+            UserProfile userProfile = profileMongoDao.findProfile(username);
+            List<String> followers = userProfile.getFollowers();
+            if (!followers.isEmpty()) {
+                List<ProfileDetails> profiles = profileService.findAllProfiles(followers);
+                model.put("followerProfiles", profiles);
+            }
+            model.put("username", username);
+            model.put("followers", userProfile.getFollowers().size());
+            model.put("following", userProfile.getFollowing().size());
+            model.put("activities", activityService.count(username));
+            return new View("/followers", model, "model");
+        } catch (Exception e) {
+            if (e instanceof ViewResourceNotFoundException) {
+                throw e;
+            }
+            logger.log(Level.SEVERE, String.format("Unable to load %s page.", username), e);
+            throw new ViewException(e.getMessage(), e);
+        }
+    }
+
 
     private String getCurrentLoggedInUser() {
         HttpSession session = request.getSession(false);

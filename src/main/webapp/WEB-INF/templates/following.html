@@ -103,24 +103,18 @@
                     <a th:href="@{'/profiles/' + ${username}} + '/followers'" th:text="${followers}"></a>
                 </div>
             </div>
-            <div class="row apptext" th:if="${not #lists.isEmpty(timeline)}">
-                <h2>Timeline</h2>
+            <div class="row apptext" th:if="${not #lists.isEmpty(followingProfiles)}">
+                <h2>Following</h2>
                 <ul class="list-unstyled apptext">
-                    <li th:each="activity : ${timeline}">
+                    <li th:each="followingProfile : ${followingProfiles}">
                         <div class="row top-buffer" style="border: groove">
                             <div class="col-xs-1">
-                                <a href="#" th:href="@{'/profiles/' + ${activity.username}}" th:inline="text"><img
-                                        th:src="${activity.profilePic}" width="50px" height="50px"></a>
+                                <a href="#" th:href="@{'/profiles/' + ${followingProfile.username}}" th:inline="text"><img
+                                        th:src="${followingProfile.pic}" width="50px" height="50px"></a>
                             </div>
                             <div class="col-xs-11">
-                                <h4 class="timeline-title" th:inline="text">[[${activity.fullname} + ' ran '+
-                                    ${activity.distanceCovered} + ${activity.goalUnit}]]
-                                    <small class="text-muted pull-right"><i class="glyphicon glyphicon-time"
-                                                                            title="activity date"></i>
-                                        [[${activity.activityDate}]]
-                                    </small>
-                                </h4>
-                                <p th:if="${activity.status != null}" th:text="${activity.status}"></p>
+                                <h4 th:text="${followingProfile.fullname}"></h4>
+                                <p class="lead" th:text="${followingProfile.bio}"></p>
                             </div>
                         </div>
 
@@ -128,8 +122,8 @@
                 </ul>
 
             </div>
-            <div class="well noactivity top-buffer" th:if="${#lists.isEmpty(timeline)}">
-                <h2>No activity yet!!</h2>
+            <div class="well noactivity top-buffer" th:if="${#lists.isEmpty(followingProfiles)}">
+                <h2>You are not following anybody yet!!</h2>
 
                 <div th:unless="${loggedInUser != null}">
                     <p class="lead">Login to connect with the user:</p>
@@ -155,6 +149,5 @@
 <script src="/js/bootstrap.js" th:src="@{/js/bootstrap.js}"></script>
 
 <script src="/js/toastr.js" th:src="@{/js/toastr.js}"></script>
-
 </body>
 </html>

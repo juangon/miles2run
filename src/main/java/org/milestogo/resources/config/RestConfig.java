@@ -1,7 +1,8 @@
 package org.milestogo.resources.config;
 
 import org.milestogo.api.v2.CounterResource;
-import org.milestogo.api.v2.FriendRecommendationResource;
+import org.milestogo.api.v2.FriendshipResource;
+import org.milestogo.api.v2.ProfileSuggestionResource;
 import org.milestogo.framework.NotFoundExceptionMapper;
 import org.milestogo.framework.ViewExceptionMapper;
 import org.milestogo.framework.ViewResourceNotFoundExceptionMapper;
@@ -33,10 +34,11 @@ public class RestConfig extends Application {
         classes.add(ViewWriter.class);
         classes.add(AboutView.class);
         classes.add(ProfileResource.class);
-        classes.add(FriendRecommendationResource.class);
+        classes.add(ProfileSuggestionResource.class);
         classes.add(ViewExceptionMapper.class);
         classes.add(ViewResourceNotFoundExceptionMapper.class);
         classes.add(SigninView.class);
+        classes.add(FriendshipResource.class);
         return classes;
     }
 }

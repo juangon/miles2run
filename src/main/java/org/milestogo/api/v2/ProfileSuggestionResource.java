@@ -1,6 +1,5 @@
 package org.milestogo.api.v2;
 
-import org.milestogo.domain.Profile;
 import org.milestogo.domain.ProfileDetails;
 import org.milestogo.recommendation.FriendRecommender;
 import org.milestogo.services.ProfileService;
@@ -17,8 +16,8 @@ import java.util.logging.Logger;
 /**
  * Created by shekhargulati on 20/03/14.
  */
-@Path("/api/v2/profiles/{username}/friends")
-public class FriendRecommendationResource {
+@Path("/api/v2/profiles/{username}/suggestions")
+public class ProfileSuggestionResource {
 
     @Inject
     private FriendRecommender friendRecommender;

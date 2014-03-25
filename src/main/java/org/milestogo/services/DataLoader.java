@@ -1,6 +1,6 @@
 package org.milestogo.services;
 
-import org.milestogo.dao.FriendDao;
+import org.milestogo.dao.ProfileMongoDao;
 import org.milestogo.domain.Gender;
 import org.milestogo.domain.GoalUnit;
 import org.milestogo.domain.Profile;
@@ -17,7 +17,7 @@ public class DataLoader {
     @Inject
     private ProfileService profileService;
     @Inject
-    private FriendDao friendDao;
+    private ProfileMongoDao profileMongoDao;
 
     private static String[][] cityAndCountries = {
             {"Kurukshetra", "India"},
@@ -35,17 +35,17 @@ public class DataLoader {
     public void loadData() {
         Profile profile = newProfile("Rahul Sharma", "rahulsharma", "//abs.twimg.com/sticky/default_profile_images/default_profile_3.png", "Delhi", "India");
         profileService.save(profile);
-        friendDao.save(profile);
+        profileMongoDao.save(profile);
         profile = newProfile("Sameer Arora", "sameerarora", "//abs.twimg.com/sticky/default_profile_images/default_profile_0.png", "Jaipur", "India");
         profileService.save(profile);
-        friendDao.save(profile);
+        profileMongoDao.save(profile);
         profile = newProfile("Guneet", "guneet", "//pbs.twimg.com/profile_images/55968278/guneet.JPG", "Gurgaon", "India");
         profileService.save(profile);
-        friendDao.save(profile);
+        profileMongoDao.save(profile);
         for (int i = 0; i < 100; i++) {
             Profile newProfile = newProfile(i);
             profileService.save(newProfile);
-            friendDao.save(newProfile);
+            profileMongoDao.save(newProfile);
         }
     }
 

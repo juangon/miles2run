@@ -85,6 +85,6 @@ public class ProfileService {
     }
 
     public List<ProfileDetails> findAllProfiles(List<String> usernames) {
-        return entityManager.createQuery("SELECT new org.milestogo.domain.ProfileDetails(p.username,p.fullname,p.profilePic, p.city, p.country) from Profile p WHERE p.username IN :usernames", ProfileDetails.class).setParameter("usernames", usernames).getResultList();
+        return entityManager.createQuery("SELECT new org.milestogo.domain.ProfileDetails(p.username,p.fullname,p.profilePic, p.city, p.country,p.bio) from Profile p WHERE p.username IN :usernames", ProfileDetails.class).setParameter("usernames", usernames).getResultList();
     }
 }

@@ -5,6 +5,7 @@ package org.milestogo.domain;
  */
 public class ProfileDetails {
 
+    private String bio;
     private String username;
     private String fullname;
     private String pic;
@@ -18,6 +19,16 @@ public class ProfileDetails {
         this.city = city;
         this.country = country;
     }
+
+    public ProfileDetails(String username, String fullname, String pic, String city, String country, String bio) {
+        this.username = username;
+        this.fullname = fullname;
+        this.pic = pic;
+        this.city = city;
+        this.country = country;
+        this.bio = bio;
+    }
+
 
     private String getImageWithSize(String picUrl, String size) {
         if (picUrl != null) {
@@ -47,5 +58,17 @@ public class ProfileDetails {
 
     public String getCountry() {
         return country;
+    }
+
+    public String getBio() {
+        return bio;
+    }
+
+    @Override
+    public String toString() {
+        return "ProfileDetails{" +
+                "username='" + username + '\'' +
+                ", fullname='" + fullname + '\'' +
+                '}';
     }
 }
