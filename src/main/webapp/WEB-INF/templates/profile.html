@@ -68,10 +68,11 @@
 
             <div class="row top-buffer" style="border: groove" th:if="${progress != null}">
                 <h4>Progress</h4>
-
-                <div class="progress-bar bottom-buffer" role="progressbar"
-                     th:style="'width:' + ${progress.percentage} + '%'"
-                     th:text="${progress.percentage} + '%'">
+                <div class="progress progress-striped">
+                    <div class="progress-bar" role="progressbar"
+                         th:style="'width:' + ${progress.percentage} + '%'"
+                         th:text="${progress.percentage} + '%'">
+                    </div>
                 </div>
             </div>
 
