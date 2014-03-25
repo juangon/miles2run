@@ -13,6 +13,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import javax.validation.constraints.NotNull;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -59,7 +60,11 @@ public class ActivityService {
         Profile profile = profileService.findProfile(username);
         TypedQuery<ActivityDetails> query = entityManager.createNamedQuery("Activity.findAll", ActivityDetails.class);
         query.setParameter("postedBy", profile);
-        return query.getResultList();
+        List<ActivityDetails> activities = query.getResultList();
+        if (activities == null) {
+            return Collections.emptyList();
+        }
+        return activities;
     }
 
     public ActivityDetails update(Activity existingActivity, Activity activity) {
@@ -102,6 +107,7 @@ public class ActivityService {
         }
         TypedQuery<Progress> query = entityManager.createQuery("SELECT new org.milestogo.domain.Progress(a.postedBy.goal,a.postedBy.goalUnit, SUM(a.distanceCovered),COUNT(a)) from Activity a WHERE a.postedBy =:postedBy", Progress.class).setParameter("postedBy", profile);
         return query.getSingleResult();
-
     }
+
+
 }

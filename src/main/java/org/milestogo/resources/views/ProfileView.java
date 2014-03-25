@@ -1,7 +1,8 @@
 package org.milestogo.resources.views;
 
 import org.jboss.resteasy.annotations.Form;
-import org.milestogo.dao.FriendDao;
+import org.milestogo.dao.ProfileMongoDao;
+import org.milestogo.dao.UserProfile;
 import org.milestogo.domain.*;
 import org.milestogo.exceptions.ViewException;
 import org.milestogo.exceptions.ViewResourceNotFoundException;
@@ -64,7 +65,7 @@ public class ProfileView {
     private CounterService counterService;
 
     @Inject
-    FriendDao friendDao;
+    ProfileMongoDao profileMongoDao;
 
     @Inject
     private FriendRecommender friendRecommender;
@@ -138,7 +139,7 @@ public class ProfileView {
             }
 
             socialConnectionService.update(profile, profileForm.getConnectionId());
-            friendDao.save(profile);
+            profileMongoDao.save(profile);
             counterService.updateDeveloperCounter();
             counterService.updateCountryCounter(profile.getCountry());
             request.getSession().setAttribute("username", profile.getUsername());
@@ -168,8 +169,10 @@ public class ProfileView {
                 Profile loggedInUser = profileService.findProfileByUsername(currentLoggedInUser);
                 model.put("loggedInUser", loggedInUser);
                 List<String> recommendFriends = friendRecommender.recommend(currentLoggedInUser);
+                logger.info("Recommended Friends : " + recommendFriends);
                 if (!recommendFriends.isEmpty()) {
                     List<ProfileDetails> recommendations = profileService.findAllProfiles(recommendFriends);
+                    logger.info("Recommended Friends Profile Details " + recommendations);
                     model.put("recommendations", recommendations);
                 }
             }
@@ -180,6 +183,11 @@ public class ProfileView {
             }
             List<ActivityDetails> timeline = activityService.findAll(username);
             model.put("timeline", timeline);
+            UserProfile userProfile = profileMongoDao.findProfile(username);
+            model.put("username", username);
+            model.put("followers", userProfile.getFollowers().size());
+            model.put("following", userProfile.getFollowing().size());
+            model.put("activities", timeline.size());
             return new View("/profile", model, "model");
         } catch (Exception e) {
             if (e instanceof ViewResourceNotFoundException) {

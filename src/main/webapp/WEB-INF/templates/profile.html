@@ -69,7 +69,8 @@
             <div class="row top-buffer" style="border: groove" th:if="${progress != null}">
                 <h4>Progress</h4>
 
-                <div class="progress-bar bottom-buffer" role="progressbar" th:style="'width:' + ${progress.percentage} + '%'"
+                <div class="progress-bar bottom-buffer" role="progressbar"
+                     th:style="'width:' + ${progress.percentage} + '%'"
                      th:text="${progress.percentage} + '%'">
                 </div>
             </div>
@@ -99,9 +100,23 @@
 
                 <p th:text="${profile.city} + ', '+ ${profile.country}"></p>
             </div>
+            <div class="row apptext">
+                <div class="col-md-2">
+                    <h6>ACTIVITIES</h6>
+                    <a th:href="@{'/profiles/' + ${username}}" th:text="${activities}"></a>
+                </div>
+                <div class="col-md-2">
+                    <h6>FOLLOWING</h6>
+                    <a th:href="@{'/profiles/' + ${username}} + '/following'" th:text="${following}"></a>
+                </div>
+                <div class="col-md-2">
+                    <h6>FOLLOWERS</h6>
+                    <a th:href="@{'/profiles/' + ${username}} + '/followers'" th:text="${followers}"></a>
+                </div>
+            </div>
             <div class="row apptext" th:if="${not #lists.isEmpty(timeline)}">
                 <h2>Timeline</h2>
-                <ul class="list-unstyled apptext" >
+                <ul class="list-unstyled apptext">
                     <li th:each="activity : ${timeline}">
                         <div class="row top-buffer" style="border: groove">
                             <div class="col-md-1">
@@ -129,7 +144,8 @@
 
                 <div th:unless="${loggedInUser != null}">
                     <p class="lead">Login to connect with the user:</p>
-                    <a th:href="@{/signin/twitter}" class="btn btn-lg btn-info"><i class="fa fa-twitter"></i> Sign in with Twitter</a>
+                    <a th:href="@{/signin/twitter}" class="btn btn-lg btn-info"><i class="fa fa-twitter"></i> Sign in
+                        with Twitter</a>
                 </div>
             </div>
         </div>

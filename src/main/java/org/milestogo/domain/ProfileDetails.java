@@ -48,4 +48,12 @@ public class ProfileDetails {
     public String getCountry() {
         return country;
     }
+
+    @Override
+    public String toString() {
+        return "ProfileDetails{" +
+                "username='" + username + '\'' +
+                ", fullname='" + fullname + '\'' +
+                '}';
+    }
 }
