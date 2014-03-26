@@ -2,6 +2,7 @@ package org.milestogo.resources.config;
 
 import org.milestogo.api.v2.CounterResource;
 import org.milestogo.api.v2.FriendshipResource;
+import org.milestogo.api.v2.NotificationResource;
 import org.milestogo.api.v2.ProfileSuggestionResource;
 import org.milestogo.framework.NotFoundExceptionMapper;
 import org.milestogo.framework.ViewExceptionMapper;
@@ -39,6 +40,7 @@ public class RestConfig extends Application {
         classes.add(ViewResourceNotFoundExceptionMapper.class);
         classes.add(SigninView.class);
         classes.add(FriendshipResource.class);
+        classes.add(NotificationResource.class);
         return classes;
     }
 }

@@ -1,3 +1,10 @@
-<div class="noactivity well" ng-hide="notifications">
+<div class="noactivity well" ng-if="notifications.length == 0" ng-cloak>
     <h2>Caught up with everything!</h2>
 </div>
+<ul class="list-unstyled" ng-if="notifications.length">
+    <li ng-repeat="notification in notifications">
+        <div>
+            <h2>{{notification.userTookAction}} {{notification.action}} you</h2>
+        </div>
+    </li>
+</ul>
