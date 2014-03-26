@@ -19,9 +19,9 @@
     </div>
 </div>
 <div class="row apptext well">
-    <h2>Search your friends</h2>
+    <h2>Search Miles2Run community</h2>
     <form ng-submit="fetchProfile()">
-        <input type="text" ng-model="profile" placeholder="Type your friend's name"
+        <input type="text" ng-model="profile" placeholder="Type user full name"
                typeahead="profile as profile.fullname for profile in getProfiles($viewValue) | filter:$viewValue"
                typeahead-template-url="user.html" typeahead-editable=false class="form-control">
     </form>
