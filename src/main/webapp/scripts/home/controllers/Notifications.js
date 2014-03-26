@@ -1,10 +1,11 @@
 'use strict';
 
 angular.module('milestogo')
-    .controller('NotificationsCtrl', function ($scope) {
-        $scope.awesomeThings = [
-            'HTML5 Boilerplate',
-            'AngularJS',
-            'Karma'
-        ];
+    .controller('NotificationsCtrl', function ($scope, $http, activeProfile) {
+
+        $http.get('api/v2/profiles/' + activeProfile.username + "/notifications").success(function (data, status, headers, config) {
+            $scope.notifications = data;
+        }).error(function (data, status, headers, config) {
+            toastr.error("Unable to fetch notifications. Please try later");
+        });
     });

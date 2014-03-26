@@ -42,10 +42,17 @@ var app = angular.module('milestogo', [
             });
     });
 
+app.filter('moment', function () {
+    return function (text) {
+        return moment(text, "MMDDYYYY HH mm ss").fromNow();
+    }
+});
+
 app.config(['$provide', function ($provide) {
     var profile = angular.copy(window.activeUserProfile);
     $provide.constant('activeProfile', profile);
 }]);
+
 
 function HeaderCtrl($scope, $location) {
 
