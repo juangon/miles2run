@@ -1,4 +1,4 @@
-package org.milestogo.signin;
+package org.milestogo.signin.twitter;
 
 import twitter4j.Twitter;
 import twitter4j.TwitterException;

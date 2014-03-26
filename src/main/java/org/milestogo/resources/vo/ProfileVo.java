@@ -12,6 +12,8 @@ public class ProfileVo {
     private final String profilePic;
     private final String city;
     private final String country;
+    private String email;
+    private String gender;
 
     public ProfileVo(String username, String fullname, String bio, String connectionId, String profilePic,String city, String country) {
         this.username = username;
@@ -50,4 +52,36 @@ public class ProfileVo {
     public String getCountry() {
         return country;
     }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    @Override
+    public String toString() {
+        return "ProfileVo{" +
+                "username='" + username + '\'' +
+                ", fullname='" + fullname + '\'' +
+                ", bio='" + bio + '\'' +
+                ", connectionId='" + connectionId + '\'' +
+                ", profilePic='" + profilePic + '\'' +
+                ", city='" + city + '\'' +
+                ", country='" + country + '\'' +
+                ", email='" + email + '\'' +
+                ", gender='" + gender + '\'' +
+                '}';
+    }
 }
+

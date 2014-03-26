@@ -18,7 +18,7 @@ public class SocialConnection implements Serializable{
     @NotNull
     private String accessToken;
 
-    @NotNull
+//    @NotNull
     private String accessSecret;
 
     @NotNull
