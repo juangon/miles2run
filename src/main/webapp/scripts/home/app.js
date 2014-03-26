@@ -36,6 +36,9 @@ var app = angular.module('milestogo', [
             .when('/activity/edit/:activityId', {
                 templateUrl: 'views/EditActivity.html',
                 controller: 'EditActivityCtrl'
+            }).when('/activity/:activityId', {
+                templateUrl: 'views/ViewActivity.html',
+                controller: 'ViewActivityCtrl'
             })
             .otherwise({
                 redirectTo: '/'

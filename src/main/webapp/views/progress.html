@@ -32,9 +32,11 @@
     <div class="row">
         <h2>Your Progress</h2>
 
-        <div class="progress-bar" role="progressbar" aria-valuenow="{{data.totalDistanceCovered}}" aria-valuemin="0"
-             aria-valuemax="{{data.goal}}" style="{{style}}">
-            {{data.percentage}}%
+        <div class="progress progress-striped">
+            <div class="progress-bar" role="progressbar" aria-valuenow="{{data.totalDistanceCovered}}" aria-valuemin="0"
+                 aria-valuemax="{{data.goal}}" style="{{style}}">
+                {{data.percentage}}%
+            </div>
         </div>
     </div>
 
