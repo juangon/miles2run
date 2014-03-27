@@ -111,7 +111,6 @@ public class ProfileView {
             facebook4j.User user = facebook.users().getMe();
             String facebookProfilePic = null;
             URL picture = facebook.getPictureURL(user.getId());
-            System.out.println("Picture: " + picture);
             if (picture != null) {
                 try {
                     facebookProfilePic = picture.toURI().toString();

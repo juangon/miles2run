@@ -8,7 +8,6 @@ import org.milestogo.framework.NotFoundExceptionMapper;
 import org.milestogo.framework.ViewExceptionMapper;
 import org.milestogo.framework.ViewResourceNotFoundExceptionMapper;
 import org.milestogo.framework.ViewWriter;
-import org.milestogo.resources.api.ActivityResource;
 import org.milestogo.resources.api.ProfileResource;
 import org.milestogo.resources.api.ProgressResource;
 import org.milestogo.resources.views.*;
@@ -25,7 +24,6 @@ public class RestConfig extends Application {
         classes.add(NotFoundExceptionMapper.class);
         classes.add(HomeView.class);
         classes.add(ProfileView.class);
-        classes.add(ActivityResource.class);
         classes.add(ProgressResource.class);
         classes.add(org.milestogo.api.v2.ActivityResource.class);
         classes.add(org.milestogo.api.v2.ProfileResource.class);

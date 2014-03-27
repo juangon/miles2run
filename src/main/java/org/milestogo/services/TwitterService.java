@@ -25,8 +25,7 @@ public class TwitterService {
     private Logger logger;
 
     @Asynchronous
-    public void postStatus(String status, String connectionId) {
-        SocialConnection connection = socialConnectionService.findByConnectionId(connectionId);
+    public void postStatus(String status, SocialConnection connection) {
         Twitter twitter = twitterFactory.getInstance(new AccessToken(connection.getAccessToken(), connection.getAccessSecret()));
         try {
             twitter.updateStatus(status);

@@ -39,8 +39,8 @@
             </ul>
             <ul class="nav navbar-collapse pull-right">
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" th:inline="text"><img
-                            th:src="${profile.miniProfilePic}"/> [[${profile.fullname}]] <b class="caret"></b></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" th:inline="text">
+                        <img width="25" height="25" th:src="${profile.profilePic}"/> [[${profile.fullname}]] <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li><a href="#" th:href="@{'/profiles/' + ${profile.username}}"
                                th:text="${profile.fullname}"></a></li>
