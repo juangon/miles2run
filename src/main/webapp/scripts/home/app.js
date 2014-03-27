@@ -61,7 +61,10 @@ app.filter('duration', function () {
             var hours = Math.floor(durationInSeconds / (60 * 60));
             var minutes = Math.floor(durationInSeconds / 60) - (hours * 60);
             var seconds = durationInSeconds - (minutes * 60) - (hours * 60 * 60);
-            return hours + ":" + minutes + ":" + seconds;
+            var hourText = hours < 10 ? "0" + hours : hours.toString();
+            var minutestText = minutes < 10 ? "0" + minutes : minutes.toString();
+            var secondsText = seconds < 10 ? "0" + seconds : seconds.toString();
+            return hourText + ":" + minutestText + ":" + secondsText;
         }
         return "00:00:00";
     }

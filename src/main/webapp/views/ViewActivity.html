@@ -31,7 +31,7 @@
 
         <div class="col-md-4" style="border: groove" title="average pace in mins/{{activity.goalUnit|lowercase}}">
             <strong class="pull-left">AVERAGE PACE</strong>
-            <h3><i class="glyphicon glyphicon-flash"></i> {{activity.distanceCovered | pace : activity.duration }}</h3>
+            <h3><i class="glyphicon glyphicon-flash"></i> {{activity.distanceCovered | pace : activity.duration | number:2}}</h3>
         </div>
 
 </div>
