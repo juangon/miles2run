@@ -28,7 +28,7 @@ angular.module('milestogo')
         $scope.config = {
             start: startDate(),
             data: ConfigService.getBaseUrl() + "profiles/" + $scope.currentUser.username + "/progress/timeline",
-            itemName: $scope.currentUser.goalUnit.toString().toLowerCase().replace("s", "")
+            itemName: $scope.currentUser.goalUnit.$name.toString().toLowerCase().replace("s", "")
         };
 
 

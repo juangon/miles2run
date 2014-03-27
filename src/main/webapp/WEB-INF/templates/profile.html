@@ -32,8 +32,8 @@
 
             <ul class="nav navbar-collapse pull-right" th:if="${loggedInUser != null}">
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" th:inline="text"><img
-                            th:src="${loggedInUser.miniProfilePic}"/> [[${loggedInUser.fullname}]] <b class="caret"></b></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" th:inline="text">
+                        <img width="25" height="25" th:src="${loggedInUser.profilePic}"/> [[${loggedInUser.fullname}]] <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li><a href="#" th:href="@{'/profiles/' + ${loggedInUser.username}}"
                                th:text="${loggedInUser.fullname}"></a></li>

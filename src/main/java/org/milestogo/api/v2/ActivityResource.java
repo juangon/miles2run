@@ -1,13 +1,9 @@
 package org.milestogo.api.v2;
 
 import org.milestogo.domain.*;
-import org.milestogo.services.ActivityService;
-import org.milestogo.services.CounterService;
-import org.milestogo.services.ProfileService;
-import org.milestogo.services.TwitterService;
+import org.milestogo.services.*;
 
 import javax.inject.Inject;
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
@@ -34,6 +30,8 @@ public class ActivityResource {
     private TwitterService twitterService;
     @Inject
     private CounterService counterService;
+    @Inject
+    private FacebookService facebookService;
 
 
     @POST
@@ -50,15 +48,10 @@ public class ActivityResource {
         counterService.updateRunCounter(distanceCovered);
         //TODO : Ideally it should iterate over all the providers and post status on all the checked ones
         Share share = activity.getShare();
-        if (share != null && share.isTwitter()) {
-            for (SocialConnection socialConnection : profile.getSocialConnections()) {
-                if (socialConnection.getProvider() == SocialProvider.TWITTER) {
-                    twitterService.postStatus(activity.getStatus(), socialConnection.getConnectionId());
-                }
-            }
-        }
+        shareActivity(activity, profile, share);
         return Response.status(Response.Status.CREATED).build();
     }
+
 
     @GET
     @Produces("application/json")
@@ -115,13 +108,21 @@ public class ActivityResource {
             return Response.status(Response.Status.NOT_FOUND).entity("No user exists with username " + username).build();
         }
         Share share = activity.getShare();
-        if (share != null && share.isTwitter()) {
+        shareActivity(activity, profile, share);
+        return Response.ok().build();
+    }
+
+    private void shareActivity(Activity activity, Profile profile, Share share) {
+        if (share != null) {
             for (SocialConnection socialConnection : profile.getSocialConnections()) {
-                if (socialConnection.getProvider() == SocialProvider.TWITTER) {
-                    twitterService.postStatus(activity.getStatus(), socialConnection.getConnectionId());
+                if (share.isTwitter() && socialConnection.getProvider() == SocialProvider.TWITTER) {
+                    twitterService.postStatus(activity.getStatus(), socialConnection);
+                }
+                if (share.isFacebook() && socialConnection.getProvider() == SocialProvider.FACEBOOK) {
+                    facebookService.postStatus(activity.getStatus(), socialConnection);
                 }
             }
+
         }
-        return Response.ok().build();
     }
 }

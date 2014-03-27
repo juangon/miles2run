@@ -1,4 +1,4 @@
-package org.milestogo.signin;
+package org.milestogo.signin.twitter;
 
 import org.apache.commons.lang3.StringUtils;
 import org.milestogo.domain.SocialConnection;

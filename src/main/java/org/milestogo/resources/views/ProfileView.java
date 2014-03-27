@@ -1,5 +1,9 @@
 package org.milestogo.resources.views;
 
+import facebook4j.Facebook;
+import facebook4j.FacebookException;
+import facebook4j.FacebookFactory;
+import facebook4j.IdNameEntity;
 import org.jboss.resteasy.annotations.Form;
 import org.milestogo.dao.ProfileMongoDao;
 import org.milestogo.dao.UserProfile;
@@ -33,6 +37,8 @@ import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -59,6 +65,9 @@ public class ProfileView {
     private TwitterFactory twitterFactory;
 
     @Inject
+    private FacebookFactory facebookFactory;
+
+    @Inject
     private ProfileService profileService;
 
     @Inject
@@ -82,22 +91,69 @@ public class ProfileView {
             if (socialConnection == null) {
                 return new View("/signin", true);
             }
-            try {
-                Twitter twitter = twitterFactory.getInstance();
-                twitter.setOAuthAccessToken(new AccessToken(socialConnection.getAccessToken(), socialConnection.getAccessSecret()));
-                User user = twitter.showUser(Long.valueOf(connectionId));
-                String twitterProfilePic = user.getOriginalProfileImageURL();
-                twitterProfilePic = UrlUtils.removeProtocol(twitterProfilePic);
-                CityAndCountry cityAndCountry = GeocoderUtils.parseLocation(user.getLocation());
-                ProfileVo profile = new ProfileVo(user.getScreenName(), user.getName(), user.getDescription(), connectionId, twitterProfilePic, cityAndCountry.getCity(), cityAndCountry.getCountry());
-                return new View("/createProfile", profile, "profile");
-            } catch (TwitterException e) {
-                throw new RuntimeException(e);
+            if (socialConnection.getProvider() == SocialProvider.TWITTER) {
+                return twitterProfile(connectionId, socialConnection);
+            } else if (socialConnection.getProvider() == SocialProvider.FACEBOOK) {
+                return facebookProfile(connectionId, socialConnection);
             }
+
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Unable to load profile form page.", e);
             throw new ViewException(e.getMessage(), e);
         }
+        return new View("/signin", true);
+    }
+
+    private View facebookProfile(String connectionId, SocialConnection socialConnection) {
+        Facebook facebook = facebookFactory.getInstance(new facebook4j.auth.AccessToken(socialConnection.getAccessToken(), null));
+        try {
+
+            facebook4j.User user = facebook.users().getMe();
+            String facebookProfilePic = null;
+            URL picture = facebook.getPictureURL(user.getId());
+            if (picture != null) {
+                try {
+                    facebookProfilePic = picture.toURI().toString();
+                    System.out.println("Facebook Picture URL" + facebookProfilePic);
+                    facebookProfilePic = UrlUtils.removeProtocol(facebookProfilePic);
+                } catch (URISyntaxException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            String email = user.getEmail();
+            String gender = user.getGender();
+            IdNameEntity location = user.getLocation();
+            CityAndCountry cityAndCountry = new CityAndCountry();
+            if (location != null) {
+                cityAndCountry = GeocoderUtils.parseLocation(location.getName());
+            }
+
+            ProfileVo profile = new ProfileVo(user.getUsername(), user.getName(), user.getBio(), connectionId, facebookProfilePic, cityAndCountry.getCity(), cityAndCountry.getCountry());
+            profile.setEmail(email);
+            profile.setGender(gender);
+            logger.info("Profile: " + profile);
+            return new View("/createProfile", profile, "profile");
+        } catch (FacebookException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private View twitterProfile(String connectionId, SocialConnection socialConnection) {
+        try {
+            Twitter twitter = twitterFactory.getInstance();
+            twitter.setOAuthAccessToken(new AccessToken(socialConnection.getAccessToken(), socialConnection.getAccessSecret()));
+            User user = twitter.showUser(Long.valueOf(connectionId));
+            String twitterProfilePic = user.getOriginalProfileImageURL();
+            twitterProfilePic = UrlUtils.removeProtocol(twitterProfilePic);
+            CityAndCountry cityAndCountry = GeocoderUtils.parseLocation(user.getLocation());
+            ProfileVo profile = new ProfileVo(user.getScreenName(), user.getName(), user.getDescription(), connectionId, twitterProfilePic, cityAndCountry.getCity(), cityAndCountry.getCountry());
+            return new View("/createProfile", profile, "profile");
+        } catch (TwitterException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     @POST
