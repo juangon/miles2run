@@ -2,6 +2,10 @@ body {
     padding-top: 50px;
 }
 
+.graph-label {
+    font-size: 20px;
+}
+
 #main {
     padding: 40px 15px;
     text-align: center;
@@ -13,6 +17,12 @@ body {
 
 .apptext {
     text-align: left;
+}
+
+.center {
+    margin-left: auto;
+    margin-right: auto;
+    width: 70%;
 }
 
 .noactivity {

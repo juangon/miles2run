@@ -16,6 +16,9 @@ var app = angular.module('milestogo', [
             .when('/activity/post', {
                 templateUrl: 'views/postactivity.html',
                 controller: 'PostActivityCtrl'
+            }).when('/activity/calendar', {
+                templateUrl: 'views/calendar.html',
+                controller: 'ActivityCalendarCtrl'
             })
             .when('/activity/share/:activityId', {
                 templateUrl: 'views/share.html',
