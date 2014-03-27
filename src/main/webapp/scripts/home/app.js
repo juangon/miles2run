@@ -54,6 +54,31 @@ app.filter('moment', function () {
     }
 });
 
+app.filter('duration', function () {
+    return function (text) {
+        if (text) {
+            var durationInSeconds = Number(text);
+            var hours = Math.floor(durationInSeconds / (60 * 60));
+            var minutes = Math.floor(durationInSeconds / 60) - (hours * 60);
+            var seconds = durationInSeconds - (minutes * 60) - (hours * 60 * 60);
+            return hours + ":" + minutes + ":" + seconds;
+        }
+        return "00:00:00";
+    }
+});
+
+
+app.filter('pace', function () {
+    return function (distanceCoveredInText, durationInText) {
+        if (distanceCoveredInText && durationInText) {
+            var distanceCovered = Number(distanceCoveredInText);
+            var durationInMinutes = Number(durationInText) / 60;
+            return durationInMinutes / distanceCovered;
+        }
+        return "0";
+    }
+});
+
 app.config(['$provide', function ($provide) {
     var profile = angular.copy(window.activeUserProfile);
     $provide.constant('activeProfile', profile);
