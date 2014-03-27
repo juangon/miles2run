@@ -13,7 +13,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @WebServlet("/signin/facebook")
-public class FacebookSignInServlet extends HttpServlet {
+public class FacebookSigninServlet extends HttpServlet {
 
     @Inject
     private FacebookFactory facebookFactory;
