@@ -19,17 +19,6 @@ angular.module('milestogo')
                 console.log(status);
             });
 
-        function startDate() {
-            var d = new Date();
-            d.setMonth(d.getMonth() - 2);
-            return d;
-        }
-
-        $scope.config = {
-            start: startDate(),
-            data: ConfigService.getBaseUrl() + "profiles/" + $scope.currentUser.username + "/progress/timeline",
-            itemName: $scope.currentUser.goalUnit.$name.toString().toLowerCase().replace("s", "")
-        };
 
 
     });
