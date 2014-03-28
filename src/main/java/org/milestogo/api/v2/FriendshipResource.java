@@ -31,6 +31,15 @@ public class FriendshipResource {
     public Response create(@PathParam("username") String username, FriendshipRequest friendshipRequest) {
         profileMongoDao.createFriendship(username, friendshipRequest.getUserToFollow());
         notificationService.addNotification(new Notification(friendshipRequest.getUserToFollow(), username, Action.FOLLOW, new Date().getTime()));
-        return Response.status(Response.Status.CREATED).build();
+        return Response.status(Response.Status.CREATED).entity("successfully followed user").build();
+    }
+
+    @Path("/destroy")
+    @POST
+    @Consumes("application/json")
+    public Response destroy(@PathParam("username") String username, UnfollowRequest unfollowRequest) {
+        profileMongoDao.destroyFriendship(username, unfollowRequest.getUserToUnfollow());
+        notificationService.addNotification(new Notification(unfollowRequest.getUserToUnfollow(), username, Action.UNFOLLOW, new Date().getTime()));
+        return Response.status(Response.Status.OK).entity("successfully unfollowed user").build();
     }
 }

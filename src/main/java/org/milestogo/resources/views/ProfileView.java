@@ -4,6 +4,7 @@ import facebook4j.Facebook;
 import facebook4j.FacebookException;
 import facebook4j.FacebookFactory;
 import facebook4j.IdNameEntity;
+import org.apache.commons.lang3.StringUtils;
 import org.jboss.resteasy.annotations.Form;
 import org.milestogo.dao.ProfileMongoDao;
 import org.milestogo.dao.UserProfile;
@@ -221,6 +222,12 @@ public class ProfileView {
             if (currentLoggedInUser != null) {
                 Profile loggedInUser = profileService.findProfileByUsername(currentLoggedInUser);
                 model.put("loggedInUser", loggedInUser);
+                boolean isMyProfile = StringUtils.equals(username, currentLoggedInUser);
+                model.put("isMyProfile", isMyProfile);
+                if (!isMyProfile) {
+                    boolean isFollowing = isFollowing(currentLoggedInUser, username);
+                    model.put("isFollowing", isFollowing);
+                }
             }
 
             Progress progress = activityService.findTotalDistanceCovered(username);
@@ -316,6 +323,10 @@ public class ProfileView {
             logger.log(Level.SEVERE, String.format("Unable to load %s page.", username), e);
             throw new ViewException(e.getMessage(), e);
         }
+    }
+
+    private boolean isFollowing(String currentLoggedInUser, String username) {
+        return profileMongoDao.isUserFollowing(currentLoggedInUser, username);
     }
 
 
