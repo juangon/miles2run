@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <meta name="author" content="Shekhar Gulati"/>
 
-    <title>Set up your profile</title>
+    <title>Edit your profile</title>
 
     <link href="/css/bootstrap.css" th:href="@{/css/bootstrap.css}" rel="stylesheet"/>
     <link href="/css/main.css" th:href="@{/css/main.css}" rel="stylesheet"/>
@@ -30,14 +30,27 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/" th:href="@{/}">Miles2Run</a>
+            <a class="navbar-brand" href="#" th:href="@{/}">Miles2Run</a>
         </div>
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
+                <li><a th:href="@{/home}">Home</a></li>
                 <li><a th:href="@{/about}">About</a></li>
             </ul>
 
+            <ul class="nav navbar-collapse pull-right" th:if="${profile != null}">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" th:inline="text">
+                        <img width="25" height="25" th:src="${profile.profilePic}"/> [[${profile.fullname}]] <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#" th:href="@{'/profiles/' + ${profile.username}}"
+                               th:text="${profile.fullname}"></a></li>
+                        <li><a href="#" th:href="@{/logout}">Logout</a></li>
+                    </ul>
+                </li>
+            </ul>
         </div>
+
         <!--/.nav-collapse -->
     </div>
 </div>
@@ -55,11 +68,11 @@
         </ul>
     </div>
 
-    <form id="profileForm" class="form-horizontal" role="form" action="" th:action="@{/profiles/new}" method="POST" novalidate="false">
+    <form id="profileForm" class="form-horizontal" role="form" action="" th:action="@{/profiles/edit}" method="POST" novalidate="false">
         <fieldset>
 
             <!-- Form Name -->
-            <legend>Set up new profile</legend>
+            <legend>Edit your profile</legend>
 
             <!-- File Button -->
             <div class="form-group">
@@ -77,27 +90,6 @@
                 <div class="col-md-6">
                     <input id="fullname" name="fullname" type="text" placeholder="Your full name(max 50 characters)"
                            class="form-control input-md" th:value="${profile.fullname}" title="Please enter 'fullname' less than 50 characters" required="">
-
-                </div>
-            </div>
-
-            <!-- Text input-->
-            <div id="emailFormGroup" class="form-group">
-                <label class="col-md-4 control-label" for="email">Email</label>
-
-                <div class="col-md-6">
-                    <input id="email" name="email" type="email" placeholder="Your valid email address" title="Please enter valid 'email'" th:value="${profile.email}" class="form-control input-md" required="">
-
-                </div>
-            </div>
-
-            <!-- Text input-->
-            <div id="usernameFormGroup" class="form-group">
-                <label class="col-md-4 control-label" for="username">Username</label>
-
-                <div class="col-md-6">
-                    <input id="username" name="username" type="text"
-                           placeholder="Your unique username(only alphanumeric)" class="form-control input-md" maxlength="20" title="Please enter 'username' less than 20 characters" th:value="${profile.username}" required="">
 
                 </div>
             </div>
@@ -376,15 +368,15 @@
 
                 <div class="col-md-4">
                     <label class="radio-inline pull-left" for="male">
-                        <input type="radio"  name="gender" id="male" th:checked="${profile.gender == 'male'}" value="MALE">
+                        <input type="radio"  name="gender" id="male" th:checked="${profile.gender.toString() == 'male'}" value="MALE">
                         Male
                     </label>
                     <label class="radio-inline pull-left" for="female">
-                        <input type="radio" name="gender" id="female" th:checked="${profile.gender == 'female'}" value="FEMALE">
+                        <input type="radio" name="gender" id="female" th:checked="${profile.gender.toString() == 'female'}" value="FEMALE">
                         Female
                     </label>
                     <label class="radio-inline pull-left" for="genderqueer">
-                        <input type="radio" name="gender" id="genderqueer" th:checked="${profile.gender == 'genderqueer'}" value="GENDERQUEER">
+                        <input type="radio" name="gender" id="genderqueer" th:checked="${profile.gender.toString() == 'genderqueer'}" value="GENDERQUEER">
                         Genderqueer
                     </label>
                 </div>
@@ -405,19 +397,19 @@
 
                 <div class="col-md-4">
                     <input id="goal" name="goal" type="number" placeholder="Distance you want to run" title="Please enter 'goal'"
-                           class="form-control input-md" required="" min="1" step="1">
+                           class="form-control input-md" th:value="${profile.goal}" required="" min="1" step="1">
                 </div>
                 <div class="col-md-4">
                     <label class="radio-inline pull-left" for="kms">
-                        <input type="radio"  name="goalUnit" id="kms" value="KMS" checked="checked">km
+                        <input type="radio"  name="goalUnit" id="kms" value="KMS" th:checked="${profile.goalUnit.toString() == 'kms'}">km
                     </label>
                     <label class="radio-inline pull-left" for="miles">
-                        <input type="radio" name="goalUnit" id="miles" value="MILES">miles
+                        <input type="radio" name="goalUnit" id="miles" value="MILES" th:checked="${profile.goalUnit.toString() == 'miles'}">miles
                     </label>
                 </div>
             </div>
 
-            <input type="hidden" name="connectionId" id="connectionId" th:value="${profile.connectionId}">
+            <input type="hidden" name="username" id="username" th:value="${profile.username}">
             <input type="hidden" name="profilePic" id="profilePic" th:value="${profile.profilePic}">
             <!-- Button -->
             <div class="form-group">

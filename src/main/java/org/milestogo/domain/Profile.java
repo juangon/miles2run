@@ -19,7 +19,8 @@ import java.util.List;
 @NamedQueries({
         @NamedQuery(name = "Profile.findByUsername", query = "select new Profile(p.username,p.bio,p.city,p.country,p.fullname,p.profilePic) from Profile p where p.username =:username"),
         @NamedQuery(name = "Profile.findByEmail", query = "select new Profile(p.username,p.bio,p.city,p.country,p.fullname,p.profilePic) from Profile p where p.email =:email"),
-        @NamedQuery(name = "Profile.findProfileWithSocialNetworks", query = "select p.id,p.username,p.goal,p.goalUnit,s.provider from Profile p JOIN p.socialConnections s where p.username =:username")
+        @NamedQuery(name = "Profile.findProfileWithSocialNetworks", query = "select p.id,p.username,p.goal,p.goalUnit,s.provider from Profile p JOIN p.socialConnections s where p.username =:username"),
+        @NamedQuery(name = "Profile.findFullProfileByUsername", query = "select new Profile(p.username,p.bio,p.city,p.country,p.fullname,p.profilePic,p.gender,p.goal,p.goalUnit) from Profile p where p.username =:username")
 })
 public class Profile implements Serializable {
 
@@ -97,6 +98,18 @@ public class Profile implements Serializable {
         this.gender = gender;
         this.goalUnit = goalUnit;
         this.goal = goal * goalUnit.getConversion();
+    }
+
+    public Profile(String username, String bio, String city, String country, String fullname, String profilePic, Gender gender, long goal, GoalUnit goalUnit) {
+        this.username = username;
+        this.bio = bio;
+        this.city = city;
+        this.country = country;
+        this.fullname = fullname;
+        this.profilePic = profilePic;
+        this.gender = gender;
+        this.goalUnit = goalUnit;
+        this.goal = goal / goalUnit.getConversion();
     }
 
     public Profile(String username, String bio, String city, String country, String fullname, String profilePic) {
