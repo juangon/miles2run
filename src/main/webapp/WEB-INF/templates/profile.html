@@ -102,6 +102,10 @@
                     <h6>FOLLOWERS</h6>
                     <a th:href="@{'/profiles/' + ${username}} + '/followers'" th:text="${followers}"></a>
                 </div>
+                <div class="col-md-2 pull-right">
+                    <h6></h6>
+                    <a th:href="@{/profiles/edit}" class="btn btn-default" th:if="${loggedInUser != null}">Edit Profile</a>
+                </div>
             </div>
             <div class="row apptext" th:if="${not #lists.isEmpty(timeline)}">
                 <h2>Timeline</h2>
@@ -114,7 +118,7 @@
                             </div>
                             <div class="col-xs-11">
                                 <h4 class="timeline-title" th:inline="text">[[${activity.fullname} + ' ran '+
-                                    ${activity.distanceCovered} + ${activity.goalUnit}]]
+                                    ${activity.distanceCovered} +' '+ ${activity.goalUnit}]]
                                     <small class="text-muted pull-right"><i class="glyphicon glyphicon-time"
                                                                             title="activity date"></i>
                                         [[${activity.activityDate}]]
@@ -142,14 +146,6 @@
     </div>
 
 </div>
-
-<script th:inline="javascript">
-    /*<![CDATA[*/
-
-    var activeUserProfile = [[${profile}]];
-
-    /*]]>*/
-</script>
 
 <script src="/js/jquery.js" th:src="@{/js/jquery.js}"></script>
 <script src="/js/bootstrap.js" th:src="@{/js/bootstrap.js}"></script>

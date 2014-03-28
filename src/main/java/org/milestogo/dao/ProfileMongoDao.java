@@ -62,4 +62,10 @@ public class ProfileMongoDao {
         }
         return list;
     }
+
+    public void update(Profile profile) {
+        DBCollection profiles = db.getCollection("profiles");
+        double[] lngLat = GeocoderUtils.lngLat(profile.getCity(), profile.getCountry());
+        profiles.update(new BasicDBObject("username", profile.getUsername()), new BasicDBObject("$set", new BasicDBObject("lngLat", lngLat)));
+    }
 }

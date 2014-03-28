@@ -104,56 +104,54 @@ public class ProfileView {
         return new View("/signin", true);
     }
 
-    private View facebookProfile(String connectionId, SocialConnection socialConnection) {
-        Facebook facebook = facebookFactory.getInstance(new facebook4j.auth.AccessToken(socialConnection.getAccessToken(), null));
-        try {
-
-            facebook4j.User user = facebook.users().getMe();
-            String facebookProfilePic = null;
-            URL picture = facebook.getPictureURL(user.getId());
-            if (picture != null) {
-                try {
-                    facebookProfilePic = picture.toURI().toString();
-                    System.out.println("Facebook Picture URL" + facebookProfilePic);
-                    facebookProfilePic = UrlUtils.removeProtocol(facebookProfilePic);
-                } catch (URISyntaxException e) {
-                    e.printStackTrace();
-                }
-
-            }
-
-            String email = user.getEmail();
-            String gender = user.getGender();
-            IdNameEntity location = user.getLocation();
-            CityAndCountry cityAndCountry = new CityAndCountry();
-            if (location != null) {
-                cityAndCountry = GeocoderUtils.parseLocation(location.getName());
-            }
-
-            ProfileVo profile = new ProfileVo(user.getUsername(), user.getName(), user.getBio(), connectionId, facebookProfilePic, cityAndCountry.getCity(), cityAndCountry.getCountry());
-            profile.setEmail(email);
-            profile.setGender(gender);
-            logger.info("Profile: " + profile);
-            return new View("/createProfile", profile, "profile");
-        } catch (FacebookException e) {
-            throw new RuntimeException(e);
+    @GET
+    @Produces("text/html")
+    @Path("/edit")
+    public View editForm() {
+        String currentLoggedInUser = getCurrentLoggedInUser();
+        if (currentLoggedInUser == null) {
+            return new View("/signin", true);
         }
+        Profile loggedInUser = profileService.findFullProfileByUsername(currentLoggedInUser);
+        return new View("/editProfile", loggedInUser, "profile");
     }
 
-    private View twitterProfile(String connectionId, SocialConnection socialConnection) {
+    @POST
+    @Produces("text/html")
+    @Path("/edit")
+    public View editProfile(@Form ProfileForm profileForm) {
         try {
-            Twitter twitter = twitterFactory.getInstance();
-            twitter.setOAuthAccessToken(new AccessToken(socialConnection.getAccessToken(), socialConnection.getAccessSecret()));
-            User user = twitter.showUser(Long.valueOf(connectionId));
-            String twitterProfilePic = user.getOriginalProfileImageURL();
-            twitterProfilePic = UrlUtils.removeProtocol(twitterProfilePic);
-            CityAndCountry cityAndCountry = GeocoderUtils.parseLocation(user.getLocation());
-            ProfileVo profile = new ProfileVo(user.getScreenName(), user.getName(), user.getDescription(), connectionId, twitterProfilePic, cityAndCountry.getCity(), cityAndCountry.getCountry());
-            return new View("/createProfile", profile, "profile");
-        } catch (TwitterException e) {
-            throw new RuntimeException(e);
-        }
+            logger.info(profileForm.toString());
+            List<String> errors = new ArrayList<>();
+            Profile profile = new Profile(profileForm);
+            try {
+                profileService.update(profile);
+            } catch (Exception e) {
+                logger.info(e.getClass().getCanonicalName());
+                RollbackException rollbackException = (RollbackException) e;
+                Throwable rollbackCause = rollbackException.getCause();
+                if (rollbackCause instanceof PersistenceException) {
+                    PersistenceException persistenceException = (PersistenceException) rollbackCause;
+                    if (persistenceException.getCause() instanceof ConstraintViolationException) {
+                        ConstraintViolationException constraintViolationException = (ConstraintViolationException) persistenceException.getCause();
+                        Set<ConstraintViolation<?>> constraintViolations = constraintViolationException.getConstraintViolations();
+                        for (ConstraintViolation<?> constraintViolation : constraintViolations) {
+                            errors.add(String.format("Field '%s' with value '%s' is invalid. %s", constraintViolation.getPropertyPath(), constraintViolation.getInvalidValue(), constraintViolation.getMessage()));
+                        }
+                        return new View("/editProfile", profileForm, "profile", errors);
+                    }
+                }
+                errors.add(e.getMessage());
+                return new View("/editProfile", profileForm, "profile", errors);
 
+            }
+            profileMongoDao.update(profile);
+            return new View("/home", true);
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "Unable to load create profile.", e);
+            throw new ViewException(e.getMessage(), e);
+
+        }
     }
 
     @POST
@@ -328,5 +326,57 @@ public class ProfileView {
         }
         String username = (String) session.getAttribute("username");
         return username;
+    }
+
+    private View facebookProfile(String connectionId, SocialConnection socialConnection) {
+        Facebook facebook = facebookFactory.getInstance(new facebook4j.auth.AccessToken(socialConnection.getAccessToken(), null));
+        try {
+
+            facebook4j.User user = facebook.users().getMe();
+            String facebookProfilePic = null;
+            URL picture = facebook.getPictureURL(user.getId());
+            if (picture != null) {
+                try {
+                    facebookProfilePic = picture.toURI().toString();
+                    System.out.println("Facebook Picture URL" + facebookProfilePic);
+                    facebookProfilePic = UrlUtils.removeProtocol(facebookProfilePic);
+                } catch (URISyntaxException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            String email = user.getEmail();
+            String gender = user.getGender();
+            IdNameEntity location = user.getLocation();
+            CityAndCountry cityAndCountry = new CityAndCountry();
+            if (location != null) {
+                cityAndCountry = GeocoderUtils.parseLocation(location.getName());
+            }
+
+            ProfileVo profile = new ProfileVo(user.getUsername(), user.getName(), user.getBio(), connectionId, facebookProfilePic, cityAndCountry.getCity(), cityAndCountry.getCountry());
+            profile.setEmail(email);
+            profile.setGender(gender);
+            logger.info("Profile: " + profile);
+            return new View("/createProfile", profile, "profile");
+        } catch (FacebookException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private View twitterProfile(String connectionId, SocialConnection socialConnection) {
+        try {
+            Twitter twitter = twitterFactory.getInstance();
+            twitter.setOAuthAccessToken(new AccessToken(socialConnection.getAccessToken(), socialConnection.getAccessSecret()));
+            User user = twitter.showUser(Long.valueOf(connectionId));
+            String twitterProfilePic = user.getOriginalProfileImageURL();
+            twitterProfilePic = UrlUtils.removeProtocol(twitterProfilePic);
+            CityAndCountry cityAndCountry = GeocoderUtils.parseLocation(user.getLocation());
+            ProfileVo profile = new ProfileVo(user.getScreenName(), user.getName(), user.getDescription(), connectionId, twitterProfilePic, cityAndCountry.getCity(), cityAndCountry.getCountry());
+            return new View("/createProfile", profile, "profile");
+        } catch (TwitterException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 }

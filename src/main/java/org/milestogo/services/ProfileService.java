@@ -87,4 +87,28 @@ public class ProfileService {
     public List<ProfileDetails> findAllProfiles(List<String> usernames) {
         return entityManager.createQuery("SELECT new org.milestogo.domain.ProfileDetails(p.username,p.fullname,p.profilePic, p.city, p.country,p.bio) from Profile p WHERE p.username IN :usernames", ProfileDetails.class).setParameter("usernames", usernames).getResultList();
     }
+
+    public Profile findFullProfileByUsername(String username) {
+        TypedQuery<Profile> query = entityManager.createNamedQuery("Profile.findFullProfileByUsername", Profile.class);
+        query.setParameter("username", username);
+        try {
+            return query.getSingleResult();
+        } catch (NoResultException e) {
+            logger.fine(String.format("No user found with username: %s", username));
+            return null;
+        }
+    }
+
+    public void update(Profile profile) {
+        Query updateQuery = entityManager.createQuery("UPDATE Profile p SET p.fullname =:fullname, p.bio =:bio,p.goal =:goal,p.goalUnit =:goalUnit,p.city =:city, p.country =:country, p.gender =:gender WHERE p.username =:username");
+        updateQuery.setParameter("fullname", profile.getFullname());
+        updateQuery.setParameter("bio", profile.getBio());
+        updateQuery.setParameter("goal", profile.getGoal());
+        updateQuery.setParameter("goalUnit", profile.getGoalUnit());
+        updateQuery.setParameter("city", profile.getCity());
+        updateQuery.setParameter("country", profile.getCountry());
+        updateQuery.setParameter("gender", profile.getGender());
+        updateQuery.setParameter("username", profile.getUsername());
+        updateQuery.executeUpdate();
+    }
 }

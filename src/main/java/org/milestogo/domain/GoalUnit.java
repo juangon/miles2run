@@ -32,4 +32,9 @@ public enum GoalUnit {
     public long getConversion() {
         return conversion;
     }
+
+    @Override
+    public String toString() {
+        return this.unit != null ? this.unit.toLowerCase() : null;
+    }
 }

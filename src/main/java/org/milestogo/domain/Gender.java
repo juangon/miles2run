@@ -25,4 +25,9 @@ public enum Gender {
     public String getGender() {
         return gender;
     }
+
+    @Override
+    public String toString() {
+        return this.gender != null ? this.gender.toLowerCase() : null;
+    }
 }
