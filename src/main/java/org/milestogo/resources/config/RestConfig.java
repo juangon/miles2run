@@ -39,6 +39,7 @@ public class RestConfig extends Application {
         classes.add(SigninView.class);
         classes.add(FriendshipResource.class);
         classes.add(NotificationResource.class);
+        classes.add(SponsorView.class);
         return classes;
     }
 }
