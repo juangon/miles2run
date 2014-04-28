@@ -21,12 +21,6 @@ public class JedisProducer {
     @Produces
     public JedisPool jedisPool() {
         JedisPoolConfig poolConfig = new JedisPoolConfig();
-//        poolConfig.setMaxActive(50);
-//        poolConfig.setMaxIdle(10);
-//        poolConfig.setMinIdle(1);
-//        poolConfig.setTestOnBorrow(true);
-//        poolConfig.setTestOnReturn(true);
-//        poolConfig.setTestWhileIdle(true);
         String host = System.getenv("OPENSHIFT_REDIS_HOST");
         if (host == null) {
             System.out.print("Localhost Redis Configuration");

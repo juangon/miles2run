@@ -26,7 +26,7 @@ public class MongoDbProducer {
             logger.info("Creating MongoDB instance...");
             String host = System.getenv("OPENSHIFT_MONGODB_DB_HOST");
             if (host == null) {
-                this.db = new MongoClient("localhost", 27017).getDB("milestogo");
+                this.db = new MongoClient("localhost", 27017).getDB("miles2run");
                 return;
             }
             int port = Integer.parseInt(System.getenv("OPENSHIFT_MONGODB_DB_PORT"));
