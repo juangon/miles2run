@@ -1,9 +1,9 @@
 package org.miles2run.jaxrs.config;
 
-import org.miles2run.framework.NotFoundExceptionMapper;
-import org.miles2run.framework.ViewExceptionMapper;
-import org.miles2run.framework.ViewResourceNotFoundExceptionMapper;
-import org.miles2run.framework.ViewWriter;
+import org.jug.NotFoundExceptionMapper;
+import org.jug.ViewExceptionMapper;
+import org.jug.ViewResourceNotFoundExceptionMapper;
+import org.jug.ViewWriter;
 import org.miles2run.jaxrs.api.v2.*;
 import org.miles2run.jaxrs.views.*;
 

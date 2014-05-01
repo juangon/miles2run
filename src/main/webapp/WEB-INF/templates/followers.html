@@ -8,7 +8,7 @@
     <link href="/css/bootstrap.css" th:href="@{/css/bootstrap.css}" rel="stylesheet"/>
     <link href="/css/main.css" th:href="@{/css/main.css}" rel="stylesheet"/>
     <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet"/>
-    <link rel="stylesheet" href="/css/timeline.css" th:href="@{/css/timeline.css}">
+    <link rel="stylesheet" href="/css/timeline.css" th:href="@{/css/timeline.css}"/>
 </head>
 
 <body>
@@ -110,7 +110,7 @@
                         <div class="row top-buffer" style="border: groove">
                             <div class="col-xs-1">
                                 <a href="#" th:href="@{'/profiles/' + ${followerProfile.username}}" th:inline="text"><img
-                                        th:src="${followerProfile.pic}" width="50px" height="50px"></a>
+                                        th:src="${followerProfile.pic}" width="50px" height="50px"/></a>
                             </div>
                             <div class="col-xs-11">
                                 <h4 th:text="${followerProfile.fullname}"></h4>

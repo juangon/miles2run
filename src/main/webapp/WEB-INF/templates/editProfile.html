@@ -89,7 +89,7 @@
 
                 <div class="col-md-6">
                     <input id="fullname" name="fullname" type="text" placeholder="Your full name(max 50 characters)"
-                           class="form-control input-md" th:value="${profile.fullname}" title="Please enter 'fullname' less than 50 characters" required="">
+                           class="form-control input-md" th:value="${profile.fullname}" title="Please enter 'fullname' less than 50 characters" required=""/>
 
                 </div>
             </div>
@@ -99,7 +99,7 @@
                 <label class="col-md-4 control-label" for="city">City</label>
 
                 <div class="col-md-6">
-                    <input id="city" name="city" type="text" placeholder="City you live" class="form-control input-md" th:value="${profile.city}" required>
+                    <input id="city" name="city" type="text" placeholder="City you live" class="form-control input-md" th:value="${profile.city}" required=""/>
 
                 </div>
             </div>
@@ -109,7 +109,7 @@
                 <label class="col-md-4 control-label" for="country">Country</label>
 
                 <div class="col-md-6">
-                <select id="country" name="country" title="Please enter 'country'" class="form-control input-md" required>
+                <select id="country" name="country" title="Please enter 'country'" class="form-control input-md" required="">
                         <option value="">Please select 'country'</option>
                         <option value="AF" th:selected="${profile.country == 'AF'}">Afghanistan</option>
                         <option value="AL" th:selected="${profile.country == 'AL'}">Albania</option>
@@ -368,16 +368,12 @@
 
                 <div class="col-md-4">
                     <label class="radio-inline pull-left" for="male">
-                        <input type="radio"  name="gender" id="male" th:checked="${profile.gender.toString() == 'male'}" value="MALE">
+                        <input type="radio"  name="gender" id="male" th:checked="${profile.gender.toString() == 'male'}" value="MALE"/>
                         Male
                     </label>
                     <label class="radio-inline pull-left" for="female">
-                        <input type="radio" name="gender" id="female" th:checked="${profile.gender.toString() == 'female'}" value="FEMALE">
+                        <input type="radio" name="gender" id="female" th:checked="${profile.gender.toString() == 'female'}" value="FEMALE"/>
                         Female
-                    </label>
-                    <label class="radio-inline pull-left" for="genderqueer">
-                        <input type="radio" name="gender" id="genderqueer" th:checked="${profile.gender.toString() == 'genderqueer'}" value="GENDERQUEER">
-                        Genderqueer
                     </label>
                 </div>
             </div>
@@ -387,7 +383,7 @@
                 <label class="col-md-4 control-label" for="bio">Bio</label>
 
                 <div class="col-md-4">
-                    <textarea class="form-control" id="bio" name="bio" th:text="${profile.bio}" maxlength="200" title="Please enter 'bio' in under 200 characters" required placeholder="Tell us about yourself(max 200 characters)"></textarea>
+                    <textarea class="form-control" id="bio" name="bio" th:text="${profile.bio}" maxlength="200" title="Please enter 'bio' in under 200 characters" required="" placeholder="Tell us about yourself(max 200 characters)"></textarea>
                 </div>
             </div>
 
@@ -397,20 +393,20 @@
 
                 <div class="col-md-4">
                     <input id="goal" name="goal" type="number" placeholder="Distance you want to run" title="Please enter 'goal'"
-                           class="form-control input-md" th:value="${profile.goal}" required="" min="1" step="1">
+                           class="form-control input-md" th:value="${profile.goal}" required="" min="1" step="1"/>
                 </div>
                 <div class="col-md-4">
                     <label class="radio-inline pull-left" for="kms">
-                        <input type="radio"  name="goalUnit" id="kms" value="KMS" th:checked="${profile.goalUnit.toString() == 'kms'}">km
+                        <input type="radio"  name="goalUnit" id="kms" value="KMS" th:checked="${profile.goalUnit.toString() == 'kms'}"/>km
                     </label>
                     <label class="radio-inline pull-left" for="miles">
-                        <input type="radio" name="goalUnit" id="miles" value="MILES" th:checked="${profile.goalUnit.toString() == 'miles'}">miles
+                        <input type="radio" name="goalUnit" id="miles" value="MILES" th:checked="${profile.goalUnit.toString() == 'miles'}"/>miles
                     </label>
                 </div>
             </div>
 
-            <input type="hidden" name="username" id="username" th:value="${profile.username}">
-            <input type="hidden" name="profilePic" id="profilePic" th:value="${profile.profilePic}">
+            <input type="hidden" name="username" id="username" th:value="${profile.username}"/>
+            <input type="hidden" name="profilePic" id="profilePic" th:value="${profile.profilePic}"/>
             <!-- Button -->
             <div class="form-group">
                 <div class="col-md-offset-4 col-md-4">

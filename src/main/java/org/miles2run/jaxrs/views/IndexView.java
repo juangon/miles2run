@@ -1,10 +1,10 @@
 package org.miles2run.jaxrs.views;
 
+import org.jug.View;
+import org.jug.ViewException;
 import org.miles2run.business.domain.Profile;
-import org.miles2run.business.exceptions.ViewException;
 import org.miles2run.business.services.CounterService;
 import org.miles2run.business.services.ProfileService;
-import org.miles2run.framework.View;
 import org.miles2run.jaxrs.api.v2.Counter;
 
 import javax.inject.Inject;
