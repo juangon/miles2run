@@ -11,6 +11,14 @@ angular.module('milestogo')
                 } else {
                     return "/api/v2/";
                 }
+            },
+
+            appContext : function(){
+                if ($location.port() === 8080) {
+                    return "/miles2run/";
+                } else {
+                    return "/";
+                }
             }
         };
     });
