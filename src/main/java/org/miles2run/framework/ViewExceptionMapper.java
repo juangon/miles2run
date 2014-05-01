@@ -1,6 +1,6 @@
 package org.miles2run.framework;
 
-import org.miles2run.exceptions.ViewException;
+import org.miles2run.business.exceptions.ViewException;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;

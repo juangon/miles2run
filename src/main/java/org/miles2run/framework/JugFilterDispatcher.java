@@ -12,7 +12,7 @@ import java.io.OutputStream;
 import java.util.logging.Logger;
 
 
-@WebFilter(displayName = "Jug", urlPatterns = "/*", initParams = {@WebInitParam(name = "javax.ws.rs.Application", value = "org.miles2run.resources.config.RestConfig")})
+@WebFilter(displayName = "Jug", urlPatterns = "/*", initParams = {@WebInitParam(name = "javax.ws.rs.Application", value = "org.miles2run.jaxrs.config.RestConfig")})
 public class JugFilterDispatcher extends FilterDispatcher {
 
     private Logger logger = Logger.getLogger(this.getClass().getName());

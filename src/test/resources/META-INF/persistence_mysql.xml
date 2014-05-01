@@ -5,10 +5,10 @@
 
     <persistence-unit name="testPU" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-        <class>org.miles2run.domain.Profile</class>
-        <class>org.miles2run.domain.SocialConnection</class>
-        <class>org.miles2run.domain.Activity</class>
-        <class>org.miles2run.domain.Share</class>
+        <class>org.miles2run.business.domain.Profile</class>
+        <class>org.miles2run.business.domain.SocialConnection</class>
+        <class>org.miles2run.business.domain.Activity</class>
+        <class>org.miles2run.business.domain.Share</class>
 
         <properties>
             <property name="hibernate.show_sql" value="true" />

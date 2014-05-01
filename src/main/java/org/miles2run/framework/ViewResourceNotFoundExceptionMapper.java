@@ -1,6 +1,6 @@
 package org.miles2run.framework;
 
-import org.miles2run.exceptions.ViewResourceNotFoundException;
+import org.miles2run.business.exceptions.ViewResourceNotFoundException;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
