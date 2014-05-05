@@ -34,7 +34,7 @@ public class SigninView {
 
     @GET
     @Produces("text/html")
-    public View about() throws ViewException {
+    public View signin() throws ViewException {
         try {
             Map<String, Object> model = new HashMap<>();
             HttpSession session = request.getSession(false);
@@ -48,7 +48,7 @@ public class SigninView {
             return new View("/signin");
 
         } catch (Exception e) {
-            logger.log(Level.SEVERE, "Unable to load about page.", e);
+            logger.log(Level.SEVERE, "Unable to load signin page.", e);
             throw new ViewException(e.getMessage(), e);
         }
     }
