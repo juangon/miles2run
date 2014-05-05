@@ -27,7 +27,7 @@ public class RestConfig extends Application {
         classes.add(ProfileResource.class);
         classes.add(ProgressResource.class);
         classes.add(CounterResource.class);
-        classes.add(IndexView.class);
+//        classes.add(IndexView.class);
         classes.add(ViewWriter.class);
         classes.add(AboutView.class);
         classes.add(ProfileSuggestionResource.class);

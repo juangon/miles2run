@@ -59,7 +59,6 @@ public class TwitterCallbackView {
                 HttpSession session = request.getSession(true);
                 logger.info("Session created with id " + session.getId());
                 session.setAttribute("principal", username);
-                response.addCookie(new Cookie("JSESSIONID", session.getId()));
                 return new View("/home", true);
             }
         }

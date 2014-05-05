@@ -31,7 +31,6 @@ import twitter4j.auth.AccessToken;
 
 import javax.inject.Inject;
 import javax.persistence.PersistenceException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -204,7 +203,6 @@ public class ProfileView {
             HttpSession session = request.getSession(true);
             session.setAttribute("principal", profile.getUsername());
             session.setAttribute("connectionId", profileForm.getConnectionId());
-            response.addCookie(new Cookie("JSESSIONID", session.getId()));
             return new View("/home", true);
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Unable to load create profile.", e);
