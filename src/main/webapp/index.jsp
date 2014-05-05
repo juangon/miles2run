@@ -34,20 +34,20 @@
         </div>
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="home" th:href="@{/home}">Home</a></li>
-                <li><a href="about" th:href="@{/about}">About</a></li>
+                <li class="active"><a href="/home" th:href="@{/home}">Home</a></li>
+                <li><a href="/about" th:href="@{/about}">About</a></li>
             </ul>
 
-            <ul class="nav navbar-collapse pull-right" th:if="${profile != null}">
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" th:inline="text">
-                        <img width="25" height="25" th:src="${profile.profilePic}"/> [[${profile.fullname}]] <b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="/" th:href="@{'/profiles/' + ${profile.username}}" th:text="${profile.fullname}"></a></li>
-                        <li><a href="/logout" th:href="@{/logout}">Logout</a></li>
-                    </ul>
-                </li>
-            </ul>
+            <%--<ul class="nav navbar-collapse pull-right" th:if="${profile != null}">--%>
+                <%--<li class="dropdown">--%>
+                    <%--<a href="#" class="dropdown-toggle" data-toggle="dropdown" th:inline="text">--%>
+                        <%--<img width="25" height="25" th:src="${profile.profilePic}"/> [[${profile.fullname}]] <b class="caret"></b></a>--%>
+                    <%--<ul class="dropdown-menu">--%>
+                        <%--<li><a href="/" th:href="@{'/profiles/' + ${profile.username}}" th:text="${profile.fullname}"></a></li>--%>
+                        <%--<li><a href="/logout" th:href="@{/logout}">Logout</a></li>--%>
+                    <%--</ul>--%>
+                <%--</li>--%>
+            <%--</ul>--%>
         </div>
 
         <!--/.nav-collapse -->
@@ -87,10 +87,10 @@
             <h2>Join the community</h2>
         </div>
         <div class="col-xs-4">
-            <a th:href="@{/twitter/signin}" class="btn btn-lg btn-info"><i class="fa fa-twitter"></i> Sign in with Twitter</a>
+            <a href="/twitter/signin" th:href="@{/twitter/signin}" class="btn btn-lg btn-info"><i class="fa fa-twitter"></i> Sign in with Twitter</a>
         </div>
         <div class="col-xs-4">
-            <a th:href="@{/facebook/signin}" class="btn btn-lg btn-info"><i class="fa fa-facebook"></i> Sign in with Facebook</a>
+            <a href="/facebook/signin" th:href="@{/facebook/signin}" class="btn btn-lg btn-info"><i class="fa fa-facebook"></i> Sign in with Facebook</a>
         </div>
 
     </div>
