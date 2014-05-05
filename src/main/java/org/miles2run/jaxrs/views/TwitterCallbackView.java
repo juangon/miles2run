@@ -11,7 +11,9 @@ import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
 
 import javax.inject.Inject;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -34,6 +36,8 @@ public class TwitterCallbackView {
     private SocialConnectionService socialConnectionService;
     @Context
     private HttpServletRequest request;
+    @Context
+    private HttpServletResponse response;
 
     @GET
     @Produces("text/html")
@@ -55,6 +59,7 @@ public class TwitterCallbackView {
                 HttpSession session = request.getSession(true);
                 logger.info("Session created with id " + session.getId());
                 session.setAttribute("principal", username);
+                response.addCookie(new Cookie("JSESSIONID", session.getId()));
                 return new View("/home", true);
             }
         }
