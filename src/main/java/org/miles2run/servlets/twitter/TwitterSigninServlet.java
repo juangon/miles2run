@@ -18,7 +18,7 @@ import java.io.IOException;
 /**
  * Created by shekhargulati on 03/03/14.
  */
-@WebServlet("/signin/twitter")
+//@WebServlet("/signin/twitter")
 public class TwitterSigninServlet extends HttpServlet {
 
     @Inject
@@ -49,7 +49,7 @@ public class TwitterSigninServlet extends HttpServlet {
         if (session == null) {
             return false;
         }
-        return session.getAttribute("username") != null ? true : false;
+        return session.getAttribute("principal") != null ? true : false;
 
     }
 

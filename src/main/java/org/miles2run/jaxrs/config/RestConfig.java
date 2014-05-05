@@ -1,9 +1,13 @@
 package org.miles2run.jaxrs.config;
 
-import org.jug.NotFoundExceptionMapper;
-import org.jug.ViewExceptionMapper;
-import org.jug.ViewResourceNotFoundExceptionMapper;
-import org.jug.ViewWriter;
+import org.jug.filters.AfterLogin;
+import org.jug.filters.AfterLoginFilter;
+import org.jug.filters.AuthenticationFilter;
+import org.jug.filters.LoggedIn;
+import org.jug.view.NotFoundExceptionMapper;
+import org.jug.view.ViewExceptionMapper;
+import org.jug.view.ViewResourceNotFoundExceptionMapper;
+import org.jug.view.ViewWriter;
 import org.miles2run.jaxrs.api.v2.*;
 import org.miles2run.jaxrs.views.*;
 
@@ -33,6 +37,12 @@ public class RestConfig extends Application {
         classes.add(FriendshipResource.class);
         classes.add(NotificationResource.class);
         classes.add(SponsorView.class);
+        classes.add(TwitterSigninView.class);
+        classes.add(TwitterCallbackView.class);
+        classes.add(AuthenticationFilter.class);
+        classes.add(LoggedIn.class);
+        classes.add(AfterLogin.class);
+        classes.add(AfterLoginFilter.class);
         return classes;
     }
 }

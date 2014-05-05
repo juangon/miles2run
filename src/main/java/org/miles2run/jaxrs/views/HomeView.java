@@ -1,7 +1,8 @@
 package org.miles2run.jaxrs.views;
 
-import org.jug.View;
-import org.jug.ViewException;
+import org.jug.filters.LoggedIn;
+import org.jug.view.View;
+import org.jug.view.ViewException;
 import org.miles2run.business.domain.Profile;
 import org.miles2run.business.domain.ProfileSocialConnectionDetails;
 import org.miles2run.business.services.ProfileService;
@@ -33,17 +34,14 @@ public class HomeView {
     private Logger logger;
 
     @GET
+    @LoggedIn
     public View home() {
         try {
             Map<String, Object> model = new HashMap<>();
-            HttpSession session = request.getSession(false);
-            if (session == null || session.getAttribute("username") == null) {
-                logger.info(String.format("No user existed in session %s . So redirecting to Index view", session));
-                return new View("/signin", true);
-            }
-            logger.info(String.format("session with id %s", session.getId()));
-            String username = (String) session.getAttribute("username");
+            String username = (String) request.getSession(false).getAttribute("principal");
+            logger.info(String.format("Rendering home page for user %s ", username));
             Profile loggedInUser = profileService.findProfileByUsername(username);
+            logger.info("User profile : " + loggedInUser);
             model.put("profile", loggedInUser);
             ProfileSocialConnectionDetails activeProfileWithSocialConnections = profileService.findProfileWithSocialConnections(username);
             model.put("activeProfile", activeProfileWithSocialConnections);

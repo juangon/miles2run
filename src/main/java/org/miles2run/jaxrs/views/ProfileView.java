@@ -6,9 +6,10 @@ import facebook4j.FacebookFactory;
 import facebook4j.IdNameEntity;
 import org.apache.commons.lang3.StringUtils;
 import org.jboss.resteasy.annotations.Form;
-import org.jug.View;
-import org.jug.ViewException;
-import org.jug.ViewResourceNotFoundException;
+import org.jug.filters.LoggedIn;
+import org.jug.view.View;
+import org.jug.view.ViewException;
+import org.jug.view.ViewResourceNotFoundException;
 import org.miles2run.business.dao.ProfileMongoDao;
 import org.miles2run.business.dao.UserProfile;
 import org.miles2run.business.domain.*;
@@ -108,6 +109,7 @@ public class ProfileView {
     @GET
     @Produces("text/html")
     @Path("/edit")
+    @LoggedIn
     public View editForm() {
         String currentLoggedInUser = getCurrentLoggedInUser();
         if (currentLoggedInUser == null) {
@@ -120,6 +122,7 @@ public class ProfileView {
     @POST
     @Produces("text/html")
     @Path("/edit")
+    @LoggedIn
     public View editProfile(@Form ProfileForm profileForm) {
         try {
             logger.info(profileForm.toString());
@@ -197,8 +200,9 @@ public class ProfileView {
             profileMongoDao.save(profile);
             counterService.updateDeveloperCounter();
             counterService.updateCountryCounter(profile.getCountry());
-            request.getSession().setAttribute("username", profile.getUsername());
-            request.getSession().setAttribute("connectionId", profileForm.getConnectionId());
+            HttpSession session = request.getSession(true);
+            session.setAttribute("principal", profile.getUsername());
+            session.setAttribute("connectionId", profileForm.getConnectionId());
             return new View("/home", true);
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Unable to load create profile.", e);
@@ -332,10 +336,10 @@ public class ProfileView {
 
     private String getCurrentLoggedInUser() {
         HttpSession session = request.getSession(false);
-        if (session == null || session.getAttribute("username") == null) {
+        if (session == null || session.getAttribute("principal") == null) {
             return null;
         }
-        String username = (String) session.getAttribute("username");
+        String username = (String) session.getAttribute("principal");
         return username;
     }
 

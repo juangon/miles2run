@@ -22,7 +22,7 @@ import java.util.logging.Logger;
 /**
  * Created by shekhargulati on 03/03/14.
  */
-@WebServlet("/callback/twitter")
+//@WebServlet("/callback/twitter")
 public class TwitterCallbackServlet extends HttpServlet {
 
     @Inject

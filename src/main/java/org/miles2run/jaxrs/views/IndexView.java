@@ -1,7 +1,7 @@
 package org.miles2run.jaxrs.views;
 
-import org.jug.View;
-import org.jug.ViewException;
+import org.jug.view.View;
+import org.jug.view.ViewException;
 import org.miles2run.business.domain.Profile;
 import org.miles2run.business.services.CounterService;
 import org.miles2run.business.services.ProfileService;
@@ -41,8 +41,8 @@ public class IndexView {
         try {
             Map<String, Object> model = new HashMap<>();
             HttpSession session = request.getSession(false);
-            if (session != null && session.getAttribute("username") != null) {
-                String username = (String) session.getAttribute("username");
+            if (session != null && session.getAttribute("principal") != null) {
+                String username = (String) session.getAttribute("principal");
                 Profile profile = profileService.findProfileByUsername(username);
                 model.put("profile", profile);
             }
